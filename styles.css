@@ -1,0 +1,63 @@
+@import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@500');
+@import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@700');
+
+* {
+    box-sizing: border-box;
+    font-family: 'Inconsolata', monospace;
+    margin: 0;
+    --anaglyph-depth: 1px;
+    text-shadow: calc(-1 * var(--anaglyph-depth)) 0 0 #ff000080,
+        var(--anaglyph-depth) 0 0 #00ffff80;
+    font-size: large;
+}
+
+body {
+    width: 100dvw;
+    height: 100dvh;
+    margin: 0;
+    border: 0;
+    padding: 0;
+    background: #000;
+    color: #fff;
+}
+
+body::before, body::after {
+    --light-scanline: #ffffff08;
+    --dark-scanline: #00000008;
+    --scanline-height: 4px;
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    width: 100dvw;
+    height: 100dvh;
+}
+
+body::before {
+    background: repeating-linear-gradient(to bottom,
+    var(--light-scanline) 0,
+    var(--light-scanline) var(--scanline-height),
+    var(--dark-scanline) var(--scanline-height),
+    var(--dark-scanline) calc(2 * var(--scanline-height))
+    );
+}
+
+body::after {
+    background: repeating-linear-gradient(to bottom,
+        var(--light-scanline) 0,
+        var(--light-scanline) var(--scanline-height),
+        #0000 var(--scanline-height),
+        #0000 100dvh
+    );
+    animation: scanline-scroll 10s linear infinite;
+}
+
+@keyframes scanline-scroll {
+    0% {
+        background-position: 0 0;
+    }
+    100% {
+        background-position: 0 100dvh;
+    }
+}
