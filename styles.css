@@ -19,6 +19,9 @@ body {
     padding: 0;
     background: #000;
     color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 body::before, body::after {
@@ -36,10 +39,10 @@ body::before, body::after {
 
 body::before {
     background: repeating-linear-gradient(to bottom,
-    var(--light-scanline) 0,
-    var(--light-scanline) var(--scanline-height),
-    var(--dark-scanline) var(--scanline-height),
-    var(--dark-scanline) calc(2 * var(--scanline-height))
+        var(--light-scanline) 0,
+        var(--light-scanline) var(--scanline-height),
+        var(--dark-scanline) var(--scanline-height),
+        var(--dark-scanline) calc(2 * var(--scanline-height))
     );
 }
 
@@ -59,5 +62,25 @@ body::after {
     }
     100% {
         background-position: 0 100dvh;
+    }
+}
+
+#screen {
+    background: #fff9;
+    height: min(100dvh, calc(100dvw / var(--aspect-ratio)));
+    width: min(100dvw, calc(100dvh * var(--aspect-ratio)));
+}
+
+/* Desktop */
+@media (min-aspect-ratio: 1/1) {
+    #screen {
+        --aspect-ratio: calc(16 / 9);
+    }
+}
+
+/* Mobile */
+@media (max-aspect-ratio: 1/1) {
+    #screen {
+        --aspect-ratio: calc(9 / 16);
     }
 }
