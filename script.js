@@ -22,6 +22,16 @@ const componentTemplates = {
 }
 
 const templates = {
+    DESKTOP_WRAPPER: (desktopId) => {
+        return {
+            className: 'desktop-wrapper',
+            children: [
+                templates.DESKTOP(desktopId),
+                templates.LOGIN(desktopId)
+            ],
+            desktopId: desktopId
+        }
+    },
     LOGIN: (desktopId) => {
         return {
             className: 'login center gap',
@@ -90,8 +100,50 @@ const templates = {
     DESKTOP: (desktopId) => {
         return {
             className: 'desktop',
-            children: []
+            children: [
+                templates.HEADER(desktopId),
+                templates.ARENA(desktopId),
+                templates.FOOTER(desktopId)
+            ]
         };
+    },
+    HEADER: (desktopId) => {
+        return {
+            className: 'if-mobile header'
+        };
+    },
+    ARENA: (desktopId) => {
+        return {
+            className: 'arena',
+            children: [
+                templates.ICONS(desktopId),
+                templates.WINDOWS(desktopId)
+            ]
+        };
+    },
+    FOOTER: (desktopId) => {
+        return {
+            className: 'footer'
+        };
+    },
+    ICONS: (desktopId) => {
+        desktop = desktops.get(desktopId);
+        return {
+            className: 'icons',
+            children: desktop.icons.map(icon => templates.DESKTOP_ICON(desktopId, icon))
+        };
+    },
+    WINDOWS: (desktopId) => {
+        return {
+            className: 'windows'
+        }
+    },
+    DESKTOP_ICON: (desktopId, icon) => {
+        return {
+            style: `grid-area: calc(1 + round(down, calc(${icon.index} / var(--cols))))
+            / calc(1 + rem(${icon.index}, var(--cols)))`,
+            children: [icon.name]
+        }
     }
 }
 
@@ -150,18 +202,16 @@ const render = (template) => {
 
 const createDesktop = (id) => {
     return {
-        template: {
-            className: 'desktop-wrapper',
-            children: [
-                templates.DESKTOP(id),
-                templates.LOGIN(id)
-            ],
-            desktopId: id
-        }
+        id: id,
+        icons: [
+            {index: 0, icon: 'user', name: 'Browser'},
+            {index: 126, icon: 'user', name: 'Command line'},
+            {index: 127, icon: 'user', name: 'Recycle bin'}
+        ]
     }
 }
 
 let desktopID = 0;
 const desktops = new Map();
 desktops.set(desktopID, createDesktop(desktopID));
-document.getElementById('screen').replaceChildren(render(desktops.get(0).template));
+document.getElementById('viewport').replaceChildren(render(templates.DESKTOP_WRAPPER(0)));
