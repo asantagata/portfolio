@@ -9,6 +9,7 @@
     text-shadow: calc(-1 * var(--anaglyph-depth)) 0 0 #ff000080,
         var(--anaglyph-depth) 0 0 #00ffff80;
     font-size: large;
+    transform-style: preserve-3d;
 }
 
 body {
@@ -19,9 +20,17 @@ body {
     padding: 0;
     background: #000;
     color: #fff;
+}
+
+body, .center, .center-row {
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
+}
+
+.center-row {
+    flex-direction: row;
 }
 
 body::before, body::after {
@@ -35,6 +44,7 @@ body::before, body::after {
     pointer-events: none;
     width: 100dvw;
     height: 100dvh;
+    z-index: 99999;
 }
 
 body::before {
@@ -47,7 +57,7 @@ body::before {
 }
 
 body::after {
-    background: repeating-linear-gradient(to bottom,
+    background: repeating-linear-gradient(1deg,
         var(--light-scanline) 0,
         var(--light-scanline) var(--scanline-height),
         #0000 var(--scanline-height),
@@ -66,7 +76,6 @@ body::after {
 }
 
 #screen {
-    background: #fff9;
     height: min(100dvh, calc(100dvw / var(--aspect-ratio)));
     width: min(100dvw, calc(100dvh * var(--aspect-ratio)));
 }
@@ -83,4 +92,85 @@ body::after {
     #screen {
         --aspect-ratio: calc(9 / 16);
     }
+}
+
+.desktop-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.login, .desktop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.login {
+    background: #18776A;
+    transition: opacity 0.2s ease-in-out;
+}
+
+.gap {
+    gap: 1ch;
+}
+
+.icon, .large-icon {
+    background: #0002;
+}
+
+.icon svg, .large-icon svg {
+    width: 100%;
+    height: 100%;
+}
+
+.icon svg, .large-icon svg, .anaglyph-drop-shadow {
+    filter: drop-shadow(calc(-1 * var(--anaglyph-depth)) 0 0 #ff000080)
+    drop-shadow(var(--anaglyph-depth) 0 0 #00ffff80);
+}
+
+.large-icon {
+    width: 6ch;
+    height: 6ch;
+    padding: 1ch;
+    border-radius: 50%;
+}
+
+.log-in-button {
+    transition: opacity 0.2s ease-in-out;
+}
+
+.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.pointer:not(.hidden) {
+    cursor: pointer;
+}
+
+input {
+    outline: none;
+    margin: 0;
+    border: 0;
+}
+
+input[readonly] {
+    pointer-events: none;
+}
+
+.password[type=text]:not(:placeholder-shown) {
+    font-style: italic;
+    color: gray;
+}
+
+.desktop {
+    background:
+            linear-gradient(to bottom,
+            #0000ff 0%, #8800ff 40%, #e600e6 60%,
+            #e63d00 70%,
+            #ff00ff 80%, #8800ff 90%, #0000ff 140%)
+        ;
 }
