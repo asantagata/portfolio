@@ -39,7 +39,7 @@ const applicationTemplates = {
 const launch = (launchType, data) => {
     const PID = nProcesses++;
     const application = applications[launchType]
-    document.getElementById('footer').appendChild(render(templates.FOOTER_ENTRY(launchType, PID)));
+    document.getElementById('footer').appendChild(render(templates.FOOTER_ENTRY(launchType, PID, true)));
     document.getElementById('arena').appendChild(render({
         ...templates.WINDOW(PID, application.name, applicationTemplates[launchType](data)),
     }));
@@ -184,15 +184,19 @@ const templates = {
     },
     DESKTOP_ICON: (icon) => {
         return {
-            style: `grid-area: calc(1 + round(down, calc(${icon.index} / var(--cols))))
-            / calc(1 + rem(${icon.index}, var(--cols)))`,
+            style: `top: calc(${Math.floor(icon.index / 16)} * (100% / 8)); left: calc(${icon.index % 16} * (100% / 16))`,
+            // style: `grid-area: calc(1 + round(down, calc(${icon.index} / var(--cols))))
+            // / calc(1 + rem(${icon.index}, var(--cols)))`,
             className: 'desktop-icon center',
             children: [
                 {
                     className: `desktop-icon-icon ${icon.displayType}-icon`,
                     children: [applications[icon.displayType].icon]
                 },
-                applications[icon.displayType].name
+                {
+                    className: `desktop-icon-name`,
+                    children: [applications[icon.displayType].name]
+                }
             ],
             listeners: [
                 {
@@ -208,9 +212,26 @@ const templates = {
         return {
             id: `footer-entry-${PID}`,
             pid: PID,
-            className: `footer-entry ${open ? 'open' : ''} footer-entry-${displayType}`,
+            className: `center footer-entry ${open ? 'open' : ''} footer-entry-${displayType}`,
             children: [
                 applications[displayType].icon
+            ],
+            listeners: [
+                {
+                    type: 'click',
+                    listener: () => {
+                        const footerEntry = getFooterEntryByPID(PID);
+                        const window = getWindowElementByPID(PID);
+                        if (footerEntry.classList.contains('open')) {
+                            footerEntry.classList.remove('open');
+                            window.style.display = 'none';
+                        } else {
+                            footerEntry.classList.add('open');
+                            window.style.display = 'flex';
+                            window.style.zIndex = `${windowZIndex++}`;
+                        }
+                    }
+                }
             ]
         }
     },
@@ -219,6 +240,15 @@ const templates = {
             id: `window-${PID}`,
             className: 'window mini',
             pid: PID,
+            style: `z-index: ${windowZIndex++}`,
+            listeners: [
+                {
+                    type: 'mousedown',
+                    listener: () => {
+                        getWindowElementByPID(PID).style.zIndex = `${windowZIndex++}`;
+                    }
+                }
+            ],
             children: [
                 {
                     className: 'window-heading between',
@@ -249,6 +279,7 @@ const templates = {
                                         className: 'min',
                                         listener: () => {
                                             getWindowElementByPID(PID).style.display = 'none';
+                                            getFooterEntryByPID(PID).classList.remove('open');
                                         }
                                     },
                                     {
@@ -349,6 +380,13 @@ let nProcesses = 0;
 let desktop = {
     icons: [
         {index: 0, displayType: applicationTypes.BROWSER, launchType: applicationTypes.BROWSER, launchData: null},
+        {index: 16, displayType: applicationTypes.BROWSER, launchType: applicationTypes.BROWSER, launchData: null},
+        {index: 32, displayType: applicationTypes.BROWSER, launchType: applicationTypes.BROWSER, launchData: null},
+        {index: 48, displayType: applicationTypes.BROWSER, launchType: applicationTypes.BROWSER, launchData: null},
+        {index: 64, displayType: applicationTypes.BROWSER, launchType: applicationTypes.BROWSER, launchData: null},
+        {index: 80, displayType: applicationTypes.BROWSER, launchType: applicationTypes.BROWSER, launchData: null},
+        {index: 96, displayType: applicationTypes.BROWSER, launchType: applicationTypes.BROWSER, launchData: null},
+        {index: 112, displayType: applicationTypes.BROWSER, launchType: applicationTypes.BROWSER, launchData: null},
         {index: 126, displayType: applicationTypes.TERMINAL, launchType: applicationTypes.TERMINAL, launchData: null},
         {index: 127, displayType: applicationTypes.RECYCLE, launchType: applicationTypes.FILES, launchData: '/recycle'}
     ]
@@ -364,5 +402,7 @@ const handleWindowDrag = (e) => {
         element.style.top = `calc(0.5 * (100% - 100dvh) + ${e.clientY}px - 0.5em)`;
     }
 }
+
+let windowZIndex = 2;
 
 document.getElementById('viewport').replaceChildren(render(templates.DESKTOP_WRAPPER(desktop)));

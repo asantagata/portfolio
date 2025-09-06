@@ -110,15 +110,11 @@ body::after {
 }
 
 #icons {
-    width: 100%;
-    display: grid;
-    grid-template-columns: repeat(var(--cols), 1fr);
-    grid-template-rows: repeat(var(--rows), 1fr);
-    grid-auto-rows: 0;
-    overflow: hidden;
+    width: calc(100% - 2ch);
+    overflow: visible;
     height: calc(100% - (200% / 9 - 100% / 16));
-    --cols: 16;
-    --rows: 8;
+    position: relative;
+    margin: 1ch;
 }
 
 #desktop-wrapper {
@@ -260,7 +256,15 @@ input[readonly] {
     text-align: center;
     cursor: default;
     aspect-ratio: 1 / 1;
+    position: absolute;
+    width: calc(100% / 16);
+    height: calc(100% / 8);
     overflow: visible;
+    display: flex;
+}
+
+.desktop-icon-name {
+    flex-shrink: 0;
 }
 
 .desktop-icon-icon {
@@ -270,7 +274,10 @@ input[readonly] {
     justify-content: center;
     flex-grow: 1;
     white-space: nowrap;
-    font-size: calc((min(100dvh, calc(100dvw / var(--aspect-ratio))) * 137 / 144 / var(--rows)) - 2em);
+    --screen-height: min(100dvh, calc(100dvw / var(--aspect-ratio)));
+    --arena-height: calc(var(--screen-height) - (2 * var(--screen-height) / 9 - var(--screen-height) / 16));
+    --row-height: calc(var(--arena-height) / 8);
+    font-size: calc(var(--row-height) * 0.85 - 1em);
 }
 
 .desktop-icon-icon.terminal-icon, .footer-entry-terminal {
@@ -375,4 +382,9 @@ input[readonly] {
 .circular-button.min { --color: #dfa90e
 }
 .circular-button.close { --color: #ea5155
+}
+
+.footer-entry:not(.open) {
+    opacity: 0.8;
+    filter: grayscale(0.8);
 }
