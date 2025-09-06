@@ -347,7 +347,7 @@ const templates = {
                         {
                             type: 'mousedown',
                             listener: (e) => {
-                                globalWindowDragInfo = {pid: PID, x0: e.clientX, y0: e.clientY}
+                                globalWindowDragInfo = {pid: PID, x0: e.clientX, y0: e.clientY, dx: 0, dy: 0}
                             }
                         }
                     ]
@@ -431,8 +431,23 @@ const handleWindowDrag = (e) => {
         const element = getWindowElementByPID(globalWindowDragInfo.pid);
         element.classList.remove('fullscreen');
         element.classList.add('mini');
-        element.style.left = `calc(0.5 * (100% - 100dvw) + ${e.clientX}px - 25%)`;
-        element.style.top = `calc(0.5 * (100% - 100dvh) + ${e.clientY}px - 0.5em)`;
+        const x = e.clientX, y = e.clientY;
+        const dx = x - globalWindowDragInfo.x0, dy = y - globalWindowDragInfo.y0;
+        globalWindowDragInfo.dx = dx;
+        globalWindowDragInfo.dy = dy;
+        element.style.transform = `translate(${dx}px, ${dy}px)`;
+    }
+}
+
+const handleEndDrag = () => {
+    if (globalWindowDragInfo) {
+        const element = getWindowElementByPID(globalWindowDragInfo.pid);
+        const rect = element.getBoundingClientRect();
+        const arenaRect = document.getElementById('arena').getBoundingClientRect();
+        element.style.left = `${rect.x - arenaRect.x}px`;
+        element.style.top = `${rect.y - arenaRect.y}px`;
+        element.style.transform = 'none';
+        globalWindowDragInfo = null;
     }
 }
 

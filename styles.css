@@ -206,7 +206,7 @@ input[readonly] {
     pointer-events: none;
 }
 
-.password[type=text]:not(:placeholder-shown) {
+#password[type=text]:not(:placeholder-shown) {
     font-style: italic;
     color: gray;
 }
