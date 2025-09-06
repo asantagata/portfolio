@@ -1,6 +1,39 @@
+const applications = {
+    BROWSER: 'browser',
+    FILES: 'files',
+    TERMINAL: 'terminal'
+}
+
+const applicationTemplates = {
+    browser: () => {
+        return {
+            children: ['wiki page, etc']
+        }
+    },
+    files: () => {
+        return {
+            children: ['files, etc']
+        }
+    },
+    terminal: () => {
+        return {
+            children: ['terminal, etc']
+        }
+    }
+}
+
+const launch = (application, data) => {
+    const PID = nProcesses++;
+    document.getElementById('footer').appendChild(render(templates.FOOTER_ENTRY(application, PID)));
+    document.getElementById('windows').appendChild(render({
+        ...templates.WINDOW(PID, applicationTemplates[application](data)),
+    }));
+    desktop.windows.push(PID)
+}
+
 const icons = {
     browser: '🌐',
-    file: '📂',
+    files: '📂',
     settings: '⚙️',
     text: '📄',
     terminal: '>_',
@@ -32,28 +65,23 @@ const componentTemplates = {
 }
 
 const templates = {
-    DESKTOP_WRAPPER: (desktopId) => {
+    DESKTOP_WRAPPER: () => {
         return {
-            className: 'screen',
+            id: 'desktop-wrapper',
             children: [
-                {
-                    className: 'desktop-wrapper',
-                    children: [
-                        templates.DESKTOP(desktopId),
-                        templates.LOGIN(desktopId)
-                    ],
-                    desktopId: desktopId
-                }
+                templates.DESKTOP(),
+                templates.LOGIN()
             ]
         }
     },
-    LOGIN: (desktopId) => {
+    LOGIN: () => {
         return {
-            className: 'login center gap',
+            className: 'center gap',
+            id: 'login',
             children: [
                 {...componentTemplates.ACTION_ICON('user'), className: 'large-icon'},
                 {...componentTemplates.TEXT_INPUT(),
-                    className: 'username',
+                    id: 'username',
                     readonly: 'true',
                     placeholder: 'Username'},
                 {
@@ -62,102 +90,131 @@ const templates = {
                         {
                             type: 'mouseenter',
                             listener: () => {
-                                desktopQuery(desktopId, '.password').type = 'text';
+                                document.getElementById('password').type = 'text';
                             }
                         },
                         {
                             type: 'mouseleave',
                             listener: () => {
-                                desktopQuery(desktopId, '.password').type = 'password';
+                                document.getElementById('password').type = 'password';
                             }
                         },
                     ],
                     children: [
                         {...componentTemplates.TEXT_INPUT(),
                             type: 'password',
-                            className: 'password',
+                            id: 'password',
                             readonly: 'true',
                             placeholder: 'Password',
                         },
                     ]
                 },
                 {...componentTemplates.ACTION_ICON('right'),
-                    className: 'large-icon hidden pointer log-in-button',
+                    className: 'large-icon hidden pointer',
+                    id: 'log-in-button',
                     listeners: [
                         {
                             type: 'click',
                             listener: () => {
-                                desktopQuery(desktopId, '.login').style.opacity = '0';
+                                document.getElementById('login').style.opacity = '0';
                                 window.setTimeout(() => {
-                                    desktopQuery(desktopId, '.login').style.display = 'none';
+                                    document.getElementById('login').style.display = 'none';
                                 }, 200);
                             }
                         }
                     ]
+                },
+                {
+                    className: 'bottom-left',
+                    children: ['Booting PortfoliOS.']
                 }
             ],
             onMount: () => {
                 window.setTimeout(() => {
-                    const desktopElement = getDesktopElement(desktopId);
                     const username = 'Alex Santagata', password = 'Web developer';
                     const typeSpeed = 40
-                    typeInElement(desktopQuery(desktopId, '.username'), username, typeSpeed);
+                    typeInElement(document.getElementById('username'), username, typeSpeed);
                     window.setTimeout(() => {
-                        typeInElement(desktopQuery(desktopId, '.password'), password, typeSpeed);
+                        typeInElement(document.getElementById('password'), password, typeSpeed);
                         window.setTimeout(() => {
-                            desktopElement.querySelector('.log-in-button').classList.remove('hidden');
+                            document.getElementById('log-in-button').classList.remove('hidden');
                         }, (password.length + 10) * typeSpeed);
                     }, (username.length + 10) * typeSpeed);
                 }, 200);
             }
         };
     },
-    DESKTOP: (desktopId) => {
+    DESKTOP: () => {
         return {
-            className: 'desktop',
+            id: 'desktop',
             children: [
-                templates.ARENA(desktopId),
-                templates.FOOTER(desktopId)
+                templates.ARENA(),
+                templates.FOOTER()
             ]
         };
     },
-    ARENA: (desktopId) => {
+    ARENA: () => {
         return {
-            className: 'arena',
+            id: 'arena',
             children: [
-                templates.ICONS(desktopId),
-                templates.WINDOWS(desktopId)
+                templates.ICONS(),
+                templates.WINDOWS()
             ]
         };
     },
-    FOOTER: (desktopId) => {
+    FOOTER: () => {
         return {
-            className: 'footer'
+            id: 'footer'
         };
     },
-    ICONS: (desktopId) => {
-        const desktop = desktops.get(desktopId);
+    ICONS: () => {
         return {
-            className: 'icons',
-            children: desktop.icons.map(icon => templates.DESKTOP_ICON(desktopId, icon))
+            id: 'icons',
+            children: desktop.icons.map(templates.DESKTOP_ICON)
         };
     },
-    WINDOWS: (desktopId) => {
+    WINDOWS: () => {
         return {
-            className: 'windows'
+            id: 'windows'
         }
     },
-    DESKTOP_ICON: (desktopId, icon) => {
+    DESKTOP_ICON: (icon) => {
         return {
             style: `grid-area: calc(1 + round(down, calc(${icon.index} / var(--cols))))
             / calc(1 + rem(${icon.index}, var(--cols)))`,
             className: 'desktop-icon center',
             children: [
                 {
-                    className: 'desktop-icon-icon',
+                    className: `desktop-icon-icon ${icon.icon}-icon`,
                     children: [icons[icon.icon]]
                 },
                 icon.name
+            ],
+            listeners: [
+                {
+                    type: 'dblclick',
+                    listener: () => {
+                        launch(icon.launchApplication, icon.launchData);
+                    }
+                }
+            ]
+        }
+    },
+    FOOTER_ENTRY: (application, PID, open) => {
+        return {
+            id: `footer-entry-${PID}`,
+            className: `footer-entry ${open ? 'open' : ''} footer-entry-${application}`,
+            children: [
+                icons[application]
+            ]
+        }
+    },
+    WINDOW: (PID, content) => {
+        return {
+            className: 'window',
+            children: [
+                '_ o x',
+                content
             ]
         }
     }
@@ -173,24 +230,16 @@ const typeInElement = (element, text, speed) => {
     }, speed);
 }
 
-const getDesktopElement = (desktopId) => {
-    return document.querySelector(`div.desktop-wrapper[desktopid='${desktopId}']`);
-}
-
-const desktopQuery = (desktopId, query) => {
-    return document.querySelector(`div.desktop-wrapper[desktopid='${desktopId}'] ${query}`);
-}
-
 const render = (template) => {
     if (typeof template == 'string') {
         return document.createTextNode(template);
     }
-    if (template.id) {
-        element.id = template.id;
-    }
     const element = document.createElement(template.tag || 'div');
     if (template.className && template.className.length > 0) {
         element.className = template.className;
+    }
+    if (template.id) {
+        element.id = template.id;
     }
     if (template.listeners && template.listeners.length > 0) {
         template.listeners.forEach((listener) => {
@@ -216,18 +265,14 @@ const render = (template) => {
     return element;
 }
 
-const createDesktop = (id) => {
-    return {
-        id: id,
-        icons: [
-            {index: 0, icon: 'browser', name: 'Browser'},
-            {index: 126, icon: 'terminal', name: 'Command line'},
-            {index: 127, icon: 'recycle', name: 'Recycle bin'}
-        ]
-    }
+let nProcesses = 0;
+let desktop = {
+    icons: [
+        {index: 0, icon: 'browser', name: 'Browser', launchApplication: applications.BROWSER, launchData: null},
+        {index: 126, icon: 'terminal', name: 'Command line', launchApplication: applications.TERMINAL, launchData: null},
+        {index: 127, icon: 'recycle', name: 'Recycle bin', launchApplication: applications.FILES, launchData: '/recycle'}
+    ],
+    windows: []
 }
 
-let desktopID = 0;
-const desktops = new Map();
-desktops.set(desktopID, createDesktop(desktopID));
-document.getElementById('viewport').replaceChildren(render(templates.DESKTOP_WRAPPER(0)));
+document.getElementById('viewport').replaceChildren(render(templates.DESKTOP_WRAPPER(desktop)));

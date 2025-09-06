@@ -10,6 +10,7 @@
         var(--anaglyph-depth) 0 0 #00ffff80;
     font-size: large;
     transform-style: preserve-3d;
+    user-select: none;
 }
 
 body {
@@ -21,12 +22,6 @@ body {
     background: #000;
     color: #fff;
 }
-
-.screen {
-    background: #000;
-}
-
-#viewport > .screen { width: 100%; height: 100% }
 
 body, .center, .center-row {
     display: flex;
@@ -87,23 +82,30 @@ body::after {
     width: min(100dvw, calc(100dvh * var(--aspect-ratio)));
 }
 
-.footer {
+#footer {
     background: #00002244;
     backdrop-filter: blur(2px);
     transition: background 0.2s ease-in-out;
     height: calc(100% / 16);
+    display: flex;
+    align-items: center;
+    gap: 1ch;
+    padding: 1ch;
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
 }
 
-.footer:hover {
+#footer:hover {
     background: #00002266;
 }
 
-.arena {
+#arena {
     flex-grow: 1;
     position: relative;
 }
 
-.icons {
+#icons {
     width: 100%;
     display: grid;
     grid-template-columns: repeat(var(--cols), 1fr);
@@ -115,19 +117,19 @@ body::after {
     --rows: 8;
 }
 
-.icons > * {
+#icons > * {
     min-width: 0;
     min-height: 0;
 }
 
-.desktop-wrapper {
+#desktop-wrapper {
     position: relative;
     width: 100%;
     height: 100%;
     container-type: size;
 }
 
-.login, .desktop {
+#login, #desktop {
     position: absolute;
     top: 0;
     left: 0;
@@ -135,12 +137,12 @@ body::after {
     height: 100%;
 }
 
-.login {
+#login {
     background: #18776A;
     transition: opacity 0.2s ease-in-out;
 }
 
-.desktop {
+#desktop {
     display: flex;
     flex-direction: column;
 }
@@ -170,8 +172,29 @@ body::after {
     border-radius: 50%;
 }
 
-.log-in-button {
+#log-in-button {
     transition: opacity 0.2s ease-in-out;
+}
+
+.bottom-left {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    padding: 1ch;
+    cursor: default;
+    opacity: 0.6;
+    font-size: x-large;
+}
+
+.bottom-left::after {
+    content: '';
+    animation: ellipsis 2s linear infinite;
+}
+
+@keyframes ellipsis {
+    0% {content: ''}
+    33% {content: '.'}
+    67% {content: '..'}
 }
 
 .hidden {
@@ -198,7 +221,7 @@ input[readonly] {
     color: gray;
 }
 
-.desktop {
+#desktop {
     /*filter: sepia(30%);*/
     background:
             linear-gradient(to bottom,
@@ -207,7 +230,7 @@ input[readonly] {
             #d4493f 76.5%, #c7228a 85%, #861bbf 90%, #170bbd 100%);
 }
 
-.desktop::after {
+#desktop::after {
     position: absolute;
     content: '';
     width: 100%;
@@ -222,36 +245,70 @@ input[readonly] {
     z-index: 0;
 }
 
-.desktop * {
+#desktop * {
     z-index: 1;
 }
 
-.desktop::before {
+#desktop::before {
     position: absolute;
     content: '';
     border-radius: 50%;
     --sun: rgba(245, 165, 108, 0.78); /* :) */
     background: radial-gradient(closest-side, var(--sun), var(--sun) 20%, transparent);
     aspect-ratio: 1 / 1;
-    /*clip-path: polygon(0 0, 100% 0, 100% 50%, 0 50%);*/
     left: 50%;
+    width: 20%;
     transform: translateX(-50%) translateY(50%);
     bottom: 30%;
 }
 
 .desktop-icon {
-    font-size: small;
     text-align: center;
     cursor: default;
     aspect-ratio: 1 / 1;
     overflow: visible;
+    line-height: 1;
 }
 
 .desktop-icon-icon {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 100%;
-    font-size: x-large;
     flex-grow: 1;
+    white-space: nowrap;
+    font-size: calc((min(100dvh, calc(100dvw / var(--aspect-ratio))) * 137 / 144 / var(--rows)) - 2em);
+}
+
+.desktop-icon-icon.terminal-icon, .footer-entry-terminal {
+    background: #0f0a12da;
+    border-radius: 0.2ch;
+    padding: 0 0.4ch;
+}
+
+@media (min-aspect-ratio: 9 / 16) {
+    #warning { display: none; }
+}
+
+#warning {
+    position: fixed;
+    left: 0;
+    top: 0;
+    background: #000c;
+    width: 100dvw;
+    height: 100dvh;
+    gap: 0;
+    text-align: center;
+}
+
+#warning p { margin: 1em }
+#warning i { opacity: 0.8 }
+
+#windows {
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+.window {
+    position: fixed;
 }
