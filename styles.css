@@ -350,3 +350,29 @@ input[readonly] {
     flex-grow: 1;
     background: black;
 }
+
+.circular-button {
+    border-radius: 50%;
+    background: var(--color);
+    height: 100%;
+    aspect-ratio: 1 / 1;
+    box-shadow: 0 0 1ch #0004 inset;
+}
+
+.circular-button:hover {
+    box-shadow: 0 0 1ch #0007 inset;
+}
+
+.window-buttons {
+    height: 100%;
+    gap: 1ch;
+    font-size: small;
+    padding: 0.5ch 0;
+}
+
+.circular-button.toggle { --color: #3fb864
+}
+.circular-button.min { --color: #dfa90e
+}
+.circular-button.close { --color: #ea5155
+}

@@ -43,7 +43,6 @@ const launch = (launchType, data) => {
     document.getElementById('arena').appendChild(render({
         ...templates.WINDOW(PID, application.name, applicationTemplates[launchType](data)),
     }));
-    desktop.windows.push(PID)
 }
 
 const SVGs = {
@@ -226,11 +225,51 @@ const templates = {
                     children: [
                         name,
                         {
-                            children: [
-                                '_',
-                                'o',
-                                'x'
-                            ]
+                            className: 'window-buttons center-row',
+                            children:
+                                [
+                                    {
+                                        className: 'toggle',
+                                        listener: () => {
+                                            const element = getWindowElementByPID(PID);
+                                            if (element.classList.contains('fullscreen')) {
+                                                element.classList.remove('fullscreen');
+                                                element.classList.add('mini');
+                                                element.style.top = '25%';
+                                                element.style.left = '25%';
+                                            } else {
+                                                element.classList.add('fullscreen');
+                                                element.classList.remove('mini');
+                                                element.style.top = '0px';
+                                                element.style.left = '0px';
+                                            }
+                                        }
+                                    },
+                                    {
+                                        className: 'min',
+                                        listener: () => {
+                                            getWindowElementByPID(PID).style.display = 'none';
+                                        }
+                                    },
+                                    {
+                                        className: 'close',
+                                        listener: () => {
+                                            getWindowElementByPID(PID).remove();
+                                            getFooterEntryByPID(PID).remove();
+                                        }
+                                    },
+
+                                ].map(button => {
+                                    return {
+                                        className: `circular-button ${button.className}`,
+                                        listeners: [
+                                            {
+                                                type: 'click',
+                                                listener: button.listener
+                                            }
+                                        ]
+                                    }
+                                })
                         }
                     ],
                     listeners: [
@@ -265,6 +304,10 @@ const typeInElement = (element, text, speed) => {
 
 const getWindowElementByPID = (pid) => {
     return document.getElementById(`window-${pid}`);
+}
+
+const getFooterEntryByPID = (pid) => {
+    return document.getElementById(`footer-entry-${pid}`);
 }
 
 const render = (template) => {
@@ -308,8 +351,7 @@ let desktop = {
         {index: 0, displayType: applicationTypes.BROWSER, launchType: applicationTypes.BROWSER, launchData: null},
         {index: 126, displayType: applicationTypes.TERMINAL, launchType: applicationTypes.TERMINAL, launchData: null},
         {index: 127, displayType: applicationTypes.RECYCLE, launchType: applicationTypes.FILES, launchData: '/recycle'}
-    ],
-    windows: []
+    ]
 }
 
 let globalWindowDragInfo = null;
