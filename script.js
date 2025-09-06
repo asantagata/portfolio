@@ -179,15 +179,43 @@ const templates = {
     ICONS: () => {
         return {
             id: 'icons',
-            children: desktop.icons.map(templates.DESKTOP_ICON)
+            children: desktop.icons.map(templates.DESKTOP_ICON),
+            listeners: [
+                {
+                    type: 'dragover',
+                    listener: (e) => {e.preventDefault();}
+                },
+                {
+                    type: 'drop',
+                    listener: (e) => {
+                        e.preventDefault();
+                        const item = JSON.parse(e.dataTransfer.getData('text/plain'));
+                        if (!item.fromPortfoliOS) return
+                        const icons = document.getElementById('icons');
+                        const rect = icons.getBoundingClientRect();
+                        const colWidth = rect.width / 16, rowHeight = rect.height / 8;
+                        const x = e.clientX - rect.x, y = e.clientY - rect.y;
+                        const col = Math.floor(x / colWidth), row = Math.floor(y / rowHeight);
+                        const index = row * 16 + col;
+                        const blockingIcon = desktop.icons.find(i => i.index === index);
+                        if (index === item.icon.index) {
+                            return
+                        } else if (!blockingIcon) {
+                            desktop.icons = desktop.icons.filter(x => x.index !== item.icon.index);
+                            desktop.icons.push({...item.icon, index});
+                        }
+                        document.getElementById('icons').replaceWith(render(templates.ICONS()));
+                    }
+                }
+            ]
         };
     },
     DESKTOP_ICON: (icon) => {
         return {
             style: `top: calc(${Math.floor(icon.index / 16)} * (100% / 8)); left: calc(${icon.index % 16} * (100% / 16))`,
-            // style: `grid-area: calc(1 + round(down, calc(${icon.index} / var(--cols))))
-            // / calc(1 + rem(${icon.index}, var(--cols)))`,
             className: 'desktop-icon center',
+            draggable: 'true',
+            index: icon.index,
             children: [
                 {
                     className: `desktop-icon-icon ${icon.displayType}-icon`,
@@ -203,6 +231,18 @@ const templates = {
                     type: 'dblclick',
                     listener: () => {
                         launch(icon.launchType, icon.launchData);
+                    }
+                },
+                {
+                    type: 'dragstart',
+                    listener: (e) => {
+                        e.dataTransfer.setData('text/plain', JSON.stringify({
+                            fromPortfoliOS: true,
+                            icon: icon
+                        }));
+                        const element = e.target;
+                        const rect = element.getBoundingClientRect();
+                        e.dataTransfer.setDragImage(document.querySelector(`.desktop-icon[index='${icon.index}']`), rect.width / 2, rect.height / 2);
                     }
                 }
             ]
@@ -380,13 +420,6 @@ let nProcesses = 0;
 let desktop = {
     icons: [
         {index: 0, displayType: applicationTypes.BROWSER, launchType: applicationTypes.BROWSER, launchData: null},
-        {index: 16, displayType: applicationTypes.BROWSER, launchType: applicationTypes.BROWSER, launchData: null},
-        {index: 32, displayType: applicationTypes.BROWSER, launchType: applicationTypes.BROWSER, launchData: null},
-        {index: 48, displayType: applicationTypes.BROWSER, launchType: applicationTypes.BROWSER, launchData: null},
-        {index: 64, displayType: applicationTypes.BROWSER, launchType: applicationTypes.BROWSER, launchData: null},
-        {index: 80, displayType: applicationTypes.BROWSER, launchType: applicationTypes.BROWSER, launchData: null},
-        {index: 96, displayType: applicationTypes.BROWSER, launchType: applicationTypes.BROWSER, launchData: null},
-        {index: 112, displayType: applicationTypes.BROWSER, launchType: applicationTypes.BROWSER, launchData: null},
         {index: 126, displayType: applicationTypes.TERMINAL, launchType: applicationTypes.TERMINAL, launchData: null},
         {index: 127, displayType: applicationTypes.RECYCLE, launchType: applicationTypes.FILES, launchData: '/recycle'}
     ]
