@@ -238,10 +238,43 @@ input[readonly] {
 }
 
 .desktop {
+    /*filter: sepia(30%);*/
     background:
             linear-gradient(to bottom,
-            #0000ff 0%, #8800ff 40%, #e600e6 60%,
-            #e63d00 70%,
-            #ff00ff 80%, #8800ff 90%, #0000ff 140%)
-        ;
+            #170bbd 0%, #861bbf 22%, #bf1f84 40%, #cc4539 60%,
+            #eb9350 70%,
+            #d4493f 76.5%, #c7228a 85%, #861bbf 90%, #170bbd 100%);
+}
+
+.desktop::after {
+    position: absolute;
+    content: '';
+    width: 100%;
+    bottom: 0;
+    height: 30%;
+    --ocean: rgba(171, 75, 131, 0.63);
+    --inner: #E176B370;
+    background: linear-gradient(to right,
+    var(--ocean) 0%, var(--inner) 35%,
+    rgba(255, 163, 102, 0.69) 50%,
+    var(--inner) 65%, var(--ocean) 100%);
+    z-index: 0;
+}
+
+.desktop * {
+    z-index: 1;
+}
+
+.desktop::before {
+    position: absolute;
+    content: '';
+    border-radius: 50%;
+    --sun: rgba(245, 165, 108, 0.78); /* :) */
+    background: radial-gradient(closest-side, var(--sun), var(--sun) 20%, transparent);
+    width: 20%;
+    aspect-ratio: 1 / 1;
+    /*clip-path: polygon(0 0, 100% 0, 100% 50%, 0 50%);*/
+    left: 50%;
+    transform: translateX(-50%) translateY(50%);
+    bottom: 30%;
 }
