@@ -24,12 +24,17 @@ const componentTemplates = {
 const templates = {
     DESKTOP_WRAPPER: (desktopId) => {
         return {
-            className: 'desktop-wrapper',
+            className: 'screen',
             children: [
-                templates.DESKTOP(desktopId),
-                templates.LOGIN(desktopId)
-            ],
-            desktopId: desktopId
+                {
+                    className: 'desktop-wrapper',
+                    children: [
+                        templates.DESKTOP(desktopId),
+                        templates.LOGIN(desktopId)
+                    ],
+                    desktopId: desktopId
+                }
+            ]
         }
     },
     LOGIN: (desktopId) => {

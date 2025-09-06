@@ -22,6 +22,12 @@ body {
     color: #fff;
 }
 
+.screen {
+    background: #000;
+}
+
+#viewport > .screen { width: 100%; height: 100% }
+
 body, .center, .center-row {
     display: flex;
     align-items: center;
