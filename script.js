@@ -1,3 +1,13 @@
+const icons = {
+    browser: '🌐',
+    file: '📂',
+    settings: '⚙️',
+    text: '📄',
+    terminal: '>_',
+    chat: '💬',
+    recycle: '🗑️'
+}
+
 const SVGs = {
     user: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-icon lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>',
     right: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right-icon lucide-arrow-right"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>'
@@ -106,15 +116,9 @@ const templates = {
         return {
             className: 'desktop',
             children: [
-                templates.HEADER(desktopId),
                 templates.ARENA(desktopId),
                 templates.FOOTER(desktopId)
             ]
-        };
-    },
-    HEADER: (desktopId) => {
-        return {
-            className: 'if-mobile header'
         };
     },
     ARENA: (desktopId) => {
@@ -132,7 +136,7 @@ const templates = {
         };
     },
     ICONS: (desktopId) => {
-        desktop = desktops.get(desktopId);
+        const desktop = desktops.get(desktopId);
         return {
             className: 'icons',
             children: desktop.icons.map(icon => templates.DESKTOP_ICON(desktopId, icon))
@@ -147,7 +151,14 @@ const templates = {
         return {
             style: `grid-area: calc(1 + round(down, calc(${icon.index} / var(--cols))))
             / calc(1 + rem(${icon.index}, var(--cols)))`,
-            children: [icon.name]
+            className: 'desktop-icon center',
+            children: [
+                {
+                    className: 'desktop-icon-icon',
+                    children: [icons[icon.icon]]
+                },
+                icon.name
+            ]
         }
     }
 }
@@ -209,9 +220,9 @@ const createDesktop = (id) => {
     return {
         id: id,
         icons: [
-            {index: 0, icon: 'user', name: 'Browser'},
-            {index: 126, icon: 'user', name: 'Command line'},
-            {index: 127, icon: 'user', name: 'Recycle bin'}
+            {index: 0, icon: 'browser', name: 'Browser'},
+            {index: 126, icon: 'terminal', name: 'Command line'},
+            {index: 127, icon: 'recycle', name: 'Recycle bin'}
         ]
     }
 }
