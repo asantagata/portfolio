@@ -1,44 +1,49 @@
-const applications = {
+const applicationTypes = {
     BROWSER: 'browser',
     FILES: 'files',
-    TERMINAL: 'terminal'
+    TERMINAL: 'terminal',
+    SETTINGS: 'settings',
+    TEXT: 'text',
+    CHAT: 'chat',
+    RECYCLE: 'recycle'
+}
+
+const applications = {
+    [applicationTypes.BROWSER]: {name: 'Browser', icon: '🌐'},
+    [applicationTypes.FILES]: {name: 'Files', icon: '📂'},
+    [applicationTypes.TERMINAL]: {name: 'Terminal', icon: '>_'},
+    [applicationTypes.SETTINGS]: {name: 'Settings', icon: '⚙️'},
+    [applicationTypes.TEXT]: {name: 'Text Editor', icon: '📄'},
+    [applicationTypes.CHAT]: {name: 'Chat', icon: '💬'},
+    [applicationTypes.RECYCLE]: {name: 'Recycle Bin', icon: '🗑️'}
 }
 
 const applicationTemplates = {
-    browser: () => {
+    [applicationTypes.BROWSER]: () => {
         return {
             children: ['wiki page, etc']
         }
     },
-    files: () => {
+    [applicationTypes.FILES]: () => {
         return {
             children: ['files, etc']
         }
     },
-    terminal: () => {
+    [applicationTypes.TERMINAL]: () => {
         return {
             children: ['terminal, etc']
         }
     }
 }
 
-const launch = (application, data) => {
+const launch = (launchType, data) => {
     const PID = nProcesses++;
-    document.getElementById('footer').appendChild(render(templates.FOOTER_ENTRY(application, PID)));
-    document.getElementById('windows').appendChild(render({
-        ...templates.WINDOW(PID, applicationTemplates[application](data)),
+    const application = applications[launchType]
+    document.getElementById('footer').appendChild(render(templates.FOOTER_ENTRY(launchType, PID)));
+    document.getElementById('arena').appendChild(render({
+        ...templates.WINDOW(PID, application.name, applicationTemplates[launchType](data)),
     }));
     desktop.windows.push(PID)
-}
-
-const icons = {
-    browser: '🌐',
-    files: '📂',
-    settings: '⚙️',
-    text: '📄',
-    terminal: '>_',
-    chat: '💬',
-    recycle: '🗑️'
 }
 
 const SVGs = {
@@ -71,6 +76,12 @@ const templates = {
             children: [
                 templates.DESKTOP(),
                 templates.LOGIN()
+            ],
+            listeners: [
+                {
+                    type: 'mousemove',
+                    listener: handleWindowDrag
+                }
             ]
         }
     },
@@ -157,8 +168,7 @@ const templates = {
         return {
             id: 'arena',
             children: [
-                templates.ICONS(),
-                templates.WINDOWS()
+                templates.ICONS()
             ]
         };
     },
@@ -173,11 +183,6 @@ const templates = {
             children: desktop.icons.map(templates.DESKTOP_ICON)
         };
     },
-    WINDOWS: () => {
-        return {
-            id: 'windows'
-        }
-    },
     DESKTOP_ICON: (icon) => {
         return {
             style: `grid-area: calc(1 + round(down, calc(${icon.index} / var(--cols))))
@@ -185,36 +190,64 @@ const templates = {
             className: 'desktop-icon center',
             children: [
                 {
-                    className: `desktop-icon-icon ${icon.icon}-icon`,
-                    children: [icons[icon.icon]]
+                    className: `desktop-icon-icon ${icon.displayType}-icon`,
+                    children: [applications[icon.displayType].icon]
                 },
-                icon.name
+                applications[icon.displayType].name
             ],
             listeners: [
                 {
                     type: 'dblclick',
                     listener: () => {
-                        launch(icon.launchApplication, icon.launchData);
+                        launch(icon.launchType, icon.launchData);
                     }
                 }
             ]
         }
     },
-    FOOTER_ENTRY: (application, PID, open) => {
+    FOOTER_ENTRY: (displayType, PID, open) => {
         return {
             id: `footer-entry-${PID}`,
-            className: `footer-entry ${open ? 'open' : ''} footer-entry-${application}`,
+            pid: PID,
+            className: `footer-entry ${open ? 'open' : ''} footer-entry-${displayType}`,
             children: [
-                icons[application]
+                applications[displayType].icon
             ]
         }
     },
-    WINDOW: (PID, content) => {
+    WINDOW: (PID, name, content) => {
         return {
-            className: 'window',
+            id: `window-${PID}`,
+            className: 'window mini',
+            pid: PID,
             children: [
-                '_ o x',
-                content
+                {
+                    className: 'window-heading between',
+                    children: [
+                        name,
+                        {
+                            children: [
+                                '_',
+                                'o',
+                                'x'
+                            ]
+                        }
+                    ],
+                    listeners: [
+                        {
+                            type: 'mousedown',
+                            listener: (e) => {
+                                globalWindowDragInfo = {pid: PID, x0: e.clientX, y0: e.clientY}
+                            }
+                        }
+                    ]
+                },
+                {
+                    className: 'window-body',
+                    children: [
+                        content
+                    ]
+                }
             ]
         }
     }
@@ -228,6 +261,10 @@ const typeInElement = (element, text, speed) => {
         if (index === text.length)
             window.clearInterval(interval);
     }, speed);
+}
+
+const getWindowElementByPID = (pid) => {
+    return document.getElementById(`window-${pid}`);
 }
 
 const render = (template) => {
@@ -268,11 +305,22 @@ const render = (template) => {
 let nProcesses = 0;
 let desktop = {
     icons: [
-        {index: 0, icon: 'browser', name: 'Browser', launchApplication: applications.BROWSER, launchData: null},
-        {index: 126, icon: 'terminal', name: 'Command line', launchApplication: applications.TERMINAL, launchData: null},
-        {index: 127, icon: 'recycle', name: 'Recycle bin', launchApplication: applications.FILES, launchData: '/recycle'}
+        {index: 0, displayType: applicationTypes.BROWSER, launchType: applicationTypes.BROWSER, launchData: null},
+        {index: 126, displayType: applicationTypes.TERMINAL, launchType: applicationTypes.TERMINAL, launchData: null},
+        {index: 127, displayType: applicationTypes.RECYCLE, launchType: applicationTypes.FILES, launchData: '/recycle'}
     ],
     windows: []
+}
+
+let globalWindowDragInfo = null;
+const handleWindowDrag = (e) => {
+    if (globalWindowDragInfo) {
+        const element = getWindowElementByPID(globalWindowDragInfo.pid);
+        element.classList.remove('fullscreen');
+        element.classList.add('mini');
+        element.style.left = `calc(0.5 * (100% - 100dvw) + ${e.clientX}px - 25%)`;
+        element.style.top = `calc(0.5 * (100% - 100dvh) + ${e.clientY}px - 0.5em)`;
+    }
 }
 
 document.getElementById('viewport').replaceChildren(render(templates.DESKTOP_WRAPPER(desktop)));

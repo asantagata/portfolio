@@ -94,6 +94,9 @@ body::after {
     width: 100%;
     overflow-x: auto;
     overflow-y: hidden;
+    position: fixed;
+    bottom: 0;
+    transform-style: flat;
 }
 
 #footer:hover {
@@ -101,8 +104,9 @@ body::after {
 }
 
 #arena {
-    flex-grow: 1;
+    height: 100%;
     position: relative;
+    overflow: hidden;
 }
 
 #icons {
@@ -112,14 +116,9 @@ body::after {
     grid-template-rows: repeat(var(--rows), 1fr);
     grid-auto-rows: 0;
     overflow: hidden;
-    height: calc(100% - (100% / 9 - 100% / 16));
+    height: calc(100% - (200% / 9 - 100% / 16));
     --cols: 16;
     --rows: 8;
-}
-
-#icons > * {
-    min-width: 0;
-    min-height: 0;
 }
 
 #desktop-wrapper {
@@ -140,11 +139,6 @@ body::after {
 #login {
     background: #18776A;
     transition: opacity 0.2s ease-in-out;
-}
-
-#desktop {
-    display: flex;
-    flex-direction: column;
 }
 
 .gap {
@@ -267,10 +261,10 @@ input[readonly] {
     cursor: default;
     aspect-ratio: 1 / 1;
     overflow: visible;
-    line-height: 1;
 }
 
 .desktop-icon-icon {
+    line-height: 1;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -303,12 +297,56 @@ input[readonly] {
 #warning p { margin: 1em }
 #warning i { opacity: 0.8 }
 
-#windows {
+.window {
     position: fixed;
+    display: flex;
+    flex-direction: column;
+}
+
+.window.fullscreen {
+    width: 100%;
+    height: 100%;
     top: 0;
     left: 0;
 }
 
-.window {
-    position: fixed;
+.window.mini {
+    width: 50%;
+    height: 50%;
+    top: 25%;
+    left: 25%;
+    border-radius: 1ch;
+    box-shadow: #0004 -3px 3px 3px;
+}
+
+.window.mini .window-heading {
+    border-top-right-radius: 1ch;
+    border-top-left-radius: 1ch;
+}
+
+.window.mini .window-body {
+    border-bottom-left-radius: 1ch;
+    border-bottom-right-radius: 1ch;
+}
+
+.window.hidden {
+    display: none;
+}
+
+.between {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.window-heading {
+    background: linear-gradient(to bottom, #eee, #bbb);
+    border: 1px solid #0001;
+    color: black;
+    padding: 0 1ch;
+}
+
+.window-body {
+    flex-grow: 1;
+    background: black;
 }
