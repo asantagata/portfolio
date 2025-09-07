@@ -312,7 +312,7 @@ input[readonly] {
     --screen-height: min(100dvh, calc(100dvw / var(--aspect-ratio)));
     --arena-height: calc(var(--screen-height) - (2 * var(--screen-height) / 9 - var(--screen-height) / 16));
     --row-height: calc(var(--arena-height) / 8);
-    font-size: calc(var(--row-height) * 0.85 - 1em);
+    font-size: max(calc(var(--row-height) * 0.85 - 1em), 2em);
 }
 
 .desktop-icon-icon.terminal-icon, .footer-entry-terminal {
@@ -486,6 +486,11 @@ input[type=checkbox] {
     color: #100b15;
 }
 
+.default-theme .window-dark {
+    background: #100b15;
+    color: #e0d5ed;
+}
+
 .default-theme .window.mini {
     border-radius: 1ch;
     overflow: hidden;
@@ -500,7 +505,7 @@ input[type=checkbox] {
     border: 1px solid #18e4c9;
 }
 
-.hacker-theme .window-light {
+.hacker-theme .window-light, .hacker-theme .window-dark {
     color: #93fff2;
     background: #0b1512;
 }
@@ -556,18 +561,19 @@ input[type=checkbox] {
     background: rgba(240, 153, 192, 0.3);
 }
 
-.glass-theme .window.mini .window-light {
+.glass-theme .window.mini .window-light, .glass-theme .window.mini .window-dark {
     margin-top: 1ch;
     margin-bottom: 1ch;
     padding-bottom: 0;
 }
 
-.glass-theme .window-heading, .glass-theme .window-light {
+.glass-theme .window-heading, .glass-theme .window-light, .glass-theme .window-dark {
     transform-style: flat;
     backdrop-filter: blur(4px);
 }
 
-.glass-theme .window .window-heading, .glass-theme .window .window-light {
+.glass-theme .window .window-heading, .glass-theme .window .window-light,
+.glass-theme .window .window-dark {
     --normal: rgba(240, 153, 192, 0.5);
     --shimmer: rgba(240, 163, 198, 0.67);
     background: linear-gradient(-45deg, var(--normal), var(--normal) 35%, var(--shimmer) 50%, var(--normal) 65%);
@@ -577,7 +583,7 @@ input[type=checkbox] {
     background: var(--shimmer);
 }
 
-.glass-theme .window.mini .window-heading, .glass-theme .window.mini .window-light {
+.glass-theme .window.mini .window-heading, .glass-theme .window.mini .window-light, .glass-theme .window.mini .window-dark {
     border-radius: 1ch;
 }
 

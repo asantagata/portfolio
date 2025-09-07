@@ -31,7 +31,10 @@ const applicationTemplates = {
     },
     [applicationTypes.TERMINAL]: () => {
         return {
-            children: ['terminal, etc']
+            className: 'window-dark padded',
+            children: [
+                'userr $'
+            ]
         }
     },
     [applicationTypes.SETTINGS]: (PID) => {
