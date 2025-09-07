@@ -343,7 +343,6 @@ input[readonly] {
     position: fixed;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
 }
 
 .window.fullscreen {
@@ -358,7 +357,10 @@ input[readonly] {
     height: 50%;
     top: 25%;
     left: 25%;
-    filter: drop-shadow(-3px 3px 3px #0004);
+}
+
+.default-theme .window.mini {
+    box-shadow: -3px 3px 3px #0004;
 }
 
 .window.hidden {
@@ -397,8 +399,6 @@ input[readonly] {
 
 .window-body {
     flex-grow: 1;
-    background: black;
-    overflow: hidden;
 }
 
 .window-body > * {
@@ -470,6 +470,14 @@ input[type=checkbox] {
     background: linear-gradient(to bottom, #eee, #bbb);
     border: 1px solid #0001;
     color: black;
+}
+
+.default-theme .window.mini .window-heading {
+    border-top-left-radius: 1ch;
+    border-top-right-radius: 1ch;
+}
+
+.default-theme .window-heading, .glass-theme .window-heading {
     padding: 0 1ch;
 }
 
@@ -480,6 +488,12 @@ input[type=checkbox] {
 
 .default-theme .window.mini {
     border-radius: 1ch;
+    overflow: hidden;
+}
+
+.hacker-theme .window-mini {
+    box-shadow: none;
+    filter: drop-shadow(-3px 3px 3px #0004);
 }
 
 .hacker-theme .window-heading, .hacker-theme .window-body {
@@ -518,6 +532,10 @@ input[type=checkbox] {
     filter: saturate(140%) brightness(80%);
 }
 
+.glass-theme #desktop {
+    filter: contrast(90%);
+}
+
 #viewport.hacker-theme {
     --anaglyph-depth: 1.5px;
     --green: #00f448;
@@ -530,6 +548,44 @@ input[type=checkbox] {
     border-radius: 0;
 }
 
+.glass-theme input[type=checkbox], .glass-theme input[type=radio] {
+    outline: 1px solid rgb(255, 183, 213, 0.6);
+}
+
+.glass-theme input[type=checkbox]:not(:checked), .glass-theme input[type=radio]:not(:checked) {
+    background: rgba(240, 153, 192, 0.3);
+}
+
+.glass-theme .window.mini .window-light {
+    margin-top: 1ch;
+    margin-bottom: 1ch;
+    padding-bottom: 0;
+}
+
+.glass-theme .window-heading, .glass-theme .window-light {
+    transform-style: flat;
+    backdrop-filter: blur(4px);
+}
+
+.glass-theme .window .window-heading, .glass-theme .window .window-light {
+    --normal: rgba(240, 153, 192, 0.5);
+    --shimmer: rgba(240, 163, 198, 0.67);
+    background: linear-gradient(-45deg, var(--normal), var(--normal) 35%, var(--shimmer) 50%, var(--normal) 65%);
+}
+
+.glass-theme .window .window-heading {
+    background: var(--shimmer);
+}
+
+.glass-theme .window.mini .window-heading, .glass-theme .window.mini .window-light {
+    border-radius: 1ch;
+}
+
+#viewport.glass-theme {
+    --green: #81e19d;
+    --yellow: #ffd97f;
+    --red: #e45b79;
+}
 
 
 

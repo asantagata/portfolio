@@ -557,13 +557,19 @@ let globalWindowDragInfo = null;
 const handleWindowDrag = (e) => {
     if (globalWindowDragInfo) {
         const element = getWindowElementByPID(globalWindowDragInfo.pid);
-        element.classList.remove('fullscreen');
-        element.classList.add('mini');
         const x = e.clientX, y = e.clientY;
         const dx = x - globalWindowDragInfo.x0, dy = y - globalWindowDragInfo.y0;
         globalWindowDragInfo.dx = dx;
         globalWindowDragInfo.dy = dy;
-        element.style.transform = `translate(${dx}px, ${dy}px)`;
+        if (element.classList.contains('fullscreen')) {
+            element.classList.remove('fullscreen');
+            element.classList.add('mini');
+            const arenaRect = document.getElementById('arena').getBoundingClientRect();
+            element.style.left = `calc(${x - arenaRect.x}px - 25%)`;
+            element.style.top = `calc(${y - arenaRect.y}px - 0.5em)`;
+        } else {
+            element.style.transform = `translate(${dx}px, ${dy}px)`;
+        }
     }
 }
 
