@@ -76,7 +76,7 @@ const applicationTemplates = {
                                                 const theme = e.target.value;
                                                 desktop.theme = theme;
                                                 document.getElementById('viewport').classList.remove('default-theme', 'hacker-theme', 'glass-theme');
-                                                document.getElementById('viewport').classList.add(`${theme}-theme`);
+                                                document.getElementById('viewport').classList.add(`${theme.toLowerCase()}-theme`);
                                                 for (const button of document.getElementsByClassName(`theme-${theme}`)) {
                                                     button.checked = true;
                                                 }
