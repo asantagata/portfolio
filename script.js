@@ -254,9 +254,21 @@ const templates = {
             id: 'desktop',
             children: [
                 templates.ARENA(),
-                templates.FOOTER()
+                templates.FOOTER(),
+                templates.INFOCARD()
             ]
         };
+    },
+    INFOCARD: () => {
+        return {
+            id: 'infocard',
+            listeners: [
+                {
+                    type: 'click',
+                    listener: (e) => e.stopPropagation()
+                }
+            ]
+        }
     },
     ARENA: () => {
         return {
@@ -277,16 +289,41 @@ const templates = {
                     id: 'footer-details',
                     children: [
                         {
-                            innerHTML: SVGs['weather']
+                            innerHTML: SVGs['weather'],
+                            listeners: [
+                                {
+                                    type: 'click',
+                                    listener: (e) => {
+                                        summonInfoCard(e, 'weather');
+                                    }
+                                }
+                            ]
                         },
                         {
-                            innerHTML: SVGs['wifi']
+                            innerHTML: SVGs['wifi'],
+                            listeners: [
+                                {
+                                    type: 'click',
+                                    listener: (e) => {
+                                        summonInfoCard(e, 'wifi');
+                                    }
+                                }
+                            ]
                         },
                         {
-                            innerHTML: SVGs['battery']
+                            innerHTML: SVGs['battery'],
+                            listeners: [
+                                {
+                                    type: 'click',
+                                    listener: (e) => {
+                                        summonInfoCard(e, 'battery');
+                                    }
+                                }
+                            ]
                         },
                         {
                             id: 'datetime',
+                            className: 'center',
                             children: ['3:00 PM • 9/6/2025'],
                             onMount: () => {
                                 const now = new Date();
@@ -297,7 +334,31 @@ const templates = {
                                         updateTime();
                                     }, 60 * 1000)
                                 }, 1000 * (60 - now.getSeconds()))
-                            }
+                            },
+                            listeners: [
+                                {
+                                    type: 'click',
+                                    listener: (e) => {
+                                        summonInfoCard(e, 'datetime');
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            className: 'close-all center',
+                            listeners: [
+                                {
+                                    type: 'click',
+                                    listener: () => {
+                                        for (const window of document.getElementsByClassName('window')) {
+                                            window.style.display = 'none';
+                                        }
+                                        for (const entry of document.getElementsByClassName('footer-entry')) {
+                                            entry.classList.remove('open');
+                                        }
+                                    }
+                                }
+                            ]
                         }
                     ]
                 }
@@ -595,7 +656,12 @@ const updateTime = () => {
     const dateStr = `${now.getMonth() + 1}/${now.getDate()}/${now.getFullYear()}`
 
     document.getElementById('datetime').innerHTML = `${timeStr} • ${dateStr}`
+}
 
+const summonInfoCard = (e, type) => {
+    e.stopPropagation();
+    document.getElementById('infocard').style.display = 'block';
+    document.getElementById('infocard').innerHTML = type;
 }
 
 let windowZIndex = 2;

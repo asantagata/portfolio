@@ -112,6 +112,7 @@ body::after {
     justify-content: space-between;
     gap: 1ch;
     padding: 1ch;
+    padding-right: 0;
     width: 100%;
     overflow-x: auto;
     overflow-y: hidden;
@@ -130,7 +131,7 @@ body::after {
 #footer-details {
     flex-shrink: 0;
     display: flex;
-    align-items: center;
+    align-items: stretch;
     gap: 1ch;
 }
 
@@ -593,7 +594,47 @@ input[type=checkbox] {
     --red: #e45b79;
 }
 
+.close-all {
+    padding-right: 1ch;
+}
 
+.close-all::before {
+    width: 2ch;
+    content: '|';
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out, background 0.2s ease-in-out;
+    text-align: center;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.5ch;
+}
 
+.close-all:hover::before {
+    background: #fff2;
+    opacity: 1;
+}
 
+#footer-details > * {
+    border-radius: 0.5ch;
+    transition: background 0.2s ease-in-out;
+}
+
+#footer-details > *:not(.close-all):hover {
+    background: #fff2;
+}
+
+#infocard {
+    display: none;
+    position: fixed;
+    right: 0;
+    bottom: calc(100% / 16);
+    padding: 1ch;
+    border-radius: 1ch;
+    margin: 1ch;
+    background: #fff2;
+    transform-style: flat;
+    backdrop-filter: blur(4px);
+}
 
