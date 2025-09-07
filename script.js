@@ -33,6 +33,95 @@ const applicationTemplates = {
         return {
             children: ['terminal, etc']
         }
+    },
+    [applicationTypes.SETTINGS]: (PID) => {
+        return {
+            className: 'window-light grid-2x2 gap padded',
+            children: [
+                'Theme',
+                {
+                    className: 'fullwidth around padded',
+                    children: [
+                        {name: 'Default', icon: '🖥️'},
+                        {name: 'Hacker', icon: '🕶️'},
+                        {name: 'Glass', icon: '🪟'}
+                    ].map(theme => {
+                        return {
+                            tag: 'label',
+                            'for': `theme-${theme.name}-${PID}`,
+                            className: 'center',
+                            children: [
+                                {
+                                    className: 'center',
+                                    children: [
+                                        {
+                                            className: 'x-large',
+                                            children: [theme.icon]
+                                        },
+                                        theme.name
+                                    ]
+                                },
+                                {
+                                    tag: 'input',
+                                    type: 'radio',
+                                    name: `theme-${PID}`,
+                                    className: `theme-${theme.name}`,
+                                    id: `theme-${theme.name}-${PID}`,
+                                    value: theme.name,
+                                    ...(desktop.theme === theme.name ? {checked: true} : {}),
+                                    listeners: [
+                                        {
+                                            type: 'change',
+                                            listener: (e) => {
+                                                const theme = e.target.value;
+                                                desktop.theme = theme;
+                                                document.getElementById('viewport').classList.remove('default-theme', 'hacker-theme', 'glass-theme');
+                                                document.getElementById('viewport').classList.add(`${theme}-theme`);
+                                                for (const button of document.getElementsByClassName(`theme-${theme}`)) {
+                                                    button.checked = true;
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    })
+                },
+                'Retro detail',
+                {
+                    tag: 'label',
+                    className: 'fullwidth fullheight center padded',
+                    'for': `retro-${PID}`,
+                    children: [
+                        {
+                            tag: 'input',
+                            type: 'checkbox',
+                            id: `retro-${PID}`,
+                            className: 'retro-checkbox',
+                            ...(desktop.retro ? {checked: true} : {}),
+                            listeners: [
+                                {
+                                    type: 'change',
+                                    listener: (e) => {
+                                        const checked = e.target.checked;
+                                        desktop.retro = checked;
+                                        if (checked) {
+                                            document.getElementById('viewport').classList.add('retro');
+                                        } else {
+                                            document.getElementById('viewport').classList.remove('retro');
+                                        }
+                                        for (const checkbox of document.getElementsByClassName('retro-checkbox')) {
+                                            checkbox.checked = checked;
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
     }
 }
 
@@ -41,7 +130,7 @@ const launch = (launchType, data) => {
     const application = applications[launchType]
     document.getElementById('footer-entries').appendChild(render(templates.FOOTER_ENTRY(launchType, PID, true)));
     document.getElementById('arena').appendChild(render({
-        ...templates.WINDOW(PID, application.name, applicationTemplates[launchType](data)),
+        ...templates.WINDOW(PID, application.name, applicationTemplates[launchType](PID, data), launchType),
     }));
 }
 
@@ -311,10 +400,10 @@ const templates = {
             ]
         }
     },
-    WINDOW: (PID, name, content) => {
+    WINDOW: (PID, name, content, className = '') => {
         return {
             id: `window-${PID}`,
-            className: 'window mini',
+            className: `window mini ${className}`,
             pid: PID,
             style: `z-index: ${windowZIndex++}`,
             listeners: [
@@ -456,9 +545,12 @@ let nProcesses = 0;
 let desktop = {
     icons: [
         {index: 0, displayType: applicationTypes.BROWSER, launchType: applicationTypes.BROWSER, launchData: null},
+        {index: 112, displayType: applicationTypes.SETTINGS, launchType: applicationTypes.SETTINGS, launchData: null},
         {index: 126, displayType: applicationTypes.TERMINAL, launchType: applicationTypes.TERMINAL, launchData: null},
         {index: 127, displayType: applicationTypes.RECYCLE, launchType: applicationTypes.FILES, launchData: '/recycle'}
-    ]
+    ],
+    theme: 'Default',
+    retro: true
 }
 
 let globalWindowDragInfo = null;

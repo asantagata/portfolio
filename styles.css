@@ -6,11 +6,14 @@
     font-family: 'Inconsolata', monospace;
     margin: 0;
     --anaglyph-depth: 1px;
-    text-shadow: calc(-1 * var(--anaglyph-depth)) 0 0 #ff000080,
-        var(--anaglyph-depth) 0 0 #00ffff80;
     font-size: large;
     transform-style: preserve-3d;
     user-select: none;
+}
+
+.retro * {
+    text-shadow: calc(-1 * var(--anaglyph-depth)) 0 0 #ff000080,
+    var(--anaglyph-depth) 0 0 #00ffff80;
 }
 
 body {
@@ -34,11 +37,14 @@ body, .center, .center-row {
     flex-direction: row;
 }
 
+body:has(> .retro)::before, body:has(> .retro)::after {
+    content: '';
+}
+
 body::before, body::after {
     --light-scanline: #ffffff0a;
     --dark-scanline: #00000008;
     --scanline-height: 4px;
-    content: '';
     position: fixed;
     top: 0;
     left: 0;
@@ -165,7 +171,7 @@ body::after {
     height: 100%;
 }
 
-.icon svg, .large-icon svg, .anaglyph-drop-shadow {
+.retro svg, .retro .anaglyph-drop-shadow {
     filter: drop-shadow(calc(-1 * var(--anaglyph-depth)) 0 0 #ff000080)
     drop-shadow(var(--anaglyph-depth) 0 0 #00ffff80);
 }
@@ -355,10 +361,34 @@ input[readonly] {
     display: none;
 }
 
-.between {
+.between, .around {
     display: flex;
     align-items: center;
+}
+
+.between {
     justify-content: space-between;
+}
+
+.around {
+    justify-content: space-around;
+}
+
+.fullwidth {width: 100%}
+.fullheight {height: 100%}
+.padded {padding: 1ch}
+.grid-2x2 {
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-template-rows: 1fr 1fr;
+    place-items: center;
+}
+
+.around-col {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: space-around;
 }
 
 .window-heading {
@@ -371,6 +401,12 @@ input[readonly] {
 .window-body {
     flex-grow: 1;
     background: black;
+    overflow: hidden;
+}
+
+.window-body > * {
+    height: 100%;
+    width: 100%;
 }
 
 .circular-button {
@@ -402,4 +438,36 @@ input[readonly] {
 .footer-entry:not(.open) {
     opacity: 0.8;
     filter: grayscale(0.8);
+}
+
+.x-large { font-size: x-large; }
+
+.window-light {
+    background: #e0d5ed;
+    color: #100b15;
+}
+
+input {
+    appearance: none;
+}
+
+input[type=checkbox], input[type=radio] {
+    width: 1ch;
+    aspect-ratio: 1 / 1;
+    background: #100b1510;
+    outline: 1px solid #100b1590;
+}
+
+input[type=radio] {
+    border-radius: 50%;
+}
+
+input[type=checkbox]:checked, input[type=radio]:checked {
+    background: linear-gradient(45deg,
+    #170bbd 0%, #861bbf 25%, #bf1f84 55%, #cc4539 90%)
+}
+
+input[type=checkbox] {
+    border-radius: 25%;
+
 }
