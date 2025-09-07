@@ -39,7 +39,7 @@ const applicationTemplates = {
 const launch = (launchType, data) => {
     const PID = nProcesses++;
     const application = applications[launchType]
-    document.getElementById('footer').appendChild(render(templates.FOOTER_ENTRY(launchType, PID, true)));
+    document.getElementById('footer-entries').appendChild(render(templates.FOOTER_ENTRY(launchType, PID, true)));
     document.getElementById('arena').appendChild(render({
         ...templates.WINDOW(PID, application.name, applicationTemplates[launchType](data)),
     }));
@@ -47,7 +47,10 @@ const launch = (launchType, data) => {
 
 const SVGs = {
     user: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-icon lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>',
-    right: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right-icon lucide-arrow-right"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>'
+    right: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right-icon lucide-arrow-right"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>',
+    battery: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-battery-medium-icon lucide-battery-medium"><path d="M10 14v-4"/><path d="M22 14v-4"/><path d="M6 14v-4"/><rect x="2" y="6" width="16" height="12" rx="2"/></svg>',
+    weather: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-cloud-sun-rain-icon lucide-cloud-sun-rain"><path d="M12 2v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="M20 12h2"/><path d="m19.07 4.93-1.41 1.41"/><path d="M15.947 12.65a4 4 0 0 0-5.925-4.128"/><path d="M3 20a5 5 0 1 1 8.9-4H13a3 3 0 0 1 2 5.24"/><path d="M11 20v2"/><path d="M7 19v2"/></svg>',
+    wifi: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-wifi-icon lucide-wifi"><path d="M12 20h.01"/><path d="M2 8.82a15 15 0 0 1 20 0"/><path d="M5 12.859a10 10 0 0 1 14 0"/><path d="M8.5 16.429a5 5 0 0 1 7 0"/></svg>'
 }
 
 const componentTemplates = {
@@ -173,7 +176,40 @@ const templates = {
     },
     FOOTER: () => {
         return {
-            id: 'footer'
+            id: 'footer',
+            children: [
+                {
+                    id: 'footer-entries'
+                },
+                {
+                    id: 'footer-details',
+                    children: [
+                        {
+                            innerHTML: SVGs['weather']
+                        },
+                        {
+                            innerHTML: SVGs['wifi']
+                        },
+                        {
+                            innerHTML: SVGs['battery']
+                        },
+                        {
+                            id: 'datetime',
+                            children: ['3:00 PM • 9/6/2025'],
+                            onMount: () => {
+                                const now = new Date();
+                                updateTime();
+                                window.setTimeout(() => {
+                                    updateTime();
+                                    window.setInterval(() => {
+                                        updateTime();
+                                    }, 60 * 1000)
+                                }, 1000 * (60 - now.getSeconds()))
+                            }
+                        }
+                    ]
+                }
+            ]
         };
     },
     ICONS: () => {
@@ -449,6 +485,16 @@ const handleEndDrag = () => {
         element.style.transform = 'none';
         globalWindowDragInfo = null;
     }
+}
+
+const updateTime = () => {
+    const now = new Date();
+
+    const timeStr = `${now.getHours() % 12 || 12}:${now.getMinutes() < 10 ? '0' : ''}${now.getMinutes()} ${now.getHours() < 12 ? 'AM' : 'PM'}`
+    const dateStr = `${now.getMonth() + 1}/${now.getDate()}/${now.getFullYear()}`
+
+    document.getElementById('datetime').innerHTML = `${timeStr} • ${dateStr}`
+
 }
 
 let windowZIndex = 2;
