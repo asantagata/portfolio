@@ -52,7 +52,7 @@ const applicationTemplates = {
                         return {
                             tag: 'label',
                             'for': `theme-${theme.name}-${PID}`,
-                            className: 'center',
+                            className: 'center gap',
                             children: [
                                 {
                                     className: 'center',
@@ -169,12 +169,48 @@ const templates = {
             id: 'desktop-wrapper',
             children: [
                 templates.DESKTOP(),
-                templates.LOGIN()
+                templates.LOGIN(),
+                templates.CRITICAL_ERROR()
             ],
             listeners: [
                 {
                     type: 'mousemove',
                     listener: handleWindowDrag
+                }
+            ]
+        }
+    },
+    CRITICAL_ERROR: () => {
+        return {
+            id: 'critical-error',
+            className: 'padded center gap fullwidth fullheight',
+            children: [
+                {
+                    children: [{
+                        tag: 'span',
+                        className: 'red',
+                        children: ['CRITICAL FAILURE']
+                    }, ': Internet connection lost.']
+                },
+                {
+                    className: 'infocard-button padded',
+                    id: 'reconnection',
+                    children: ['Attempt reconnection'],
+                    listeners: [
+                        {
+                            type: 'click',
+                            listener: () => {
+                                document.getElementById('reconnection').replaceWith(render({
+                                    className: 'ellipsis detail',
+                                    children: ['Attempting reconnection.']
+                                }));
+                                window.setTimeout(() => {
+                                    document.getElementById('desktop').style.display = 'block';
+                                    document.getElementById('critical-error').style.display = 'none';
+                                }, 1000)
+                            }
+                        }
+                    ]
                 }
             ]
         }
@@ -652,16 +688,109 @@ const handleEndDrag = () => {
 const updateTime = () => {
     const now = new Date();
 
-    const timeStr = `${now.getHours() % 12 || 12}:${now.getMinutes() < 10 ? '0' : ''}${now.getMinutes()} ${now.getHours() < 12 ? 'AM' : 'PM'}`
-    const dateStr = `${now.getMonth() + 1}/${now.getDate()}/${now.getFullYear()}`
+    const timeStr = `${now.getHours() % 12 || 12}:${now.getMinutes() < 10 ? '0' : ''}${now.getMinutes()} ${now.getHours() < 12 ? 'AM' : 'PM'}`;
+    const dateStr = `${now.getMonth() + 1}/${now.getDate()}/${now.getFullYear()}`;
 
-    document.getElementById('datetime').innerHTML = `${timeStr} • ${dateStr}`
+    document.getElementById('datetime').innerHTML = `${timeStr} • ${dateStr}`;
+
+    const weekdayify = (n) => {
+        return `Sunday Monday Tuesday Wednesday Thursday Friday Saturday`.split(' ')[n];
+    }
+
+    const monthify = (n) => {
+        return `January February March April May June July August September October November December`.split(' ')[n]
+    }
+
+    const fancyDateStr = `${weekdayify(now.getDay())}, ${monthify(now.getMonth())} ${now.getDate()}, ${now.getFullYear()}`;
+    const fancyDateTimeStr = `${timeStr} • ${fancyDateStr}`;
+    const datetimeInfoCard = document.querySelector('#infocard-datetime');
+    if (datetimeInfoCard) {
+        datetimeInfoCard.innerHTML = fancyDateTimeStr;
+    }
+    return fancyDateTimeStr;
 }
 
 const summonInfoCard = (e, type) => {
     e.stopPropagation();
     document.getElementById('infocard').style.display = 'block';
-    document.getElementById('infocard').innerHTML = type;
+    switch (type) {
+        case 'datetime': {
+            const datetimeStr = updateTime();
+            document.getElementById('infocard').replaceChildren(render(
+                {
+                    children: [
+                        {
+                            id: '#infocard-datetime',
+                            children: [datetimeStr]
+                        },
+                        {
+                            className: 'small detail',
+                            children: [`Time zone: ${Intl.DateTimeFormat().resolvedOptions().timeZone}`]
+                        }
+                    ]
+                }
+            ));
+            break;
+        }
+        case 'weather': {
+            document.getElementById('infocard').replaceChildren(render(
+                {
+                    children: [
+                        {
+                            children: [`Today's weather is: tactically ambiguous`],
+                        },
+                        {
+                            className: 'small detail',
+                            children: ['The weather might be any of cloudy, sunny, rainy, or other.']
+                        }
+                    ]
+                }
+            ));
+            break;
+        }
+        case 'battery': {
+            document.getElementById('infocard').replaceChildren(render(
+                {
+                    children: [
+                        {
+                            children: [`Battery status: 66.666...% remaining`],
+                        },
+                        {
+                            className: 'small detail',
+                            children: ['You don\'t have to re-charge just yet.']
+                        }
+                    ]
+                }
+            ));
+            break;
+        }
+        case 'wifi': {
+            document.getElementById('infocard').replaceChildren(render(
+                {
+                    className: 'center-row gap',
+                    children: [
+                        `Internet status: connected`,
+                        {
+                            className: 'infocard-button padded',
+                            children: ['Disconnect'],
+                            listeners: [
+                                {
+                                    type: 'click',
+                                    listener: () => {
+                                        document.getElementById('desktop').style.display = 'none';
+                                        document.getElementById('critical-error').replaceWith(render(templates.CRITICAL_ERROR()));
+                                        document.getElementById('critical-error').style.display = 'flex';
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ));
+            break;
+        }
+        default: break;
+    }
 }
 
 let windowZIndex = 2;

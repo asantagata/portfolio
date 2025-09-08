@@ -132,7 +132,6 @@ body::after {
     flex-shrink: 0;
     display: flex;
     align-items: stretch;
-    gap: 1ch;
 }
 
 #footer:hover {
@@ -215,6 +214,11 @@ body::after {
 .bottom-left::after {
     content: '';
     animation: ellipsis 2s linear infinite;
+}
+
+.ellipsis::after {
+    content: '';
+    animation: ellipsis 0.6s linear infinite;
 }
 
 @keyframes ellipsis {
@@ -430,6 +434,7 @@ input[readonly] {
     --green: #3fb864;
     --yellow: #dfa90e;
     --red: #ea5155;
+    --blue: #3f86b8;
 }
 
 .circular-button.toggle { --color: var(--green); }
@@ -547,6 +552,7 @@ input[type=checkbox] {
     --green: #00f448;
     --yellow: #fac053;
     --red: #ea294c;
+    --blue: #245ae1;
 }
 
 .hacker-theme input[type=checkbox], .hacker-theme input[type=radio] {
@@ -577,6 +583,8 @@ input[type=checkbox] {
 .glass-theme .window .window-dark {
     --normal: rgba(240, 153, 192, 0.5);
     --shimmer: rgba(240, 163, 198, 0.67);
+    --outline: rgba(240, 173, 203, 0.74);
+    border: 2px solid var(--outline);
     background: linear-gradient(-45deg, var(--normal), var(--normal) 35%, var(--shimmer) 50%, var(--normal) 65%);
 }
 
@@ -592,6 +600,7 @@ input[type=checkbox] {
     --green: #81e19d;
     --yellow: #ffd97f;
     --red: #e45b79;
+    --blue: #81b1e1;
 }
 
 .close-all {
@@ -619,6 +628,7 @@ input[type=checkbox] {
 #footer-details > * {
     border-radius: 0.5ch;
     transition: background 0.2s ease-in-out;
+    padding: 0 1ch;
 }
 
 #footer-details > *:not(.close-all):hover {
@@ -633,8 +643,37 @@ input[type=checkbox] {
     padding: 1ch;
     border-radius: 1ch;
     margin: 1ch;
-    background: #fff2;
+    background: #00002244;
     transform-style: flat;
     backdrop-filter: blur(4px);
+    transition: background 0.2s ease-in-out;
 }
+
+#infocard:hover {
+    background: #00002266;
+}
+
+.small {font-size: small;}
+.detail {opacity: 0.8;}
+
+.infocard-button {
+    background: #9c9cb645;
+    border-radius: 1ch;
+    cursor: pointer;
+    transition: background 0.2s ease-in-out;
+}
+
+.infocard-button:hover {
+    background: #9c9cb666;
+}
+
+#critical-error {
+    display: none;
+    background: #f001;
+}
+
+.red {color: var(--red)}
+.yellow {color: var(--yellow)}
+.green {color: var(--green)}
+.blue {color: var(--blue)}
 
