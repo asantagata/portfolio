@@ -404,11 +404,13 @@ input[readonly] {
 
 .window-body {
     flex-grow: 1;
+    overflow: auto;
 }
 
 .window-body > * {
     height: 100%;
     width: 100%;
+    overflow: auto;
 }
 
 .circular-button {
@@ -435,6 +437,8 @@ input[readonly] {
     --yellow: #dfa90e;
     --red: #ea5155;
     --blue: #3f86b8;
+    --lightgrey: #D3C9DF;
+    --outline: #827C8A;
 }
 
 .circular-button.toggle { --color: var(--green); }
@@ -455,8 +459,8 @@ input {
 input[type=checkbox], input[type=radio] {
     width: 1ch;
     aspect-ratio: 1 / 1;
-    background: #100b1510;
-    outline: 1px solid #100b1590;
+    background: var(--lightgrey);
+    outline: 1px solid var(--outline);
 }
 
 input[type=radio] {
@@ -553,25 +557,17 @@ input[type=checkbox] {
     --yellow: #fac053;
     --red: #ea294c;
     --blue: #245ae1;
+    --lightgrey: #0d2520;
+    --outline: #145c51;
 }
 
 .hacker-theme input[type=checkbox], .hacker-theme input[type=radio] {
-    outline: 1px solid #18e4c940;
     border-radius: 0;
 }
 
-.glass-theme input[type=checkbox], .glass-theme input[type=radio] {
-    outline: 1px solid rgb(255, 183, 213, 0.6);
-}
-
-.glass-theme input[type=checkbox]:not(:checked), .glass-theme input[type=radio]:not(:checked) {
-    background: rgba(240, 153, 192, 0.3);
-}
-
 .glass-theme .window.mini .window-light, .glass-theme .window.mini .window-dark {
-    margin-top: 1ch;
-    margin-bottom: 1ch;
-    padding-bottom: 0;
+    height: calc(100% - 1ch);
+    transform: translateY(1ch);
 }
 
 .glass-theme .window-heading, .glass-theme .window-light, .glass-theme .window-dark {
@@ -583,8 +579,8 @@ input[type=checkbox] {
 .glass-theme .window .window-dark {
     --normal: rgba(240, 153, 192, 0.5);
     --shimmer: rgba(240, 163, 198, 0.67);
-    --outline: rgba(240, 173, 203, 0.74);
-    border: 2px solid var(--outline);
+    --window-outline: rgba(240, 173, 203, 0.74);
+    border: 2px solid var(--window-outline);
     background: linear-gradient(-45deg, var(--normal), var(--normal) 35%, var(--shimmer) 50%, var(--normal) 65%);
 }
 
@@ -596,11 +592,17 @@ input[type=checkbox] {
     border-radius: 1ch;
 }
 
+.glass-theme .window.fullscreen .window-heading, .glass-theme .window.fullscreen .window-light, .glass-theme .window.fullscreen .window-dark {
+    border-radius: 0.25ch;
+}
+
 #viewport.glass-theme {
     --green: #81e19d;
     --yellow: #ffd97f;
     --red: #e45b79;
     --blue: #81b1e1;
+    --lightgrey: rgba(240, 163, 198, 0.5);
+    --outline: #e4aedf;
 }
 
 .close-all {
@@ -677,3 +679,30 @@ input[type=checkbox] {
 .green {color: var(--green)}
 .blue {color: var(--blue)}
 
+.wiki p {
+    margin: 1em auto;
+}
+
+.wiki p:nth-child(2) {margin-top: 1ch;}
+.wiki p:last-child {margin-bottom: 1ch;}
+.wiki {padding: 0 1ch;}
+
+.fullscreen .wiki {
+    margin: 0 10%;
+}
+
+.infobox {
+    background: var(--lightgrey);
+    float: right;
+    width: max(30%, 20ch);
+    margin: 0 1ch;
+    border: 1px solid var(--outline);
+}
+
+.infobox td {
+    vertical-align: top;
+}
+
+h2 {
+    font-size: x-large;
+}

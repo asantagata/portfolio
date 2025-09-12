@@ -21,7 +21,8 @@ const applications = {
 const applicationTemplates = {
     [applicationTypes.BROWSER]: () => {
         return {
-            children: ['wiki page, etc']
+            className: 'window-light padded',
+            innerHTML: document.getElementById('wiki-template').innerHTML
         }
     },
     [applicationTypes.FILES]: () => {
