@@ -1,3 +1,111 @@
+const parseTerminalInstruction = (inst) => {
+    const casedCommand = inst.split(' ')[0];
+    const command = casedCommand.toLowerCase();
+    switch (command) {
+        case 'help':
+            return {
+                children: [
+                    {
+                        children: [`You are accessing PortfoliOS's command-line interface (CLI.)`]
+                    },
+                    {
+                        children: [`Refer to the following list for help writing commands.`]
+                    },
+                    {
+                        tag: 'table',
+                        children: [
+                            {
+                                tag: 'tbody',
+                                children: [
+                                    {name: 'Name', desc: 'Description'},
+                                    {name: 'help', desc: 'View this very menu'},
+                                    {name: '...', desc: '...'}
+                                ].map(c => {
+                                    return {
+                                        tag: 'tr',
+                                        children: [
+                                            {
+                                                tag: 'td',
+                                                children: [c.name]
+                                            },
+                                            {
+                                                tag: 'td',
+                                                children: [c.desc]
+                                            }
+                                        ]
+                                    };
+                                })
+                            }
+                        ]
+                    }
+                ]
+            };
+        default:
+            return {
+                className: 'red',
+                children: [`"${casedCommand}" is not a valid command. Type "help" for help.`]
+            };
+    }
+}
+
+const appAuxTemplates = {
+    TRANSMISSION: (PID) => {
+        return {
+            className: 'transmission-wrapper',
+            children:
+                [
+                    {
+                    className: 'transmission',
+                    children: [
+                        {
+                            tag: 'span',
+                            className: 'transmission-prefix',
+                            children: [
+                                {tag: 'span', className: 'green', children: ['Alex@PortfoliOS']},
+                                ':',
+                                {tag: 'span', className: 'blue', children: ['Desktop']},
+                                ' $'
+                            ]
+                        },
+                        {
+                            tag: 'span',
+                            className: 'transmission-editable',
+                            contenteditable: 'plaintext-only',
+                            spellcheck: 'false',
+                            listeners: [
+                                {
+                                    type: 'click',
+                                    listener: e => e.stopPropagation()
+                                },
+                                {
+                                    type: 'keydown',
+                                    listener: (e) => {
+                                        if (e.key === 'Enter' && !e.shiftKey) {
+                                            e.preventDefault();
+                                            const transmission = document.querySelector(`#terminal-${PID} .transmission-wrapper:last-child`);
+                                            transmission.children[0].children[1].setAttribute('contenteditable', 'false');
+                                            transmission.children[1].replaceChildren(render(parseTerminalInstruction(transmission.children[0].children[1].innerText)));
+        
+                                            const terminal = document.getElementById(`terminal-${PID}`);
+                                            terminal.appendChild(render(appAuxTemplates.TRANSMISSION(PID)));
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    ],
+                    onMount: () => {
+                        document.querySelector(`#terminal-${PID} .transmission-wrapper:last-child .transmission-editable`).focus();
+                    }
+                },
+                {
+                    className: 'answer',
+                }
+            ]
+        };
+    }
+}
+
 const applicationTypes = {
     BROWSER: 'browser',
     FILES: 'files',
@@ -30,11 +138,20 @@ const applicationTemplates = {
             children: ['files, etc']
         }
     },
-    [applicationTypes.TERMINAL]: () => {
+    [applicationTypes.TERMINAL]: (PID) => {
         return {
             className: 'window-dark padded',
+            id: `terminal-${PID}`,
             children: [
-                'userr $'
+                appAuxTemplates.TRANSMISSION(PID)
+            ],
+            listeners: [
+                {
+                    type: 'click',
+                    listener: () => {
+                        document.querySelector(`#terminal-${PID} .transmission-wrapper:last-child .transmission-editable`).focus();
+                    }
+                }
             ]
         }
     },
