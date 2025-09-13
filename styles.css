@@ -304,7 +304,6 @@ input[readonly] {
 
 .desktop-icon {
     text-align: center;
-    cursor: default;
     aspect-ratio: 1 / 1;
     position: absolute;
     width: calc(100% / 16);
@@ -313,11 +312,21 @@ input[readonly] {
     display: flex;
 }
 
-.desktop-icon-name {
+.recyclables {
+    display: flex;
+}
+
+.recyclable {
+    width: calc(100dvw / 16);
+    height: calc(100dvh / 8);
+    text-align: center;
+}
+
+.desktop-icon-name, .recyclable-label {
     flex-shrink: 0;
 }
 
-.desktop-icon-icon {
+.desktop-icon-icon, .recyclable-icon {
     line-height: 1;
     display: flex;
     align-items: center;
@@ -702,6 +711,18 @@ input[type=checkbox] {
 
 .fullscreen .wiki {
     margin: 0 10%;
+}
+
+.outlined {
+    border: 1px solid var(--outline);
+}
+
+.lightgrey {
+    background: var(--lightgrey);
+}
+
+.rounded {
+    border-radius: 1ch;
 }
 
 .infobox {

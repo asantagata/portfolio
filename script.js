@@ -135,7 +135,35 @@ const applicationTemplates = {
     },
     [applicationTypes.FILES]: () => {
         return {
-            children: ['files, etc']
+            className: 'window-light padded',
+            children: [
+                {
+                    className: 'padded lightgrey outlined rounded',
+                    children: ['~/Recycling Bin']
+                },
+                {
+                    className: 'recyclables padded',
+                    children: [
+                        {icon: '📦', name: 'Cardboard box'},
+                        {icon: '🥫', name: 'Tin can'},
+                        {icon: '📰', name: 'Newspaper'}
+                    ].map(recyclable => {
+                        return {
+                            className: 'recyclable center',
+                            children: [
+                                {
+                                    className: 'recyclable-icon',
+                                    children: [recyclable.icon]
+                                },
+                                {
+                                    className: 'recyclable-label',
+                                    children: [recyclable.name]
+                                }
+                            ]
+                        }
+                    })
+                }
+            ]
         }
     },
     [applicationTypes.TERMINAL]: (PID) => {
