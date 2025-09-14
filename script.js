@@ -209,7 +209,7 @@ const applicationTemplates = {
             children: [
                 {
                     className: 'padded lightgrey outlined rounded',
-                    children: ['~/Recycling Bin']
+                    children: ['~/Recycle Bin']
                 },
                 {
                     className: 'recyclables padded',
