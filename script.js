@@ -127,13 +127,83 @@ const applications = {
 }
 
 const applicationTemplates = {
+    [applicationTypes.CHAT]: () => {
+        return {
+            className: 'window-light padded',
+            children: [
+                {
+                    className: 'center',
+                    children: [
+                        {innerHTML: SVGs.user},
+                        'Alex Santagata'
+                    ]
+                },
+                {
+                    style: 'border-top: 2px solid var(--outline); margin-bottom: 1ch'
+                },
+                {
+                    className: 'messages',
+                    children:
+                    [
+                        `Hi, you've reached Alex Santagata.`,
+                        `It looks like I'm not available to reply right now.`,
+                        `To reach out, please contact me via one of the following:`,
+                        {
+                            children: [
+                                `✉️: `,
+                                {
+                                    tag: 'a',
+                                    href: 'mailto:ajsantagata@wpi.edu',
+                                    children: ['ajsantagata@wpi.edu']
+                                }
+                            ]
+                        },
+                        {
+                            children: [
+                                {
+                                    tag: 'span',
+                                    className: 'blue svg-container',
+                                    innerHTML: SVGs.linkedin
+                                },
+                                ': ',
+                                {
+                                    tag: 'a',
+                                    href: 'https://www.linkedin.com/in/alex-santagata/',
+                                    children: ['alex-santagata']
+                                }
+                            ]
+                        },
+                        {
+                            children: [
+                                {
+                                    className: 'svg-container',
+                                    innerHTML: SVGs.github
+                                },
+                                ': ',
+                                {
+                                    tag: 'a',
+                                    href: 'https://github.com/asantagata',
+                                    children: ['asantagata']
+                                }
+                            ]
+                        }
+                    ].map(message => {
+                        return {
+                            className: 'message lightgrey rounded',
+                            children: [message]
+                        }
+                    })
+                }
+            ]
+        }
+    },
     [applicationTypes.BROWSER]: () => {
         return {
             className: 'window-light padded',
             innerHTML: document.getElementById('wiki-template').innerHTML
         }
     },
-    [applicationTypes.FILES]: () => {
+    [applicationTypes.RECYCLE]: () => {
         return {
             className: 'window-light padded',
             children: [
@@ -274,12 +344,12 @@ const applicationTemplates = {
     }
 }
 
-const launch = (launchType, data) => {
+const launch = (launchType) => {
     const PID = nProcesses++;
     const application = applications[launchType]
     document.getElementById('footer-entries').appendChild(render(templates.FOOTER_ENTRY(launchType, PID, true)));
     document.getElementById('arena').appendChild(render({
-        ...templates.WINDOW(PID, application.name, applicationTemplates[launchType](PID, data), launchType),
+        ...templates.WINDOW(PID, application.name, applicationTemplates[launchType](PID), launchType),
     }));
 }
 
@@ -288,7 +358,9 @@ const SVGs = {
     right: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right-icon lucide-arrow-right"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>',
     battery: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-battery-medium-icon lucide-battery-medium"><path d="M10 14v-4"/><path d="M22 14v-4"/><path d="M6 14v-4"/><rect x="2" y="6" width="16" height="12" rx="2"/></svg>',
     weather: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-cloud-sun-rain-icon lucide-cloud-sun-rain"><path d="M12 2v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="M20 12h2"/><path d="m19.07 4.93-1.41 1.41"/><path d="M15.947 12.65a4 4 0 0 0-5.925-4.128"/><path d="M3 20a5 5 0 1 1 8.9-4H13a3 3 0 0 1 2 5.24"/><path d="M11 20v2"/><path d="M7 19v2"/></svg>',
-    wifi: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-wifi-icon lucide-wifi"><path d="M12 20h.01"/><path d="M2 8.82a15 15 0 0 1 20 0"/><path d="M5 12.859a10 10 0 0 1 14 0"/><path d="M8.5 16.429a5 5 0 0 1 7 0"/></svg>'
+    wifi: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-wifi-icon lucide-wifi"><path d="M12 20h.01"/><path d="M2 8.82a15 15 0 0 1 20 0"/><path d="M5 12.859a10 10 0 0 1 14 0"/><path d="M8.5 16.429a5 5 0 0 1 7 0"/></svg>',
+    linkedin: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-linkedin-icon lucide-linkedin"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>',
+    github: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-github-icon lucide-github"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>'
 }
 
 const componentTemplates = {
@@ -589,19 +661,19 @@ const templates = {
             index: icon.index,
             children: [
                 {
-                    className: `desktop-icon-icon ${icon.displayType}-icon`,
-                    children: [applications[icon.displayType].icon]
+                    className: `desktop-icon-icon ${icon.type}-icon`,
+                    children: [applications[icon.type].icon]
                 },
                 {
                     className: `desktop-icon-name`,
-                    children: [applications[icon.displayType].name]
+                    children: [applications[icon.type].name]
                 }
             ],
             listeners: [
                 {
                     type: 'dblclick',
                     listener: () => {
-                        launch(icon.launchType, icon.launchData);
+                        launch(icon.type);
                     }
                 },
                 {
@@ -757,6 +829,9 @@ const render = (template) => {
         return document.createTextNode(template);
     }
     const element = document.createElement(template.tag || 'div');
+    if (template.tag === 'a') {
+        element.setAttribute('target', '_blank');
+    }
     if (template.className && template.className.length > 0) {
         element.className = template.className;
     }
@@ -785,18 +860,6 @@ const render = (template) => {
         }
     }
     return element;
-}
-
-let nProcesses = 0;
-let desktop = {
-    icons: [
-        {index: 0, displayType: applicationTypes.BROWSER, launchType: applicationTypes.BROWSER, launchData: null},
-        {index: 112, displayType: applicationTypes.SETTINGS, launchType: applicationTypes.SETTINGS, launchData: null},
-        {index: 126, displayType: applicationTypes.TERMINAL, launchType: applicationTypes.TERMINAL, launchData: null},
-        {index: 127, displayType: applicationTypes.RECYCLE, launchType: applicationTypes.FILES, launchData: '/recycle'}
-    ],
-    theme: 'Default',
-    retro: true
 }
 
 let globalWindowDragInfo = null;
@@ -940,5 +1003,18 @@ const summonInfoCard = (e, type) => {
 }
 
 let windowZIndex = 2;
+
+let nProcesses = 0;
+let desktop = {
+    icons: [
+        {index: 0, type: applicationTypes.BROWSER},
+        {index: 112, type: applicationTypes.SETTINGS},
+        {index: 126, type: applicationTypes.TERMINAL},
+        {index: 127, type: applicationTypes.RECYCLE},
+        {index: 16, type: applicationTypes.CHAT}
+    ],
+    theme: 'Default',
+    retro: true
+}
 
 document.getElementById('viewport').replaceChildren(render(templates.DESKTOP_WRAPPER(desktop)));

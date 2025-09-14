@@ -458,6 +458,7 @@ input[readonly] {
     --blue: #3f86b8;
     --lightgrey: #D3C9DF;
     --outline: #827C8A;
+    --gentle: #827C8A;
 }
 
 .circular-button.toggle { --color: var(--green); }
@@ -578,6 +579,7 @@ input[type=checkbox] {
     --blue: #38b9f8;
     --lightgrey: #0d2520;
     --outline: #145c51;
+    --gentle: #145c51;
 }
 
 .hacker-theme input[type=checkbox], .hacker-theme input[type=radio] {
@@ -621,7 +623,8 @@ input[type=checkbox] {
     --red: #e45b79;
     --blue: #9eceff;
     --lightgrey: rgba(240, 163, 198, 0.5);
-    --outline: #e4aedf;
+    --outline: rgba(240, 173, 203, 0.74);
+    --gentle: #ffd7f4;
 }
 
 .close-all {
@@ -699,7 +702,7 @@ input[type=checkbox] {
 }
 .yellow {color: var(--yellow)}
 .green {color: var(--green)}
-.blue {color: var(--blue)}
+.blue, a, a:visited {color: var(--blue)}
 
 .wiki p {
     margin: 1em auto;
@@ -794,4 +797,77 @@ transmission * {
     border-collapse: collapse;
     border-spacing: 0;
     box-sizing: border-box;
+}
+
+.messages {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+}
+
+@keyframes ellipsis3 {
+    0% {content: '.'}
+    33% {content: '..'}
+    67% {content: '...'}
+}
+
+@keyframes hideellipsis {
+    0% {height: fit-content; padding: 1ch;}
+    100% {height: 0; padding: 0;}
+}
+
+.messages::after {
+    content: '.';
+    animation: ellipsis3 2s linear 5 -1s, hideellipsis 0.2s ease-in-out forwards var(--max-msgdelay);
+    background: var(--lightgrey);
+    border-radius: 1ch;
+    padding: 1ch;
+    border-bottom-left-radius: 0;
+    opacity: 0.8;
+    width: 3ch;
+    overflow: hidden;
+    color: var(--gentle);
+}
+
+.message {
+    animation: appear 0.2s ease-in-out forwards;
+    animation-delay: var(--msgdelay);
+    opacity: 0;
+    border-bottom-left-radius: 0;
+    width: fit-content;
+    display: block;
+    overflow: hidden;
+    height: 0;
+    margin-bottom: 0;
+    padding: 0;
+}
+
+.message:last-child {
+    animation: appear-nomargin 0.2s ease-in-out forwards;
+    animation-delay: var(--msgdelay);
+}
+
+.message:nth-child(1) {--msgdelay: 1s}
+.message:nth-child(2) {--msgdelay: 2.5s}
+.message:nth-child(3) {--msgdelay: 4s}
+.message:nth-child(4) {--msgdelay: 4.5s}
+.message:nth-child(5) {--msgdelay: 4.6s}
+.message:nth-child(6) {--msgdelay: 4.7s}
+.messages::after {--max-msgdelay: 4.7s}
+
+@keyframes appear {
+    0% {height: 0; opacity: 0; margin-bottom: 0; padding: 0;}
+    100% {height: fit-content; opacity: 1; margin-bottom: 1ch; padding: 1ch;}
+}
+
+@keyframes appear-nomargin {
+    0% {height: 0; opacity: 0; padding: 0;}
+    100% {height: fit-content; opacity: 1; padding: 1ch;}
+}
+
+.svg-container {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    vertical-align: middle;
 }
