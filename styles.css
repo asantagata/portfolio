@@ -806,9 +806,10 @@ transmission * {
 }
 
 @keyframes ellipsis3 {
-    0% {content: '.'}
-    33% {content: '..'}
-    67% {content: '...'}
+    0% {content: '...'}
+    33% {content: '.'}
+    67% {content: '..'}
+    100% {content: '...'}
 }
 
 @keyframes hideellipsis {
@@ -848,12 +849,12 @@ transmission * {
 }
 
 .message:nth-child(1) {--msgdelay: 1s}
-.message:nth-child(2) {--msgdelay: 2.5s}
-.message:nth-child(3) {--msgdelay: 4s}
-.message:nth-child(4) {--msgdelay: 4.5s}
-.message:nth-child(5) {--msgdelay: 4.6s}
-.message:nth-child(6) {--msgdelay: 4.7s}
-.messages::after {--max-msgdelay: 4.7s}
+.message:nth-child(2) {--msgdelay: 3s}
+.message:nth-child(3) {--msgdelay: 5s}
+.message:nth-child(4) {--msgdelay: 5.5s}
+.message:nth-child(5) {--msgdelay: 5.6s}
+.message:nth-child(6) {--msgdelay: 5.7s}
+.messages::after {--max-msgdelay: 5.7s}
 
 @keyframes appear {
     0% {height: 0; opacity: 0; margin-bottom: 0; padding: 0;}
