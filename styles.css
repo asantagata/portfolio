@@ -8,6 +8,7 @@
     font-size: large;
     transform-style: preserve-3d;
     user-select: none;
+    transform-origin: center center;
 }
 
 .retro * {
@@ -499,6 +500,7 @@ input[type=checkbox] {
 .default-theme .window-heading {
     background: linear-gradient(to bottom, #eee, #bbb);
     border: 1px solid #0001;
+    border-bottom-width: 0;
     color: black;
 }
 
@@ -871,4 +873,124 @@ transmission * {
     align-items: center;
     justify-content: center;
     vertical-align: middle;
+}
+
+.gamebox-wrapper {
+    --diffwidth: calc(var(--maxwidth) - var(--minwidth));
+    --width: calc(var(--minwidth) + var(--percent) * var(--diffwidth));
+    --halfwidth: calc(var(--width) / 2);
+    --height: 3em;
+    --halfheight: calc(var(--height) / 2);
+    --pace: 30s;
+    width: 0;
+    transform-origin: calc(var(--rotmaxwidth) / 2);
+    height: calc(var(--height) + 1px);
+    transform: rotate3d(1, 0, 0, 10deg);
+    --adelay: calc(var(--percent) * -71.5s);
+    animation: spin var(--pace) linear infinite var(--adelay);
+}
+
+.gamebox-stack {
+    --minwidth: 10ch;
+    --maxwidth: 16ch;
+    --rotmaxwidth: calc(var(--maxwidth) * sqrt(2));
+    transform: translateY(calc(var(--minwidth) * sin(10deg) / (2 * cos(45deg))));
+    width: var(--rotmaxwidth);
+}
+
+.gamebox {
+    position: relative;
+    transform: translateX(calc((var(--rotmaxwidth) - var(--width)) / 2));
+}
+
+@keyframes spin {
+    0% {transform: rotate3d(1, 0, 0, -10deg) rotate3d(0, 1, 0, 0deg)}
+    100% {transform: rotate3d(1, 0, 0, -10deg) rotate3d(0, 1, 0, 360deg)}
+}
+
+.gamebox-tile, .gamebox-lid {
+    background: var(--color);
+    position: absolute;
+    overflow: hidden;
+    padding: 1ch;
+    cursor: pointer;
+    border: 1px solid #0000;
+    color: white;
+    display: flex;
+    align-items: center;
+}
+
+.gamebox:hover .gamebox-tile, .gamebox:hover .gamebox-lid {
+    outline: 1px solid #fffa;
+    border: 1px solid #fff;
+}
+
+.gamebox-tile {
+    height: var(--height);
+    width: var(--width);
+    animation: tilebrightness var(--pace) linear infinite;
+    gap: 1ch;
+}
+
+.gamebox-name {
+    font-size: small;
+}
+
+@keyframes tilebrightness {
+    0% {filter: brightness(0.9)}
+    50% {filter: brightness(0.4)}
+    100% {filter: brightness(0.9)}
+}
+
+.gamebox-tile:nth-child(1) {
+    transform:
+        rotate3d(0, 1, 0, 0deg)
+        translate3d(0, 0, var(--halfwidth));
+    animation-delay: calc(var(--adelay));
+}
+
+.gamebox-tile:nth-child(2) {
+    transform:
+        rotate3d(0, 1, 0, 90deg)
+        translate3d(0, 0, var(--halfwidth));
+    animation-delay: calc(var(--adelay) + var(--pace) / -4);
+}
+
+.gamebox-tile:nth-child(3) {
+    transform:
+        rotate3d(0, 1, 0, 180deg)
+        translate3d(0, 0, var(--halfwidth));
+    animation-delay: calc(var(--adelay) + var(--pace) / -2);
+}
+
+.gamebox-tile:nth-child(4) {
+    transform:
+        rotate3d(0, 1, 0, 270deg)
+        translate3d(0, 0, var(--halfwidth));
+    animation-delay: calc(var(--adelay) + var(--pace) * -3 / 4);
+}
+
+.gamebox-lid {
+    width: var(--width);
+    height: var(--width);
+    transform-origin: 0 0;
+    transform: translate3d(0, 0, calc(-1 * var(--halfwidth))) rotate3d(1, 0, 0, 90deg);
+    justify-content: center;
+    flex-direction: column;
+}
+
+.gamebox.trio {
+    --color: #cd3ba4;
+}
+
+.gamebox.flip7 {
+    --color: #20b3ff;
+}
+
+.gamebox.onuw {
+    --color: #d66935;
+}
+
+.gamebox.wandy {
+    --color: #35b8a4;
 }

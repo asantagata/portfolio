@@ -48,6 +48,13 @@ const parseTerminalInstruction = (inst) => {
     }
 }
 
+const GAMES = [
+    {name: 'Trio', icon: '3️⃣', className: 'trio'},
+    {name: 'Flip 7', icon: '🎴', className: 'flip7'},
+    {name: 'One Night Ultimate Werewolf', icon: '🐺', className: 'onuw'},
+    {name: 'Wandering Towers', icon: '🏯', className: 'wandy'},
+]
+
 const appAuxTemplates = {
     TRANSMISSION: (PID) => {
         return {
@@ -103,6 +110,33 @@ const appAuxTemplates = {
                 }
             ]
         };
+    },
+    GAMEBOX: (game, percent) => {
+        return {
+            className: `gamebox-wrapper`,
+            style: `--percent: ${percent}`,
+            children: [
+                {
+                    className: `gamebox ${game.className}`,
+                    children: [
+                        ...(new Array(4).fill({
+                            className: `gamebox-tile`,
+                            children: [
+                                {className: 'gamebox-icon', children: [game.icon]},
+                                {className: 'gamebox-name', children: [game.name]}
+                            ]
+                        })),
+                        {
+                            className: `gamebox-lid`,
+                            children: [
+                                {className: 'gamebox-icon', children: [game.icon]},
+                                {className: 'gamebox-name', children: [game.name]}
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
     }
 }
 
@@ -113,7 +147,9 @@ const applicationTypes = {
     SETTINGS: 'settings',
     TEXT: 'text',
     CHAT: 'chat',
-    RECYCLE: 'recycle'
+    RECYCLE: 'recycle',
+    GAMES: 'games',
+    WORK: 'work'
 }
 
 const applications = {
@@ -123,10 +159,28 @@ const applications = {
     [applicationTypes.SETTINGS]: {name: 'Settings', icon: '⚙️'},
     [applicationTypes.TEXT]: {name: 'Text Editor', icon: '📄'},
     [applicationTypes.CHAT]: {name: 'Chat', icon: '💬'},
-    [applicationTypes.RECYCLE]: {name: 'Recycle Bin', icon: '🗑️'}
+    [applicationTypes.RECYCLE]: {name: 'Recycle Bin', icon: '🗑️'},
+    [applicationTypes.GAMES]: {name: 'Games', icon: '🎮'},
+    [applicationTypes.WORK]: {name: 'Work', icon: '💼'}
 }
 
 const applicationTemplates = {
+    [applicationTypes.WORK]: () => {
+        return {
+            className: 'window-light padded'
+        }
+    },
+    [applicationTypes.GAMES]: () => {
+        return {
+            className: 'window-light padded',
+            children: [
+                {
+                    className: 'gamebox-stack',
+                    children: GAMES.map((game, index) => appAuxTemplates.GAMEBOX(game, index / (GAMES.length - 1)))
+                }
+            ]
+        }
+    },
     [applicationTypes.CHAT]: () => {
         return {
             className: 'window-light padded',
@@ -207,10 +261,6 @@ const applicationTemplates = {
         return {
             className: 'window-light padded',
             children: [
-                {
-                    className: 'padded lightgrey outlined rounded',
-                    children: ['~/Recycle Bin']
-                },
                 {
                     className: 'recyclables padded',
                     children: [
@@ -743,7 +793,8 @@ const templates = {
                                 [
                                     {
                                         className: 'toggle',
-                                        listener: () => {
+                                        listener: (e) => {
+                                            e.stopPropagation();
                                             const element = getWindowElementByPID(PID);
                                             if (element.classList.contains('fullscreen')) {
                                                 element.classList.remove('fullscreen');
@@ -760,14 +811,16 @@ const templates = {
                                     },
                                     {
                                         className: 'min',
-                                        listener: () => {
+                                        listener: (e) => {
+                                            e.stopPropagation();
                                             getWindowElementByPID(PID).style.display = 'none';
                                             getFooterEntryByPID(PID).classList.remove('open');
                                         }
                                     },
                                     {
                                         className: 'close',
-                                        listener: () => {
+                                        listener: (e) => {
+                                            e.stopPropagation();
                                             getWindowElementByPID(PID).remove();
                                             getFooterEntryByPID(PID).remove();
                                         }
@@ -790,7 +843,12 @@ const templates = {
                         {
                             type: 'mousedown',
                             listener: (e) => {
-                                globalWindowDragInfo = {pid: PID, x0: e.clientX, y0: e.clientY, dx: 0, dy: 0}
+                                const windowRect = getWindowElementByPID(PID).getBoundingClientRect();
+                                globalWindowDragInfo = {
+                                    pid: PID,
+                                    x0: e.clientX - windowRect.x,
+                                    y0: e.clientY - windowRect.y
+                                }
                             }
                         }
                     ]
@@ -867,29 +925,18 @@ const handleWindowDrag = (e) => {
     if (globalWindowDragInfo) {
         const element = getWindowElementByPID(globalWindowDragInfo.pid);
         const x = e.clientX, y = e.clientY;
-        const dx = x - globalWindowDragInfo.x0, dy = y - globalWindowDragInfo.y0;
-        globalWindowDragInfo.dx = dx;
-        globalWindowDragInfo.dy = dy;
+        const arenaRect = document.getElementById('arena').getBoundingClientRect();
+        element.style.left = `${x - arenaRect.x - globalWindowDragInfo.x0}px`;
+        element.style.top = `${y - arenaRect.y - globalWindowDragInfo.y0}px`;
         if (element.classList.contains('fullscreen')) {
             element.classList.remove('fullscreen');
             element.classList.add('mini');
-            const arenaRect = document.getElementById('arena').getBoundingClientRect();
-            element.style.left = `calc(${x - arenaRect.x}px - 25%)`;
-            element.style.top = `calc(${y - arenaRect.y}px - 0.5em)`;
-        } else {
-            element.style.transform = `translate(${dx}px, ${dy}px)`;
         }
     }
 }
 
 const handleEndDrag = () => {
     if (globalWindowDragInfo) {
-        const element = getWindowElementByPID(globalWindowDragInfo.pid);
-        const rect = element.getBoundingClientRect();
-        const arenaRect = document.getElementById('arena').getBoundingClientRect();
-        element.style.left = `${rect.x - arenaRect.x}px`;
-        element.style.top = `${rect.y - arenaRect.y}px`;
-        element.style.transform = 'none';
         globalWindowDragInfo = null;
     }
 }
@@ -1011,7 +1058,9 @@ let desktop = {
         {index: 112, type: applicationTypes.SETTINGS},
         {index: 126, type: applicationTypes.TERMINAL},
         {index: 127, type: applicationTypes.RECYCLE},
-        {index: 16, type: applicationTypes.CHAT}
+        {index: 16, type: applicationTypes.CHAT},
+        {index: 14, type: applicationTypes.GAMES},
+        {index: 15, type: applicationTypes.WORK}
     ],
     theme: 'Default',
     retro: true
