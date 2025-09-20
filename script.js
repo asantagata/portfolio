@@ -215,11 +215,14 @@ const applicationTemplates = {
                     ]
                 },
                 {
-                    className: 'game-blurb margin-auto',
-                    id: `game-blurb-${PID}`,
+                    className: 'game-blurb-wrapper',
                     children: {
-                        className: 'center text-center gentle',
-                        children: 'Select a game...'
+                        className: 'game-blurb margin-auto',
+                        id: `game-blurb-${PID}`,
+                        children: {
+                            className: 'center text-center gentle',
+                            children: 'Select a game...'
+                        }
                     }
                 }
             ]

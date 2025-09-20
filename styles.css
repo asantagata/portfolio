@@ -1033,8 +1033,16 @@ transmission * {
     border-color: #fff;
 }
 
-.game-blurb {
+.game-blurb-wrapper {
     flex-grow: 1;
+    height: 100%;
+    display: flex;
+}
+
+.game-blurb {
+    width: 100%;
+    max-height: 100%;
+    overflow: auto;
 }
 
 .flex {
