@@ -49,7 +49,6 @@ const parseTerminalInstruction = (inst) => {
 }
 
 const GAMES = [
-    {name: 'Trio', icon: '3️⃣', className: 'trio'},
     {name: 'Flip 7', icon: '🎴', className: 'flip7'},
     {name: 'One Night Ultimate Werewolf', icon: '🐺', className: 'onuw'},
     {name: 'Wandering Towers', icon: '🏯', className: 'wandy'},
@@ -111,10 +110,11 @@ const appAuxTemplates = {
             ]
         };
     },
-    GAMEBOX: (game, percent) => {
+    GAMEBOX: (PID, game, percent) => {
         return {
             className: `gamebox-wrapper`,
             style: `--percent: ${percent}`,
+            id: `gamebox-${PID}-${game.className}`,
             children: [
                 {
                     className: `gamebox ${game.className}`,
@@ -128,12 +128,25 @@ const appAuxTemplates = {
                         })),
                         {
                             className: `gamebox-lid`,
-                            children: [
+                            children: percent === 0 ? [
                                 {className: 'gamebox-icon', children: [game.icon]},
                                 {className: 'gamebox-name', children: [game.name]}
-                            ]
+                            ] : []
                         }
                     ]
+                }
+            ],
+            listeners: [
+                {
+                    type: 'click',
+                    listener: () => {
+                        getWindowElementByPID(PID).querySelector('.gamebox-wrapper.selected')?.classList.remove('selected');
+                        document.getElementById(`gamebox-${PID}-${game.className}`).classList.add('selected');
+                        document.getElementById(`game-blurb-${PID}`).replaceChildren(render({
+                            className: 'center',
+                            children: [game.name]
+                        }));
+                    }
                 }
             ]
         }
@@ -170,13 +183,21 @@ const applicationTemplates = {
             className: 'window-light padded'
         }
     },
-    [applicationTypes.GAMES]: () => {
+    [applicationTypes.GAMES]: (PID) => {
         return {
-            className: 'window-light padded',
+            className: 'window-light padded center-row gap',
             children: [
                 {
                     className: 'gamebox-stack',
-                    children: GAMES.map((game, index) => appAuxTemplates.GAMEBOX(game, index / (GAMES.length - 1)))
+                    children: GAMES.map((game, index) => appAuxTemplates.GAMEBOX(PID, game, index / (GAMES.length - 1)))
+                },
+                {
+                    className: 'game-blurb',
+                    id: `game-blurb-${PID}`,
+                    children: [{
+                        className: 'center outlined-color',
+                        children: ['Select a game...']
+                    }]
                 }
             ]
         }

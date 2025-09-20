@@ -372,6 +372,7 @@ input[readonly] {
     position: fixed;
     display: flex;
     flex-direction: column;
+    transform-style: flat;
 }
 
 .window.fullscreen {
@@ -726,6 +727,10 @@ input[type=checkbox] {
     border: 1px solid var(--outline);
 }
 
+.outlined-color {
+    color: var(--outline);
+}
+
 .lightgrey {
     background: var(--lightgrey);
 }
@@ -899,8 +904,9 @@ transmission * {
     --minwidth: 10ch;
     --maxwidth: 16ch;
     --rotmaxwidth: calc(var(--maxwidth) * sqrt(2));
-    transform: translateY(calc(var(--minwidth) * sin(10deg) / (2 * cos(45deg))));
     width: var(--rotmaxwidth);
+    color: white;
+    flex-shrink: 0;
 }
 
 .gamebox {
@@ -919,15 +925,9 @@ transmission * {
     overflow: hidden;
     padding: 1ch;
     cursor: pointer;
-    border: 1px solid #0000;
-    color: white;
+    border: 2px solid #0000;
     display: flex;
     align-items: center;
-}
-
-.gamebox:hover .gamebox-tile, .gamebox:hover .gamebox-lid {
-    outline: 1px solid #fffa;
-    border: 1px solid #fff;
 }
 
 .gamebox-tile {
@@ -999,4 +999,21 @@ transmission * {
 
 .gamebox.wandy {
     --color: #35b8a4;
+}
+
+.gamebox-wrapper:hover .gamebox-tile, .gamebox-wrapper:hover .gamebox-lid {
+    border-color: #fff8;
+    animation-play-state: paused;
+}
+
+.gamebox-wrapper:hover {
+    animation-play-state: paused;
+}
+
+.gamebox-wrapper.selected .gamebox-tile, .gamebox-wrapper.selected .gamebox-lid {
+    border-color: #fff;
+}
+
+.game-blurb {
+    flex-grow: 1;
 }
