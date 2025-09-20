@@ -926,12 +926,14 @@ const handleWindowDrag = (e) => {
         const element = getWindowElementByPID(globalWindowDragInfo.pid);
         const x = e.clientX, y = e.clientY;
         const arenaRect = document.getElementById('arena').getBoundingClientRect();
-        element.style.left = `${x - arenaRect.x - globalWindowDragInfo.x0}px`;
         element.style.top = `${y - arenaRect.y - globalWindowDragInfo.y0}px`;
         if (element.classList.contains('fullscreen')) {
+            const elementWidth = element.getBoundingClientRect().width;
+            globalWindowDragInfo.x0 = elementWidth / 4;
             element.classList.remove('fullscreen');
             element.classList.add('mini');
         }
+        element.style.left = `calc(${x - arenaRect.x - globalWindowDragInfo.x0}px`;
     }
 }
 

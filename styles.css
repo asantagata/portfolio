@@ -1,6 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@500');
 @import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@700');
 
+:root {
+    --percent: 0;
+}
+
 * {
     box-sizing: border-box;
     font-family: 'Inconsolata', monospace;
@@ -888,6 +892,7 @@ transmission * {
     transform: rotate3d(1, 0, 0, 10deg);
     --adelay: calc(var(--percent) * -71.5s);
     animation: spin var(--pace) linear infinite var(--adelay);
+    will-change: transform;
 }
 
 .gamebox-stack {
@@ -930,6 +935,7 @@ transmission * {
     width: var(--width);
     animation: tilebrightness var(--pace) linear infinite;
     gap: 1ch;
+    will-change: transform;
 }
 
 .gamebox-name {
