@@ -6,10 +6,10 @@ const parseTerminalInstruction = (inst) => {
             return {
                 children: [
                     {
-                        children: [`You are accessing PortfoliOS's command-line interface (CLI.)`]
+                        children: `You are accessing PortfoliOS's command-line interface (CLI.)`
                     },
                     {
-                        children: [`Refer to the following list for help writing commands.`]
+                        children: `Refer to the following list for help writing commands.`
                     },
                     {
                         tag: 'table',
@@ -26,11 +26,11 @@ const parseTerminalInstruction = (inst) => {
                                         children: [
                                             {
                                                 tag: 'td',
-                                                children: [c.name]
+                                                children: c.name
                                             },
                                             {
                                                 tag: 'td',
-                                                children: [c.desc]
+                                                children: c.desc
                                             }
                                         ]
                                     };
@@ -43,15 +43,30 @@ const parseTerminalInstruction = (inst) => {
         default:
             return {
                 className: 'red',
-                children: [`"${casedCommand}" is not a valid command. Type "help" for help.`]
+                children: `"${casedCommand}" is not a valid command. Type "help" for help.`
             };
     }
 }
 
 const GAMES = [
-    {name: 'Flip 7', icon: '🎴', className: 'flip7'},
-    {name: 'One Night Ultimate Werewolf', icon: '🐺', className: 'onuw'},
-    {name: 'Wandering Towers', icon: '🏯', className: 'wandy'},
+    {
+        name: 'Flip 7',
+        icon: '🎴',
+        className: 'flip7',
+        description: 'In this high-risk, high-reward, blackjack-like card game, players compete to accumulate high cards while trying to avoid duplicates.'
+    },
+    {
+        name: 'One Night Ultimate Werewolf',
+        icon: '🐺',
+        className: 'onuw',
+        description: 'In this hidden-role game, players complete secret tasks over the course of the night and must strategically identify the secret werewolves.'
+    },
+    {
+        name: 'Wandering Towers',
+        icon: '🏯',
+        className: 'wandy',
+        description: 'In this strategy board game, players manipulate both a team of wizards and the towers on which they stand to try to move all of their own wizards into the Ravenskeep.'
+    },
 ]
 
 const appAuxTemplates = {
@@ -67,9 +82,9 @@ const appAuxTemplates = {
                             tag: 'span',
                             className: 'transmission-prefix',
                             children: [
-                                {tag: 'span', className: 'green', children: ['Alex@PortfoliOS']},
+                                {tag: 'span', className: 'green', children: 'Alex@PortfoliOS'},
                                 ':',
-                                {tag: 'span', className: 'blue', children: ['Desktop']},
+                                {tag: 'span', className: 'blue', children: 'Desktop'},
                                 ' $'
                             ]
                         },
@@ -122,15 +137,15 @@ const appAuxTemplates = {
                         ...(new Array(4).fill({
                             className: `gamebox-tile`,
                             children: [
-                                {className: 'gamebox-icon', children: [game.icon]},
-                                {className: 'gamebox-name', children: [game.name]}
+                                {className: 'gamebox-icon', children: game.icon},
+                                {className: 'gamebox-name', children: game.name}
                             ]
                         })),
                         {
                             className: `gamebox-lid`,
                             children: percent === 0 ? [
-                                {className: 'gamebox-icon', children: [game.icon]},
-                                {className: 'gamebox-name', children: [game.name]}
+                                {className: 'gamebox-icon', children: game.icon},
+                                {className: 'gamebox-name', children: game.name}
                             ] : []
                         }
                     ]
@@ -143,8 +158,11 @@ const appAuxTemplates = {
                         getWindowElementByPID(PID).querySelector('.gamebox-wrapper.selected')?.classList.remove('selected');
                         document.getElementById(`gamebox-${PID}-${game.className}`).classList.add('selected');
                         document.getElementById(`game-blurb-${PID}`).replaceChildren(render({
-                            className: 'center',
-                            children: [game.name]
+                            className: 'margin-auto',
+                            children: [
+                                {tag: 'h2', children: game.name},
+                                {tag: 'p', children: game.description},
+                            ]
                         }));
                     }
                 }
@@ -185,19 +203,24 @@ const applicationTemplates = {
     },
     [applicationTypes.GAMES]: (PID) => {
         return {
-            className: 'window-light padded center-row gap',
+            className: 'window-light padded flex gap',
             children: [
                 {
-                    className: 'gamebox-stack',
-                    children: GAMES.map((game, index) => appAuxTemplates.GAMEBOX(PID, game, index / (GAMES.length - 1)))
+                    className: 'gamebox-stack-wrapper flex',
+                    children: [
+                        {
+                            className: 'gamebox-stack margin-auto',
+                            children: GAMES.map((game, index) => appAuxTemplates.GAMEBOX(PID, game, index / (GAMES.length - 1)))
+                        }
+                    ]
                 },
                 {
-                    className: 'game-blurb',
+                    className: 'game-blurb margin-auto',
                     id: `game-blurb-${PID}`,
-                    children: [{
-                        className: 'center outlined-color',
-                        children: ['Select a game...']
-                    }]
+                    children: {
+                        className: 'center text-center gentle',
+                        children: 'Select a game...'
+                    }
                 }
             ]
         }
@@ -229,7 +252,7 @@ const applicationTemplates = {
                                 {
                                     tag: 'a',
                                     href: 'mailto:ajsantagata@wpi.edu',
-                                    children: ['ajsantagata@wpi.edu']
+                                    children: 'ajsantagata@wpi.edu'
                                 }
                             ]
                         },
@@ -244,7 +267,7 @@ const applicationTemplates = {
                                 {
                                     tag: 'a',
                                     href: 'https://www.linkedin.com/in/alex-santagata/',
-                                    children: ['alex-santagata']
+                                    children: 'alex-santagata'
                                 }
                             ]
                         },
@@ -258,14 +281,14 @@ const applicationTemplates = {
                                 {
                                     tag: 'a',
                                     href: 'https://github.com/asantagata',
-                                    children: ['asantagata']
+                                    children: 'asantagata'
                                 }
                             ]
                         }
                     ].map(message => {
                         return {
                             className: 'message lightgrey rounded',
-                            children: [message]
+                            children: message
                         }
                     })
                 }
@@ -294,11 +317,11 @@ const applicationTemplates = {
                             children: [
                                 {
                                     className: 'recyclable-icon',
-                                    children: [recyclable.icon]
+                                    children: recyclable.icon
                                 },
                                 {
                                     className: 'recyclable-label',
-                                    children: [recyclable.name]
+                                    children: recyclable.name
                                 }
                             ]
                         }
@@ -346,7 +369,7 @@ const applicationTemplates = {
                                     children: [
                                         {
                                             className: 'x-large',
-                                            children: [theme.icon]
+                                            children: theme.icon
                                         },
                                         theme.name
                                     ]
@@ -475,23 +498,26 @@ const templates = {
             className: 'padded center gap fullwidth fullheight',
             children: [
                 {
-                    children: [{
-                        tag: 'span',
-                        className: 'red',
-                        children: ['CRITICAL FAILURE']
-                    }, ': Internet connection lost.']
+                    children: [
+                        {
+                            tag: 'span',
+                            className: 'red',
+                            children: 'CRITICAL FAILURE'
+                        },
+                        ': Internet connection lost.'
+                    ]
                 },
                 {
                     className: 'infocard-button padded',
                     id: 'reconnection',
-                    children: ['Attempt reconnection'],
+                    children: 'Attempt reconnection',
                     listeners: [
                         {
                             type: 'click',
                             listener: () => {
                                 document.getElementById('reconnection').replaceWith(render({
                                     className: 'ellipsis detail',
-                                    children: ['Attempting reconnection.']
+                                    children: 'Attempting reconnection.'
                                 }));
                                 window.setTimeout(() => {
                                     document.getElementById('desktop').style.display = 'block';
@@ -556,7 +582,7 @@ const templates = {
                 },
                 {
                     className: 'bottom-left',
-                    children: ['Booting PortfoliOS.']
+                    children: 'Booting PortfoliOS.'
                 }
             ],
             onMount: () => {
@@ -649,7 +675,7 @@ const templates = {
                         {
                             id: 'datetime',
                             className: 'center',
-                            children: ['3:00 PM • 9/6/2025'],
+                            children: '3:00 PM • 9/6/2025',
                             onMount: () => {
                                 const now = new Date();
                                 updateTime();
@@ -733,11 +759,11 @@ const templates = {
             children: [
                 {
                     className: `desktop-icon-icon ${icon.type}-icon`,
-                    children: [applications[icon.type].icon]
+                    children: applications[icon.type].icon
                 },
                 {
                     className: `desktop-icon-name`,
-                    children: [applications[icon.type].name]
+                    children: applications[icon.type].name
                 }
             ],
             listeners: [
@@ -928,8 +954,12 @@ const render = (template) => {
     if (template.style) {
         element.setAttribute('style', template.style);
     }
-    if (template.children && template.children.length > 0) {
-        element.replaceChildren(...template.children.map(render));
+    if (template.children) {
+        if (Array.isArray(template.children)) {
+            element.replaceChildren(...template.children.map(render));
+        } else {
+            element.replaceChildren(render(template.children));
+        }
     } else if (template.innerHTML) {
         element.innerHTML = template.innerHTML;
     }
@@ -1000,11 +1030,11 @@ const summonInfoCard = (e, type) => {
                     children: [
                         {
                             id: '#infocard-datetime',
-                            children: [datetimeStr]
+                            children: datetimeStr
                         },
                         {
                             className: 'small detail',
-                            children: [`Time zone: ${Intl.DateTimeFormat().resolvedOptions().timeZone}`]
+                            children: `Time zone: ${Intl.DateTimeFormat().resolvedOptions().timeZone}`
                         }
                     ]
                 }
@@ -1016,11 +1046,11 @@ const summonInfoCard = (e, type) => {
                 {
                     children: [
                         {
-                            children: [`Today's weather is: tactically ambiguous`],
+                            children: `Today's weather is: tactically ambiguous`,
                         },
                         {
                             className: 'small detail',
-                            children: ['The weather might be any of cloudy, sunny, rainy, or other.']
+                            children: 'The weather might be any of cloudy, sunny, rainy, or other.'
                         }
                     ]
                 }
@@ -1032,11 +1062,11 @@ const summonInfoCard = (e, type) => {
                 {
                     children: [
                         {
-                            children: [`Battery status: 66.666...% remaining`],
+                            children: `Battery status: 66.666...% remaining`,
                         },
                         {
                             className: 'small detail',
-                            children: ['You don\'t have to re-charge just yet.']
+                            children: 'You don\'t have to re-charge just yet.'
                         }
                     ]
                 }
@@ -1051,7 +1081,7 @@ const summonInfoCard = (e, type) => {
                         `Internet status: connected`,
                         {
                             className: 'infocard-button padded',
-                            children: ['Disconnect'],
+                            children: 'Disconnect',
                             listeners: [
                                 {
                                     type: 'click',

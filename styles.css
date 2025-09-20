@@ -25,7 +25,7 @@
     var(--anaglyph-depth) 0 0 #00ffff80;
 }
 
-.retro .blue {
+.retro .blue, .hacker-theme.retro .gentle, .hacker-theme.retro .messages::after {
     text-shadow: calc(-1 * var(--anaglyph-depth)) 0 0 #ff000080,
     var(--anaglyph-depth) 0 0 #00ffff40;
 }
@@ -586,7 +586,7 @@ input[type=checkbox] {
     --blue: #38b9f8;
     --lightgrey: #0d2520;
     --outline: #145c51;
-    --gentle: #145c51;
+    --gentle: #239180;
 }
 
 .hacker-theme input[type=checkbox], .hacker-theme input[type=radio] {
@@ -841,6 +841,10 @@ transmission * {
     color: var(--gentle);
 }
 
+.gentle {
+    color: var(--gentle);
+}
+
 .message {
     animation: appear 0.2s ease-in-out forwards;
     animation-delay: var(--msgdelay);
@@ -900,13 +904,27 @@ transmission * {
     will-change: transform;
 }
 
+.gamebox-stack-wrapper {
+    flex-shrink: 0;
+    height: 100%;
+    overflow: auto;
+    max-width: 50%;
+}
+
+.gamebox-wrapper:last-child {
+    margin-bottom: calc(var(--minwidth) * sqrt(2) * sin(10deg));
+}
+
+.gamebox-wrapper:first-child {
+    margin-top: calc(var(--minwidth) * sqrt(2) * sin(10deg));
+}
+
 .gamebox-stack {
     --minwidth: 10ch;
     --maxwidth: 16ch;
     --rotmaxwidth: calc(var(--maxwidth) * sqrt(2));
     width: var(--rotmaxwidth);
     color: white;
-    flex-shrink: 0;
 }
 
 .gamebox {
@@ -940,6 +958,7 @@ transmission * {
 
 .gamebox-name {
     font-size: small;
+    font-weight: bold;
 }
 
 @keyframes tilebrightness {
@@ -1016,4 +1035,16 @@ transmission * {
 
 .game-blurb {
     flex-grow: 1;
+}
+
+.flex {
+    display: flex;
+}
+
+.margin-auto {
+    margin: auto;
+}
+
+.text-center {
+    text-align: center;
 }
