@@ -390,7 +390,7 @@ input[readonly] {
 }
 
 .default-theme .window.mini {
-    box-shadow: -3px 3px 3px #0004;
+    box-shadow: -1px 1px 4px #0004;
 }
 
 .window.hidden {

@@ -842,51 +842,60 @@ const templates = {
                             children:
                                 [
                                     {
-                                        className: 'toggle',
-                                        listener: (e) => {
-                                            e.stopPropagation();
-                                            const element = getWindowElementByPID(PID);
-                                            if (element.classList.contains('fullscreen')) {
-                                                element.classList.remove('fullscreen');
-                                                element.classList.add('mini');
-                                                element.style.top = '25%';
-                                                element.style.left = '25%';
-                                            } else {
-                                                element.classList.add('fullscreen');
-                                                element.classList.remove('mini');
-                                                element.style.top = '0px';
-                                                element.style.left = '0px';
-                                            }
-                                        }
-                                    },
-                                    {
-                                        className: 'min',
-                                        listener: (e) => {
-                                            e.stopPropagation();
-                                            getWindowElementByPID(PID).style.display = 'none';
-                                            getFooterEntryByPID(PID).classList.remove('open');
-                                        }
-                                    },
-                                    {
-                                        className: 'close',
-                                        listener: (e) => {
-                                            e.stopPropagation();
-                                            getWindowElementByPID(PID).remove();
-                                            getFooterEntryByPID(PID).remove();
-                                        }
-                                    },
-
-                                ].map(button => {
-                                    return {
-                                        className: `circular-button ${button.className}`,
+                                        className: 'circular-button toggle',
                                         listeners: [
                                             {
                                                 type: 'click',
-                                                listener: button.listener
+                                                listener: () => {
+                                                    const element = getWindowElementByPID(PID);
+                                                    if (element.classList.contains('fullscreen')) {
+                                                        element.classList.remove('fullscreen');
+                                                        element.classList.add('mini');
+                                                        element.style.top = '25%';
+                                                        element.style.left = '25%';
+                                                    } else {
+                                                        element.classList.add('fullscreen');
+                                                        element.classList.remove('mini');
+                                                        element.style.top = '0px';
+                                                        element.style.left = '0px';
+                                                    }
+                                                }
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        className: 'circular-button min',
+                                        listeners: [
+                                            {
+                                                type: 'click',
+                                                listener: (e) => {
+                                                    e.stopPropagation();
+                                                    getWindowElementByPID(PID).style.display = 'none';
+                                                    getFooterEntryByPID(PID).classList.remove('open');
+                                                }
+                                            },
+                                            {
+                                                type: 'mousedown', listener: (e) => e.stopPropagation()
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        className: 'circular-button close',
+                                        listeners: [
+                                            {
+                                                type: 'click',
+                                                listener: (e) => {
+                                                    e.stopPropagation();
+                                                    getWindowElementByPID(PID).remove();
+                                                    getFooterEntryByPID(PID).remove();
+                                                }
+                                            },
+                                            {
+                                                type: 'mousedown', listener: (e) => e.stopPropagation()
                                             }
                                         ]
                                     }
-                                })
+                                ]
                         }
                     ],
                     listeners: [
