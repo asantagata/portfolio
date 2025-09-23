@@ -1101,9 +1101,29 @@ transmission * {
 
 .openable-image {
     cursor: pointer;
+}
+
+.modal-image, .openable-image {
     max-width: 100%;
 }
 
-.modal-image {
-    max-width: 100%;
+.carousel .icon {
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: var(--lightgrey);
+    cursor: pointer;
+    width: 3ch;
+    height: 3ch;
 }
+
+.carousel.disabled .icon {
+    cursor: default;
+    opacity: 0.4;
+}
+
+.carousel .carousel-entry {display: none;}
+.carousel[cindex='0'] .carousel-entry:nth-child(1) {display: block;}
+.carousel[cindex='1'] .carousel-entry:nth-child(2) {display: block;}
+.carousel[cindex='2'] .carousel-entry:nth-child(3) {display: block;}
+.carousel[cindex='3'] .carousel-entry:nth-child(4) {display: block;}
+.carousel[cindex='4'] .carousel-entry:nth-child(5) {display: block;}
