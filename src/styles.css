@@ -463,6 +463,7 @@ input[readonly] {
     --red: #ea5155;
     --blue: #3f86b8;
     --lightgrey: #D3C9DF;
+    --lightergrey: #cac3d3;
     --outline: #827C8A;
     --gentle: #827C8A;
 }
@@ -470,6 +471,7 @@ input[readonly] {
 .circular-button.toggle { --color: var(--green); }
 .circular-button.min { --color: var(--yellow); }
 .circular-button.close { --color: var(--red); }
+.glass-theme .circular-button.close { --color: #ff598b; }
 
 .footer-entry:not(.open) {
     opacity: 0.8;
@@ -582,9 +584,10 @@ input[type=checkbox] {
     --anaglyph-depth: 1.5px;
     --green: #00f448;
     --yellow: #fac053;
-    --red: #ea294c;
+    --red: #ff7991;
     --blue: #38b9f8;
     --lightgrey: #0d2520;
+    --lightergrey: #13352e;
     --outline: #145c51;
     --gentle: #239180;
 }
@@ -625,11 +628,12 @@ input[type=checkbox] {
 }
 
 #viewport.glass-theme {
-    --green: #81e19d;
-    --yellow: #ffd97f;
-    --red: #e45b79;
-    --blue: #9eceff;
+    --green: #b3ffca;
+    --yellow: #ffeec5;
+    --red: #ffc8a1;
+    --blue: #bcd8f1;
     --lightgrey: rgba(240, 163, 198, 0.5);
+    --lightergrey: rgba(240, 163, 198, 0.6);
     --outline: rgba(240, 173, 203, 0.74);
     --gentle: #ffd7f4;
 }
@@ -704,14 +708,11 @@ input[type=checkbox] {
 }
 
 .red {color: var(--red)}
-.glass-theme .red {
-    color: #ffcacb;
-}
 .yellow {color: var(--yellow)}
 .green {color: var(--green)}
 .blue, a, a:visited {color: var(--blue)}
 
-.wiki p {
+.wiki p, .modal p {
     margin: 1em auto;
 }
 
@@ -1048,6 +1049,10 @@ transmission * {
 .flex {
     display: flex;
 }
+.flex-col {
+    display: flex;
+    flex-direction: column;
+}
 
 .margin-auto {
     margin: auto;
@@ -1056,3 +1061,40 @@ transmission * {
 .text-center {
     text-align: center;
 }
+
+.badgeset {
+    flex-wrap: wrap;
+    gap: 1ch;
+}
+
+.badge {
+    border-radius: 1em;
+    border-width: 1px;
+    border-style: solid;
+    padding: 0 0.5ch;
+    gap: 0.5ch;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.badge:hover {
+    background: var(--lightergrey);
+}
+
+.badge::before {
+    content: '';
+    display: inline-block;
+    border-width: 0.5ch;
+    border-style: solid;
+    border-color: inherit;
+    border-radius: 50%;
+}
+
+.badge.red {border-color: var(--red)}
+.badge.yellow {border-color: var(--yellow)}
+.badge.green {border-color: var(--green)}
+.badge.blue {border-color: var(--blue)}
+
+.tooltip-badge {cursor: help}

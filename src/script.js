@@ -48,24 +48,126 @@ const parseTerminalInstruction = (inst) => {
     }
 }
 
+const BADGES = {
+    html: {name: 'HTML', color: 'red'},
+    css: {name: 'CSS', color: 'yellow'},
+    js: {name: 'JavaScript', color: 'blue'},
+    fakereact: {name: 'Reactive JavaScript', color: 'blue', tooltip: {
+        children: [
+            {
+                tag: 'p',
+                children: [
+                    {tag: 'b', className: 'blue', children: 'Reactive JavaScript'},
+                    ' is a custom programming paradigm in which a JavaScript object such as:',
+                ]
+            },
+            {
+                tag: 'ul',
+                style: 'list-style-type: none',
+                className: 'lightgrey padded',
+                children: [
+                    {
+                        tag: 'li',
+                        children: [
+                            '{',
+                            {
+                                tag: 'ul',
+                                style: 'list-style-type: none',
+                                children: [
+                                    {
+                                        tag: 'li',
+                                        children: [
+                                            {tag: 'span', className: 'blue', children: 'tag'},
+                                            ': ',
+                                            {tag: 'span', className: 'green', children: '"span"'},
+                                            ','
+                                        ]
+                                    },
+                                    {
+                                        tag: 'li',
+                                        children: [
+                                            {tag: 'span', className: 'blue', children: 'style'},
+                                            ': ',
+                                            {tag: 'span', className: 'green', children: '"color: green"'},
+                                            ','
+                                        ]
+                                    },
+                                    {
+                                        tag: 'li',
+                                        children: [
+                                            {tag: 'span', className: 'blue', children: 'children'},
+                                            ': ',
+                                            {tag: 'span', className: 'green', children: '"Hello world"'}
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        tag: 'li',
+                        children: '}'
+                    }
+                ]
+            },
+            {
+                tag: 'p',
+                children: [
+                    ' can be rendered as a corresponding HTML element, i.e., ',
+                    {tag: 'span', className: 'green', children: 'Hello world'},
+                    '.'
+                ]
+            },
+            {
+                tag: 'p',
+                children: 'This parallels React\'s notion of "components" using just native JavaScript.',
+            },
+            {
+                tag: 'p',
+                className: 'gentle',
+                children: [
+                    'This page was built using ',
+                    {
+                        tag: 'span', className: 'blue', children: 'Reactive JavaScript'
+                    },
+                    '!'
+                ]
+            }
+        ]
+        }},
+    solo: {name: 'Solo development', color: 'green'}
+}
+
 const GAMES = [
     {
         name: 'Flip 7',
         icon: '🎴',
         className: 'flip7',
-        description: 'In this high-risk, high-reward, blackjack-like card game, players compete to accumulate high cards while trying to avoid duplicates.'
+        description: [
+            'In this high-risk, high-reward, blackjack-like card game, players compete to accumulate high cards while trying to avoid duplicates.',
+            'This project takes the form of one page with smooth animations and simple UI, which a host can stream or display to friends for remote or in-person gameplay.'
+        ],
+        badges: [BADGES.html, BADGES.css, BADGES.fakereact, BADGES.solo]
     },
     {
         name: 'One Night Ultimate Werewolf',
         icon: '🐺',
         className: 'onuw',
-        description: 'In this hidden-role game, players complete secret tasks over the course of the night and must strategically identify the secret werewolves.'
+        description: [
+            'In this hidden-role game, players complete secret tasks over the course of the night and must strategically identify the secret werewolves.',
+            'This project takes the form of one page with smooth animations and a terminal-like UI. The project has a large configs menu including 20 functional roles. Players are given encrypted "action codes" representing their secret actions over the course of the night, which can be transfered seamlessly using easy copy-paste functionality.'
+        ],
+        badges: [BADGES.html, BADGES.css, BADGES.js, BADGES.solo]
     },
     {
         name: 'Wandering Towers',
         icon: '🏯',
         className: 'wandy',
-        description: 'In this strategy board game, players manipulate both a team of wizards and the towers on which they stand to try to move all of their own wizards into the Ravenskeep.'
+        description: [
+            'In this strategy board game, players manipulate both a team of wizards and the towers on which they stand to try to move all of their own wizards into the Ravenskeep.',
+            'This project takes the form of two pages, a "server" page and a "client" page. The "server" page, which a host can stream or display to friends, includes rich 3d animations and an easy-to-use UI for controls over a large 3d game board. The mobile-compatible "client" page shows individual players their action cards.'
+        ],
+        badges: [BADGES.html, BADGES.css, BADGES.js, BADGES.solo]
     },
 ]
 
@@ -158,15 +260,40 @@ const appAuxTemplates = {
                         getWindowElementByPID(PID).querySelector('.gamebox-wrapper.selected')?.classList.remove('selected');
                         document.getElementById(`gamebox-${PID}-${game.className}`).classList.add('selected');
                         document.getElementById(`game-blurb-${PID}`).replaceChildren(render({
-                            className: 'margin-auto',
+                            className: 'margin-auto flex-col gap',
                             children: [
                                 {tag: 'h2', children: game.name},
-                                {tag: 'p', children: game.description},
+                                appAuxTemplates.BADGESET(game.badges),
+                                ...game.description.map(p => {
+                                    return {
+                                        tag: 'p',
+                                        children: p
+                                    }
+                                })
                             ]
                         }));
                     }
                 }
             ]
+        }
+    },
+    BADGESET: (badges) => {
+        return {
+            className: 'flex badgeset',
+            children: badges.map(badge => {
+                return {
+                    className: `badge ${badge.color} lightgrey ${badge.tooltip ? 'tooltip-badge' : ''}`,
+                    children: badge.name,
+                    ...(badge.tooltip ? {
+                        listeners: [
+                            {
+                                type: 'click',
+                                listener: () => summonModal(badge.tooltip)
+                            }
+                        ]
+                    } : {})
+                }
+            })
         }
     }
 }
@@ -180,7 +307,8 @@ const applicationTypes = {
     CHAT: 'chat',
     RECYCLE: 'recycle',
     GAMES: 'games',
-    WORK: 'work'
+    WORK: 'work',
+    MODAL: 'modal'
 }
 
 const applications = {
@@ -192,7 +320,8 @@ const applications = {
     [applicationTypes.CHAT]: {name: 'Chat', icon: '💬'},
     [applicationTypes.RECYCLE]: {name: 'Recycle Bin', icon: '🗑️'},
     [applicationTypes.GAMES]: {name: 'Games', icon: '🎮'},
-    [applicationTypes.WORK]: {name: 'Work', icon: '💼'}
+    [applicationTypes.WORK]: {name: 'Work', icon: '💼'},
+    [applicationTypes.MODAL]: {name: 'Help', icon: 'ℹ️'}
 }
 
 const applicationTemplates = {
@@ -441,14 +570,30 @@ const applicationTemplates = {
     }
 }
 
-const launch = (launchType) => {
+const launch = (launchType, template = null) => {
     const PID = nProcesses++;
-    const application = applications[launchType]
+    const application = applications[launchType];
     document.getElementById('footer-entries').appendChild(render(templates.FOOTER_ENTRY(launchType, PID, true)));
-    document.getElementById('arena').appendChild(render({
-        ...templates.WINDOW(PID, application.name, applicationTemplates[launchType](PID), launchType),
-    }));
+    if (template) {
+        document.getElementById('arena').appendChild(render({
+            ...templates.WINDOW(PID, application.name, {
+                className: 'window-light padded flex',
+                children: [
+                    {
+                        className: 'margin-auto',
+                        children: template
+                    }
+                ]
+            }, launchType),
+        }));
+    } else {
+        document.getElementById('arena').appendChild(render({
+            ...templates.WINDOW(PID, application.name, applicationTemplates[launchType](PID), launchType),
+        }));
+    }
 }
+
+const summonModal = (template) => launch(applicationTypes.MODAL, template)
 
 const SVGs = {
     user: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-icon lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>',
