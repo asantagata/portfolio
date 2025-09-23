@@ -52,13 +52,15 @@ const BADGES = {
     html: {name: 'HTML', color: 'red'},
     css: {name: 'CSS', color: 'yellow'},
     js: {name: 'JavaScript', color: 'blue'},
-    fakereact: {name: 'Reactive JavaScript', color: 'blue', tooltip: {
+    fakereact: {name: 'Object-to-DOM', color: 'blue', tooltip: {
         children: [
             {
                 tag: 'p',
                 children: [
-                    {tag: 'b', className: 'blue', children: 'Reactive JavaScript'},
-                    ' is a custom programming paradigm in which a JavaScript object such as:',
+                    {tag: 'b', className: 'blue', children: 'Object-to-DOM'},
+                    ' (or less formally "',
+                    {tag: 'b', className: 'blue', children: 'Fake React'},
+                    '") is a customizable web programming paradigm in which a JavaScript object such as:',
                 ]
             },
             {
@@ -124,13 +126,21 @@ const BADGES = {
             },
             {
                 tag: 'p',
+                children: [
+                    'I have been experimenting with this model as an alternative to React for functional web programming. I utilize a recursive ',
+                    {tag: 'span', className: 'blue', children: 'render'},
+                    '() method which I tweak from project to project.'
+                ]
+            },
+            {
+                tag: 'p',
                 className: 'gentle',
                 children: [
-                    'This page was built using ',
+                    'This page was built using the ',
                     {
-                        tag: 'span', className: 'blue', children: 'Reactive JavaScript'
+                        tag: 'span', className: 'blue', children: 'Object-to-DOM'
                     },
-                    '!'
+                    ' model!'
                 ]
             }
         ]
