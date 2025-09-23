@@ -1098,3 +1098,12 @@ transmission * {
 .badge.blue {border-color: var(--blue)}
 
 .tooltip-badge {cursor: help}
+
+.openable-image {
+    cursor: pointer;
+    max-width: 100%;
+}
+
+.modal-image {
+    max-width: 100%;
+}

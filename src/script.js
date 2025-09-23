@@ -157,7 +157,10 @@ const GAMES = [
             'In this high-risk, high-reward, blackjack-like card game, players compete to accumulate high cards while trying to avoid duplicates.',
             'This project takes the form of one page with smooth animations and simple UI, which a host can stream or display to friends for remote or in-person gameplay.'
         ],
-        badges: [BADGES.html, BADGES.css, BADGES.fakereact, BADGES.solo]
+        badges: [BADGES.html, BADGES.css, BADGES.fakereact, BADGES.solo],
+        images: [
+            {path: './assets/games/flip7.png', alt: 'The main Flip 7 gameplay UI.'}
+        ]
     },
     {
         name: 'One Night Ultimate Werewolf',
@@ -165,9 +168,14 @@ const GAMES = [
         className: 'onuw',
         description: [
             'In this hidden-role game, players complete secret tasks over the course of the night and must strategically identify the secret werewolves.',
-            'This project takes the form of one page with smooth animations and a terminal-like UI. The project has a large configs menu including 20 functional roles. Players are given encrypted "action codes" representing their secret actions over the course of the night, which can be transfered seamlessly using easy copy-paste functionality.'
+            'This project takes the form of one page with smooth animations and a terminal-like UI. The project includes over 20 functional roles with individual and cumulative actions. Players are given encrypted "action codes" representing their secret actions over the course of the night, which can be transferred seamlessly using easy copy-paste functionality.'
         ],
-        badges: [BADGES.html, BADGES.css, BADGES.js, BADGES.solo]
+        badges: [BADGES.html, BADGES.css, BADGES.js, BADGES.solo],
+        images: [
+            {path: './assets/games/onuwconfig.png', alt: 'The One Night Ultimate Werewolf configs menu.'},
+            {path: './assets/games/onuwgameplay.png', alt: 'One Night Ultimate Werewolf gameplay with cards in motion.'},
+            {path: './assets/games/onuwvotes.png', alt: 'The climactic turnout of a One Night Ultimate Werewolf game.'}
+        ]
     },
     {
         name: 'Wandering Towers',
@@ -177,7 +185,10 @@ const GAMES = [
             'In this strategy board game, players manipulate both a team of wizards and the towers on which they stand to try to move all of their own wizards into the Ravenskeep.',
             'This project takes the form of two pages, a "server" page and a "client" page. The "server" page, which a host can stream or display to friends, includes rich 3d animations and an easy-to-use UI for controls over a large 3d game board. The mobile-compatible "client" page shows individual players their action cards.'
         ],
-        badges: [BADGES.html, BADGES.css, BADGES.js, BADGES.solo]
+        badges: [BADGES.html, BADGES.css, BADGES.js, BADGES.solo],
+        images: [
+            {path: './assets/games/wandering.png', alt: 'The main Wandering Towers gameplay UI.'}
+        ]
     },
 ]
 
@@ -274,6 +285,7 @@ const appAuxTemplates = {
                             children: [
                                 {tag: 'h2', children: game.name},
                                 appAuxTemplates.BADGESET(game.badges),
+                                componentTemplates.CAROUSEL(game.images),
                                 ...game.description.map(p => {
                                     return {
                                         tag: 'p',
@@ -629,6 +641,41 @@ const componentTemplates = {
             autocomplete: 'off',
             value: '',
             size: '20'
+        }
+    },
+    OPENABLE_IMAGE: (path, alt = 'Image') => {
+        return {
+            tag: 'img',
+            src: path,
+            className: 'openable-image',
+            alt: alt,
+            listeners: [
+                {
+                    type: 'click',
+                    listener: () => summonModal({
+                        tag: 'img',
+                        src: path,
+                        className: 'modal-image',
+                        alt: alt
+                    })
+                }
+            ]
+        }
+    },
+    CAROUSEL: (images) => {
+        return {
+            className: 'carousel',
+            children: images.map(image => {
+                return {
+                    children: [
+                        componentTemplates.OPENABLE_IMAGE(image.path, image.alt),
+                        {
+                            className: 'gentle',
+                            children: image.alt
+                        }
+                    ]
+                }
+            })
         }
     }
 }
