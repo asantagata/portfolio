@@ -160,7 +160,8 @@ const GAMES = [
         badges: [BADGES.html, BADGES.css, BADGES.fakereact, BADGES.solo],
         images: [
             {path: './assets/games/flip7.png', alt: 'The main Flip 7 gameplay UI.'}
-        ]
+        ],
+        start: {month: 6, year: 2025}
     },
     {
         name: 'One Night Ultimate Werewolf',
@@ -175,7 +176,9 @@ const GAMES = [
             {path: './assets/games/onuwconfig.png', alt: 'The One Night Ultimate Werewolf configs menu.'},
             {path: './assets/games/onuwgameplay.png', alt: 'One Night Ultimate Werewolf gameplay with cards in motion.'},
             {path: './assets/games/onuwvotes.png', alt: 'The climactic turnout of a One Night Ultimate Werewolf game.'}
-        ]
+        ],
+        start: {month: 2, year: 2025},
+        start: {month: 3, year: 2025},
     },
     {
         name: 'Wandering Towers',
@@ -188,7 +191,8 @@ const GAMES = [
         badges: [BADGES.html, BADGES.css, BADGES.js, BADGES.solo],
         images: [
             {path: './assets/games/wandering.png', alt: 'The main Wandering Towers gameplay UI.'}
-        ]
+        ],
+        start: {month: 7, year: 2025},
     },
 ]
 
