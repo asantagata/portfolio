@@ -630,7 +630,8 @@ const SVGs = {
     linkedin: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-linkedin-icon lucide-linkedin"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>',
     github: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-github-icon lucide-github"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>',
     chevleft: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-left-icon lucide-chevron-left"><path d="m15 18-6-6 6-6"/></svg>',
-    chevright: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right-icon lucide-chevron-right"><path d="m9 18 6-6-6-6"/></svg>'
+    chevright: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right-icon lucide-chevron-right"><path d="m9 18 6-6-6-6"/></svg>',
+    portfolios: '<svg viewBox="0 0 82 32" xmlns="http://www.w3.org/2000/svg" fill="transparent" stroke="currentColor"><g transform="translate(1,1)" stroke-linecap="round" stroke-linejoin="round"><path d="M 0 30 V 10 l 8 4 V 21 L 0 17" /><path d="M 10 17 V 10 l 8 4 V 21 L 10 17" /><path d="M 20 21 V 10 l 8 4" /><path d="M 30 1 V 21 l 2 1" /><path d="M 38 25 l 2 1 V 1 l 2 1" /><path d="M 28 5 l 14 7" /><path d="M 44 17 V 10 l 8 4 V 21 l -8 -4" /><path d="M 52 1 l 2 1 V 21.5 l 2 1" /><path d="M 56 10 l 2 1" /><path d="M 56 12 l 2 1 V 21" /><path d="M 61 17 V 1 l 8 4 V 21 l -8 -4" /><path d="M 71 17 l 8 4 v -8 l -8 -4 v -8 l 8 4" /></g></svg>'
 }
 
 const componentTemplates = {
@@ -773,72 +774,136 @@ const templates = {
     },
     LOGIN: () => {
         return {
-            className: 'center gap',
+            className: 'padded center',
             id: 'login',
             children: [
-                {...componentTemplates.ACTION_ICON('user'), className: 'large-icon'},
-                {...componentTemplates.TEXT_INPUT(),
-                    id: 'username',
-                    readonly: 'true',
-                    placeholder: 'Username'},
                 {
-                    tag: 'span',
-                    listeners: [
-                        {
-                            type: 'mouseenter',
-                            listener: () => {
-                                document.getElementById('password').type = 'text';
-                            }
-                        },
-                        {
-                            type: 'mouseleave',
-                            listener: () => {
-                                document.getElementById('password').type = 'password';
-                            }
-                        },
-                    ],
+                    id: 'portfolio-login',
+                    className: 'fullwidth',
                     children: [
-                        {...componentTemplates.TEXT_INPUT(),
-                            type: 'password',
-                            id: 'password',
-                            readonly: 'true',
-                            placeholder: 'Password',
+                        {
+                            className: 'fullwidth',
+                            style: 'opacity: 0.8',
+                            children: [
+                                {
+                                    tag: 'span',
+                                    className: 'gentle',
+                                    children: '> '
+                                },
+                                'Booting PortfoliOS',
+                                {
+                                    tag: 'span',
+                                    id: 'booting-ellipsis',
+                                    className: 'gentle ellipsis-slow',
+                                    children: '.'
+                                },
+                            ]
+                        },
+                        {
+                            className: 'padded center-row',
+                            children: [
+                                '[',
+                                {
+                                    tag: 'span',
+                                    className: 'blue',
+                                    style: 'transition: color 1s ease-in-out',
+                                    id: 'login-loading-blue',
+                                    children: ''
+                                },
+                                {
+                                    tag: 'span',
+                                    className: 'gentle',
+                                    id: 'login-loading-gentle',
+                                    children: '................',
+                                },
+                                ']'
+                            ],
+                            onMount: () => {
+                                window.setTimeout(() => {
+                                    document.getElementById('login-loading-blue').className = 'green';
+                                    const load = window.setInterval(() => {
+                                        if (document.getElementById('login-loading-gentle').innerText.length === 0) {
+                                            window.setTimeout(() => {
+                                                window.setTimeout(() => {
+                                                    document.getElementById('portfolio-entry').style.height =
+                                                        `${document.getElementById('portfolio-entry').scrollHeight}px`;
+                                                    document.getElementById('portfolio-logo').className = 'flicker';
+                                                    window.setTimeout(() => {
+                                                        document.getElementById('portfolio-entry').style.height = 'auto';
+                                                    }, 1000)
+                                                }, 500)
+                                            }, 300);
+                                            window.clearInterval(load);
+                                        } else {
+                                            document.getElementById('login-loading-blue').innerHTML += '#';
+                                            document.getElementById('login-loading-gentle').innerHTML =
+                                                document.getElementById('login-loading-gentle').innerText.slice(0, -1);
+                                        }
+                                    }, 60);
+                                }, 200);
+                            }
                         },
                     ]
                 },
-                {...componentTemplates.ACTION_ICON('right'),
-                    className: 'large-icon hidden pointer',
-                    id: 'log-in-button',
-                    listeners: [
+                {
+                    className: 'halfwidth zeroheight',
+                    id: 'portfolio-entry',
+                    children: [
                         {
-                            type: 'click',
-                            listener: () => {
-                                document.getElementById('login').style.opacity = '0';
-                                window.setTimeout(() => {
-                                    document.getElementById('login').style.display = 'none';
-                                }, 200);
+                            className: 'nowrap text-center',
+                            children: 'Welcome to'
+                        },
+                        {
+                            id: 'portfolio-logo',
+                            innerHTML: SVGs.portfolios
+                        },
+                        {
+                            className: 'padded',
+                            children: [
+                                {
+                                    className: 'text-center',
+                                    children: [
+                                        {
+                                            tag: 'i',
+                                            className: 'gentle',
+                                            children: 'The web portfolio of ',
+                                        },
+                                        {
+                                            tag: 'i',
+                                            className: 'green',
+                                            children: 'Alex Santagata'
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            className: 'center',
+                            children: {
+                                className: 'infocard-button padded center-row gap',
+                                style: 'width: fit-content',
+                                children: [
+                                    'Enter ',
+                                    {
+                                        tag: 'span',
+                                        className: 'h-oscillator',
+                                        innerHTML: SVGs.chevright
+                                    }
+                                ],
+                                listeners: [
+                                    {
+                                        type: 'click',
+                                        listener: () => {
+                                            document.getElementById('login').style.opacity = '0';
+                                            document.getElementById('login').style.pointerEvents = 'none';
+                                        }
+                                    }
+                                ]
                             }
                         }
                     ]
-                },
-                {
-                    className: 'bottom-left',
-                    children: 'Booting PortfoliOS.'
                 }
-            ],
-            onMount: () => {
-                window.setTimeout(() => {
-                    const username = 'Alex Santagata', password = 'Web developer';
-                    const typeSpeed = 40
-                    typeInElement(document.getElementById('username'), username, typeSpeed);
-                    window.setTimeout(() => {
-                        typeInElement(document.getElementById('password'), password, typeSpeed);
-                        window.setTimeout(() => {
-                            document.getElementById('log-in-button').classList.remove('hidden');
-                        }, (password.length + 10) * typeSpeed);
-                    }, (username.length + 10) * typeSpeed);
-                }, 200);
-            }
+            ]
         };
     },
     DESKTOP: () => {
@@ -866,7 +931,11 @@ const templates = {
         return {
             id: 'arena',
             children: [
-                templates.ICONS()
+                templates.ICONS(),
+                {
+                    id: 'back-logo',
+                    innerHTML: SVGs.portfolios
+                }
             ]
         };
     },

@@ -10,7 +10,6 @@
     font-family: 'Inconsolata', monospace;
     margin: 0;
     font-size: large;
-    transform-style: preserve-3d;
     user-select: none;
     transform-origin: center center;
 }
@@ -103,20 +102,6 @@ body::after {
     --anaglyph-depth: 1px;
 }
 
-#icons::after {
-    z-index: 0;
-    pointer-events: none;
-    font-size: xxx-large;
-    color: #fff;
-    opacity: 0.25;
-    content: 'PortfoliOS';
-    position: fixed;
-    left: 50%;
-    top: calc(0.5 * min(100dvh, calc(100dvw / var(--aspect-ratio))));
-    transform: translate(-50%, -50%);
-    font-weight: bold;
-}
-
 #footer {
     background: #00002244;
     backdrop-filter: blur(2px);
@@ -126,14 +111,12 @@ body::after {
     align-items: center;
     justify-content: space-between;
     gap: 1ch;
-    padding: 1ch;
-    padding-right: 0;
+    padding: 1ch 0 1ch 1ch;
     width: 100%;
     overflow-x: auto;
     overflow-y: hidden;
-    position: fixed;
+    position: absolute;
     bottom: 0;
-    transform-style: flat;
 }
 
 #footer-entries {
@@ -157,6 +140,7 @@ body::after {
     height: 100%;
     position: relative;
     overflow: hidden;
+    transform-style: preserve-3d;
 }
 
 #icons {
@@ -183,8 +167,9 @@ body::after {
 }
 
 #login {
-    background: #18776A;
+    background: #000;
     transition: opacity 0.2s ease-in-out;
+    z-index: 2;
 }
 
 .gap {
@@ -212,34 +197,21 @@ body::after {
     border-radius: 50%;
 }
 
-#log-in-button {
-    transition: opacity 0.2s ease-in-out;
-}
-
-.bottom-left {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    padding: 1ch;
-    cursor: default;
-    opacity: 0.6;
-    font-size: x-large;
-}
-
-.bottom-left::after {
-    content: '';
-    animation: ellipsis 2s linear infinite;
-}
-
 .ellipsis::after {
     content: '';
     animation: ellipsis 0.6s linear infinite;
+}
+
+.ellipsis-slow::after {
+    content: '';
+    animation: ellipsis 2s linear 1 forwards;
 }
 
 @keyframes ellipsis {
     0% {content: ''}
     33% {content: '.'}
     67% {content: '..'}
+    100% {content: '..'}
 }
 
 .hidden {
@@ -267,12 +239,12 @@ input[readonly] {
 }
 
 #desktop {
-    /*filter: sepia(30%);*/
     background:
             linear-gradient(to bottom,
             #170bbd 0%, #861bbf 22%, #bf1f84 40%, #cc4539 60%,
             #eb9350 70%,
             #d4493f 76.5%, #c7228a 85%, #861bbf 90%, #170bbd 100%);
+    z-index: 1;
 }
 
 #desktop::after {
@@ -363,6 +335,7 @@ input[readonly] {
     height: 100dvh;
     gap: 0;
     text-align: center;
+    z-index: 99;
 }
 
 #warning p { margin: 1em }
@@ -372,7 +345,6 @@ input[readonly] {
     position: fixed;
     display: flex;
     flex-direction: column;
-    transform-style: flat;
 }
 
 .window.fullscreen {
@@ -411,7 +383,30 @@ input[readonly] {
 }
 
 .fullwidth {width: 100%}
+.halfwidth {width: 50%}
 .fullheight {height: 100%}
+.zeroheight {height: 0}
+#portfolio-entry, #portfolio-login {
+    overflow: hidden;
+    transition: height 1s linear;
+}
+
+#portfolio-logo {
+    color: #88fff0;
+}
+
+#back-logo {
+    position: absolute;
+    width: min(50dvw, calc(50dvh * var(--aspect-ratio)));
+    pointer-events: none;
+    z-index: 0;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #dffffd;
+    opacity: 0.25;
+}
+
 .padded {padding: 1ch}
 .grid-2x2 {
     display: grid;
@@ -559,8 +554,8 @@ input[type=checkbox] {
     border-left: 1px solid #18e4c9;
     transform: rotate(45deg);
     transform-origin: 0 0;
-    left: 1px;
-    top: -1px;
+    left: calc(1em + 1px);
+    top: 0;
 }
 
 .hacker-theme .window-heading {
@@ -602,7 +597,6 @@ input[type=checkbox] {
 }
 
 .glass-theme .window-heading, .glass-theme .window-light, .glass-theme .window-dark {
-    transform-style: flat;
     backdrop-filter: blur(4px);
 }
 
@@ -679,7 +673,6 @@ input[type=checkbox] {
     border-radius: 1ch;
     margin: 1ch;
     background: #00002244;
-    transform-style: flat;
     backdrop-filter: blur(4px);
     transition: background 0.2s ease-in-out;
 }
@@ -889,7 +882,7 @@ transmission * {
     vertical-align: middle;
 }
 
-.gamebox-wrapper {
+#desktop .gamebox-wrapper {
     --diffwidth: calc(var(--maxwidth) - var(--minwidth));
     --width: calc(var(--minwidth) + var(--percent) * var(--diffwidth));
     --halfwidth: calc(var(--width) / 2);
@@ -903,6 +896,9 @@ transmission * {
     --adelay: calc(var(--percent) * -71.5s);
     animation: spin var(--pace) linear infinite var(--adelay);
     will-change: transform;
+    transform-style: preserve-3d;
+    position: relative;
+    z-index: calc(24 * (1 - var(--percent))); /* MODIFY WHEN ADDING NEW GAMES */
 }
 
 .gamebox-stack-wrapper {
@@ -931,6 +927,7 @@ transmission * {
 .gamebox {
     position: relative;
     transform: translateX(calc((var(--rotmaxwidth) - var(--width)) / 2));
+    transform-style: preserve-3d;
 }
 
 @keyframes spin {
@@ -947,6 +944,7 @@ transmission * {
     border: 2px solid #0000;
     display: flex;
     align-items: center;
+    transform-style: preserve-3d;
 }
 
 .gamebox-tile {
@@ -1127,3 +1125,34 @@ transmission * {
 .carousel[cindex='2'] .carousel-entry:nth-child(3) {display: block;}
 .carousel[cindex='3'] .carousel-entry:nth-child(4) {display: block;}
 .carousel[cindex='4'] .carousel-entry:nth-child(5) {display: block;}
+
+.nowrap {
+    white-space: nowrap;
+}
+
+.h-oscillator {
+    animation: h-oscillate 2s ease-in-out infinite;
+}
+
+@keyframes h-oscillate {
+    0% {transform: translateX(0)}
+    50% {transform: translateX(2px)}
+    100% {transform: translateX(0)}
+}
+
+.flicker {
+    animation: flicker 1.5s linear 1 forwards;
+}
+
+@keyframes flicker {
+    0% {opacity: 0.8}
+    5% {opacity: 0.5}
+    15% {opacity: 0.8}
+    25% {opacity: 0.5}
+    30% {opacity: 0.7}
+    32% {opacity: 0.5}
+    40% {opacity: 0.8}
+    50% {opacity: 0.5}
+    65% {opacity: 0.4}
+    100% {opacity: 1}
+}
