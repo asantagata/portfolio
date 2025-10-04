@@ -148,6 +148,10 @@ const BADGES = {
     solo: {name: 'Solo development', color: 'green'}
 }
 
+const PROJECTS = [
+
+]
+
 const GAMES = [
     {
         name: 'Flip 7',
@@ -430,7 +434,8 @@ const applicationTemplates = {
                             children: [
                                 `✉️: `,
                                 {
-                                    tag: 'a blue',
+                                    tag: 'a',
+                                    className: 'blue',
                                     href: 'mailto:ajsantagata@wpi.edu',
                                     children: 'ajsantagata@wpi.edu'
                                 }
@@ -445,7 +450,8 @@ const applicationTemplates = {
                                 },
                                 ': ',
                                 {
-                                    tag: 'a blue',
+                                    tag: 'a',
+                                    className: 'blue',
                                     href: 'https://www.linkedin.com/in/alex-santagata/',
                                     children: 'alex-santagata'
                                 }
@@ -459,7 +465,8 @@ const applicationTemplates = {
                                 },
                                 ': ',
                                 {
-                                    tag: 'a blue',
+                                    tag: 'a',
+                                    className: 'blue',
                                     href: 'https://github.com/asantagata',
                                     children: 'asantagata'
                                 }
@@ -1271,6 +1278,7 @@ const getFooterEntryByPID = (pid) => {
 }
 
 const render = (template) => {
+    console.log(template)
     if (typeof template == 'string') {
         return document.createTextNode(template);
     }
