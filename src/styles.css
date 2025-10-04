@@ -1161,8 +1161,8 @@ transmission * {
 }
 
 .visit-button {
-    border: 1px solid var(--green);
-    color: var(--green);
+    color: inherit;
+    background: var(--lightgrey);
     padding: 1ch;
     border-radius: 1ch;
     text-decoration: none;

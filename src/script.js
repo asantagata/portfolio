@@ -149,7 +149,42 @@ const BADGES = {
 }
 
 const PROJECTS = [
-
+    {
+        name: 'Card Domain',
+        icon: '🃏'
+    },
+    {
+        name: 'PerfFlowAspect',
+        icon: '📊'
+    },
+    {
+        name: 'Mosaiq Software Portfolio',
+        icon: '🟪'
+    },
+    {
+        name: 'Terrazzo',
+        icon: '🗃️'
+    },
+    {
+        name: 'Brigham & Women\'s Hospital',
+        icon: '🏥'
+    },
+    {
+        name: 'Amazon Rating ML Model',
+        icon: '⭐'
+    },
+    {
+        name: 'Game-Playing AI Model \'Gabor\'',
+        icon: '♟️'
+    },
+    {
+        name: 'Nantucket Town Trees GIS Layer',
+        icon: '🗺️'
+    },
+    {
+        name: 'Memory Management Unit',
+        icon: '💿'
+    }
 ]
 
 const GAMES = [
@@ -853,15 +888,13 @@ const templates = {
                                     const load = window.setInterval(() => {
                                         if (document.getElementById('login-loading-gentle').innerText.length === 0) {
                                             window.setTimeout(() => {
+                                                document.getElementById('portfolio-entry').style.height =
+                                                    `${document.getElementById('portfolio-entry').scrollHeight}px`;
+                                                document.getElementById('portfolio-logo').className = 'flicker';
                                                 window.setTimeout(() => {
-                                                    document.getElementById('portfolio-entry').style.height =
-                                                        `${document.getElementById('portfolio-entry').scrollHeight}px`;
-                                                    document.getElementById('portfolio-logo').className = 'flicker';
-                                                    window.setTimeout(() => {
-                                                        document.getElementById('portfolio-entry').style.height = 'auto';
-                                                    }, 1000)
-                                                }, 500)
-                                            }, 300);
+                                                    document.getElementById('portfolio-entry').style.height = 'auto';
+                                                }, 1000)
+                                            }, 250);
                                             window.clearInterval(load);
                                         } else {
                                             document.getElementById('login-loading-blue').innerHTML += '#';
@@ -1278,7 +1311,6 @@ const getFooterEntryByPID = (pid) => {
 }
 
 const render = (template) => {
-    console.log(template)
     if (typeof template == 'string') {
         return document.createTextNode(template);
     }
