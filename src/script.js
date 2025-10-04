@@ -161,7 +161,8 @@ const GAMES = [
         images: [
             {path: './assets/games/flip7.png', alt: 'The main Flip 7 gameplay UI.'}
         ],
-        start: {month: 6, year: 2025}
+        timeframe: 'June 2025',
+        url: 'https://boardgames.alexsantagata.dev/flip7/flip7.html'
     },
     {
         name: 'One Night Ultimate Werewolf',
@@ -177,8 +178,8 @@ const GAMES = [
             {path: './assets/games/onuwgameplay.png', alt: 'One Night Ultimate Werewolf gameplay with cards in motion.'},
             {path: './assets/games/onuwvotes.png', alt: 'The climactic turnout of a One Night Ultimate Werewolf game.'}
         ],
-        start: {month: 2, year: 2025},
-        start: {month: 3, year: 2025},
+        timeframe: 'February–March 2025',
+        url: 'https://boardgames.alexsantagata.dev/ONUW/client.html'
     },
     {
         name: 'Wandering Towers',
@@ -192,7 +193,8 @@ const GAMES = [
         images: [
             {path: './assets/games/wandering.png', alt: 'The main Wandering Towers gameplay UI.'}
         ],
-        start: {month: 7, year: 2025},
+        timeframe: 'July 2025',
+        url: 'https://boardgames.alexsantagata.dev/wandering%20towers/server.html'
     },
 ]
 
@@ -287,7 +289,27 @@ const appAuxTemplates = {
                         document.getElementById(`game-blurb-${PID}`).replaceChildren(render({
                             className: 'margin-auto flex-col gap',
                             children: [
-                                {tag: 'h2', children: game.name},
+                                {
+                                    className: 'between',
+                                    children: [
+                                        {
+                                            children: [
+                                                {tag: 'h2', children: game.name},
+                                                {className: 'gentle', children: game.timeframe},
+                                            ]
+                                        },
+                                        {
+                                            children: [
+                                                {
+                                                    tag: 'a',
+                                                    href: game.url,
+                                                    className: 'visit-button',
+                                                    children: 'Play'
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
                                 appAuxTemplates.BADGESET(game.badges),
                                 componentTemplates.CAROUSEL(game.images),
                                 ...game.description.map(p => {
@@ -408,7 +430,7 @@ const applicationTemplates = {
                             children: [
                                 `✉️: `,
                                 {
-                                    tag: 'a',
+                                    tag: 'a blue',
                                     href: 'mailto:ajsantagata@wpi.edu',
                                     children: 'ajsantagata@wpi.edu'
                                 }
@@ -423,7 +445,7 @@ const applicationTemplates = {
                                 },
                                 ': ',
                                 {
-                                    tag: 'a',
+                                    tag: 'a blue',
                                     href: 'https://www.linkedin.com/in/alex-santagata/',
                                     children: 'alex-santagata'
                                 }
@@ -437,7 +459,7 @@ const applicationTemplates = {
                                 },
                                 ': ',
                                 {
-                                    tag: 'a',
+                                    tag: 'a blue',
                                     href: 'https://github.com/asantagata',
                                     children: 'asantagata'
                                 }

@@ -403,7 +403,7 @@ input[readonly] {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    color: #dffffd;
+    color: white;
     opacity: 0.25;
 }
 
@@ -703,7 +703,7 @@ input[type=checkbox] {
 .red {color: var(--red)}
 .yellow {color: var(--yellow)}
 .green {color: var(--green)}
-.blue, a, a:visited {color: var(--blue)}
+.blue, a:visited.blue {color: var(--blue)}
 
 .wiki p, .modal p {
     margin: 1em auto;
@@ -882,7 +882,7 @@ transmission * {
     vertical-align: middle;
 }
 
-#desktop .gamebox-wrapper {
+.gamebox-wrapper {
     --diffwidth: calc(var(--maxwidth) - var(--minwidth));
     --width: calc(var(--minwidth) + var(--percent) * var(--diffwidth));
     --halfwidth: calc(var(--width) / 2);
@@ -898,6 +898,9 @@ transmission * {
     will-change: transform;
     transform-style: preserve-3d;
     position: relative;
+}
+
+#desktop .gamebox-wrapper {
     z-index: calc(24 * (1 - var(--percent))); /* MODIFY WHEN ADDING NEW GAMES */
 }
 
@@ -1155,4 +1158,17 @@ transmission * {
     50% {opacity: 0.5}
     65% {opacity: 0.4}
     100% {opacity: 1}
+}
+
+.visit-button {
+    border: 1px solid var(--green);
+    color: var(--green);
+    padding: 1ch;
+    border-radius: 1ch;
+    text-decoration: none;
+    display: block;
+}
+
+.visit-button:hover {
+    background: var(--lightergrey);
 }
