@@ -151,39 +151,57 @@ const BADGES = {
 const PROJECTS = [
     {
         name: 'Card Domain',
-        icon: '🃏'
+        icon: '🃏',
+        subtitle: 'Card gaming web app',
+        timeframe: 'July–September 2025'
     },
     {
         name: 'PerfFlowAspect',
-        icon: '📊'
+        icon: '📊',
+        subtitle: 'HPC profiling tool',
+        timeframe: 'August 2025–Present'
     },
     {
-        name: 'Mosaiq Software Portfolio',
-        icon: '🟪'
+        name: 'mosaiq.dev',
+        icon: '🟪',
+        subtitle: 'Stylish online portfolio',
+        timeframe: 'September–October 2025'
     },
     {
         name: 'Terrazzo',
-        icon: '🗃️'
+        icon: '🗃️',
+        subtitle: 'Feature-packed kanban platform',
+        timeframe: 'May–August 2025'
     },
     {
-        name: 'Brigham & Women\'s Hospital',
-        icon: '🏥'
+        name: 'Brigham & Women\'s Hospital Site',
+        icon: '🏥',
+        subtitle: 'Healthcare & navigation tool',
+        timeframe: 'March–May 2025'
     },
     {
         name: 'Amazon Rating ML Model',
-        icon: '⭐'
+        icon: '⭐',
+        subtitle: 'Business-facing AI service',
+        timeframe: 'September–October 2025'
     },
     {
-        name: 'Game-Playing AI Model \'Gabor\'',
-        icon: '♟️'
+        name: 'Lasker Morris AI',
+        icon: '♟️',
+        subtitle: 'Game-playing AI models',
+        timeframe: 'February–March 2025'
     },
     {
-        name: 'Nantucket Town Trees GIS Layer',
-        icon: '🗺️'
+        name: 'Nantucket Tree Inventory',
+        icon: '🗺️',
+        subtitle: 'Database and GIS tool',
+        timeframe: 'August–December 2024'
     },
     {
         name: 'Memory Management Unit',
-        icon: '💿'
+        icon: '💿',
+        subtitle: 'Computing simulation',
+        timeframe: 'February 2024'
     }
 ]
 
@@ -412,9 +430,41 @@ const applications = {
 }
 
 const applicationTemplates = {
-    [applicationTypes.WORK]: () => {
+    [applicationTypes.WORK]: (PID) => {
         return {
-            className: 'window-light padded'
+            className: 'window-light padded flex gap',
+            children: [
+                {
+                    className: 'proj-stack-wrapper',
+                    children:
+                        PROJECTS.map(proj => {
+                            return {
+                                className: 'proj-stack-entry padded rounded',
+                                children: [
+                                    {
+                                        style: 'font-weight: bold',
+                                        children: `${proj.icon} ${proj.name}`
+                                    },
+                                    {
+                                        className: 'gentle',
+                                        children: proj.subtitle
+                                    }
+                                ]
+                            }
+                        })
+                },
+                {
+                    className: 'proj-blurb-wrapper',
+                    children: {
+                        className: 'proj-blurb margin-auto',
+                        id: `proj-blurb-${PID}`,
+                        children: {
+                            className: 'center text-center gentle',
+                            children: 'Select a project...'
+                        }
+                    }
+                }
+            ]
         }
     },
     [applicationTypes.GAMES]: (PID) => {
@@ -1292,16 +1342,6 @@ const templates = {
     }
 }
 
-const typeInElement = (element, text, speed) => {
-    let index = 0;
-    const interval = window.setInterval(() => {
-        element.value = (element.value || '') + text[index];
-        index++;
-        if (index === text.length)
-            window.clearInterval(interval);
-    }, speed);
-}
-
 const getWindowElementByPID = (pid) => {
     return document.getElementById(`window-${pid}`);
 }
@@ -1311,6 +1351,7 @@ const getFooterEntryByPID = (pid) => {
 }
 
 const render = (template) => {
+    console.log(template);
     if (typeof template == 'string') {
         return document.createTextNode(template);
     }

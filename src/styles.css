@@ -904,11 +904,15 @@ transmission * {
     z-index: calc(24 * (1 - var(--percent))); /* MODIFY WHEN ADDING NEW GAMES */
 }
 
-.gamebox-stack-wrapper {
+.gamebox-stack-wrapper, .proj-stack-wrapper {
     flex-shrink: 0;
     height: 100%;
     overflow: auto;
     max-width: 50%;
+}
+
+.proj-stack-wrapper {
+    max-width: 40%;
 }
 
 .gamebox-wrapper:last-child {
@@ -1035,7 +1039,7 @@ transmission * {
     border-color: #fff;
 }
 
-.game-blurb-wrapper {
+.game-blurb-wrapper, .proj-blurb-wrapper {
     flex-grow: 1;
     height: 100%;
     display: flex;
@@ -1171,4 +1175,9 @@ transmission * {
 
 .visit-button:hover {
     background: var(--lightergrey);
+}
+
+.proj-stack-entry:hover {
+    background: var(--lightgrey);
+    /*border: 1px solid var(--gentle);*/
 }
