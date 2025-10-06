@@ -1124,20 +1124,18 @@ transmission * {
     cursor: pointer;
 }
 
-.window.mini .openable-image {
-    max-height: min(50dvh, calc(50dvw / var(--aspect-ratio)));
-}
-
-.window.fullscreen .openable-image {
-    max-height: min(100dvh, calc(100dvw / var(--aspect-ratio)));
-}
-
 .modal-image, .openable-image {
     max-width: 100%;
 }
 
 .modal-image {
     max-height: 100%;
+}
+
+.carousel {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    align-items: center;
 }
 
 .carousel .icon {
@@ -1154,17 +1152,18 @@ transmission * {
     opacity: 0.4;
 }
 
-.carousel .carousel-entry {display: none;}
-.carousel[cindex='0'] .carousel-entry:nth-child(1) {display: flex;}
-.carousel[cindex='1'] .carousel-entry:nth-child(2) {display: flex;}
-.carousel[cindex='2'] .carousel-entry:nth-child(3) {display: flex;}
-.carousel[cindex='3'] .carousel-entry:nth-child(4) {display: flex;}
-.carousel[cindex='4'] .carousel-entry:nth-child(5) {display: flex;}
-.carousel[cindex='5'] .carousel-entry:nth-child(6) {display: flex;}
-.carousel[cindex='6'] .carousel-entry:nth-child(7) {display: flex;}
-.carousel[cindex='7'] .carousel-entry:nth-child(8) {display: flex;}
-.carousel[cindex='8'] .carousel-entry:nth-child(9) {display: flex;}
-.carousel[cindex='9'] .carousel-entry:nth-child(10) {display: flex;}
+.carousel-inner > * {display: none;}
+.carousel[cindex='0'] > .carousel-inner > *[myindex='0'] {display: flex;}
+.carousel[cindex='1'] > .carousel-inner > *[myindex='1'] {display: flex;}
+.carousel[cindex='2'] > .carousel-inner > *[myindex='2'] {display: flex;}
+.carousel[cindex='3'] > .carousel-inner > *[myindex='3'] {display: flex;}
+.carousel[cindex='4'] > .carousel-inner > *[myindex='4'] {display: flex;}
+.carousel[cindex='5'] > .carousel-inner > *[myindex='5'] {display: flex;}
+.carousel[cindex='6'] > .carousel-inner > *[myindex='6'] {display: flex;}
+.carousel[cindex='7'] > .carousel-inner > *[myindex='7'] {display: flex;}
+.carousel[cindex='8'] > .carousel-inner > *[myindex='8'] {display: flex;}
+.carousel[cindex='9'] > .carousel-inner > *[myindex='9'] {display: flex;}
+.carousel[cindex='10'] > .carousel-inner > *[myindex='10'] {display: flex;}
 
 .carousel-entry {
     display: flex;

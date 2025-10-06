@@ -1064,7 +1064,7 @@ const componentTemplates = {
             };
         }
         return {
-            className: `carousel gap center-row ${images.length === 1 ? 'disabled' : ''}`,
+            className: `carousel gap`,
             cindex: '0',
             children: [
                 {
@@ -1080,17 +1080,9 @@ const componentTemplates = {
                     ]
                 },
                 {
-                    children: images.map(image => {
-                        return {
-                            className: 'carousel-entry',
-                            children: [
-                                componentTemplates.OPENABLE_IMAGE(image.path, image.alt),
-                                {
-                                    className: 'gentle',
-                                    children: image.alt
-                                }
-                            ]
-                        }
+                    className: 'carousel-inner',
+                    children: images.map((image, index) => {
+                        return {...componentTemplates.OPENABLE_IMAGE(image.path, image.alt), myindex: index}
                     })
                 },
                 {
@@ -1104,7 +1096,19 @@ const componentTemplates = {
                             }
                         }
                     ]
-                }
+                },
+                {
+                    className: 'carousel-inner',
+                    style: 'grid-column: 1 / 4',
+                    children: images.map((image, index) => {
+                        return {
+                            className: 'gentle text-center',
+                            style: 'justify-content: center',
+                            children: image.alt,
+                            myindex: index
+                        }
+                    })
+                },
             ]
         }
     }
