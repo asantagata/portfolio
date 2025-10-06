@@ -184,7 +184,11 @@ const PROJECTS = [
             {path: './assets/projects/crdaction.png', alt: 'A Card Domain room in action, with one card being moved between players\' hands.'},
         ],
         url: 'https://carddomain.mosaiq.dev/',
-        description: []
+        description: [
+            'Card Domain is a platform for online multiplayer card-based gameplay. It has a powerful breadth of features for user-driven card games; users can create decks from scratch and have total control over key game state elements such as card visibility and distribution. This powerful customization allows for a large variety of card games to be easily emulated.',
+            'Card Domain was developed with the team at Mosaiq Software. I was initially the solo developer for Card Domain but later became project manager as the team grew. I designed its Socket.IO-based event architecture as well as the configs and gameplay UI, which uses the Mantine components library and a versatile drag-and-drop system developed in-house.',
+            'This project was the result of my first time acting as project manager for a project which was truly my own from conception to production. Card Domain is the only online multiplayer card gaming platform with full deck visibility and built-in features for shuffling, flipping and moving selections of cards.'
+        ]
     },
     {
         name: 'PerfFlowAspect',
@@ -193,11 +197,15 @@ const PROJECTS = [
         timeframe: 'August 2025–Present',
         badges: [BADGES.cpp, BADGES.team],
         images: [
-            {path: './assets/projects/pfaperfetto.png', alt: 'A Perfetto view of a PerfFlowAspect output file in Chrome Trace Format.'}
+            {path: './assets/projects/pfaperfetto.png', alt: 'A Perfetto view of a PerfFlowAspect output file.'}
         ],
         url: 'https://github.com/flux-framework/PerfFlowAspect/',
         urlIsGit: true,
-        description: []
+        description: [
+            'PerfFlowAspect is a project in development by High Performance Computing (HPC) researchers at Lawrence Livermore National Laboratory (LLNL). It is an LLVM-based profiler for multi-process HPC applications in Python or C++ and records performance information in the Chrome Trace Format which can be visualized using tools like Perfetto.',
+            'PerfFlowAspect is based on the design paradigm of aspect-oriented programming, a modularization approach that allows it to separate data measurement from source code.',
+            'For my senior year project at WPI, I am developing several enhancements for this tool, including identifying and fixing LLVM bugs, porting to newer versions of Clang, and developing benchmarks.'
+        ]
     },
     {
         name: 'mosaiq.dev',
@@ -210,7 +218,9 @@ const PROJECTS = [
             {path: './assets/projects/msqprojs.png', alt: 'The Mosaiq portfolio projects and contact menus.'},
         ],
         url: 'https://mosaiq.dev/',
-        description: []
+        description: [
+            'mosaiq.dev is the homepage of Mosaiq Software, a collective of WPI-based web developers of which I have been a proud member since May 2025. Its sleek, fluid design was made with the GSAP animation platform and the Astro framework. I contributed design and functionality to several pages of the site including the home and contact pages.'
+        ]
     },
     {
         name: 'Terrazzo',
@@ -223,7 +233,10 @@ const PROJECTS = [
             {path: './assets/projects/trzspace.png', alt: 'Terrazzo\'s main menu, with a list of organizations, boards and projects.'},
         ],
         url: 'https://terrazzo.mosaiq.dev/',
-        description: []
+        description: [
+            'Terrazzo is a kanban-style project management application originally built to streamline internal operations at Mosaiq Software. It quickly grew into a more robust platform complete with a professional suite of features, including real-time updates and fully customizable boards.',
+            'I developed and enhanced various features, including the markdown system utilized by Terrazzo\'s task description editor and the ability for tasks to list other tasks as \'blockers.\''
+        ]
     },
     {
         name: 'Brigham & Women\'s Hospital Web App',
@@ -233,7 +246,7 @@ const PROJECTS = [
         badges: [BADGES.react, BADGES.typescript, BADGES.node, BADGES.postgres, BADGES.team, BADGES.leadership],
         images: [
             {path: './assets/projects/bwhhome.png', alt: 'The home page of the Brigham & Women\'s Hospital web app.'},
-            {path: './assets/projects/bwhmap.png', alt: 'The map page, which utilizes the react-google-maps library for display and navigation.'},
+            {path: './assets/projects/bwhmap.png', alt: 'The map page, which utilizes Google Maps for display and navigation.'},
             {path: './assets/projects/bwheditor.png', alt: 'The editor for the floor plan navigation system.'},
             {path: './assets/projects/bwhrequest.png', alt: 'The service requests form, filled out with a sanitation request.'},
             {path: './assets/projects/bwhdataviz.png', alt: 'Data visualization components for logged service requests.'},
@@ -241,17 +254,23 @@ const PROJECTS = [
         ],
         url: 'https://github.com/asantagata/cs3733-team-p',
         urlIsGit: true,
-        description: []
+        description: [
+            `A robust, full-stack web platform for healthcare and navigation. The Brigham & Women's Hospital web app includes an Auth0-based login system, a Google Maps-based directory and navigation page including a full suite of voice controls, a service requests system for hospital staff, and a live forum.`,
+            `Over an intensive five-week term, I led a team of ten software developers in an Agile environment, coordinating weekly sprint planning and daily stand-up meetings. I was responsible for several key features, including the navigation system, the editor of the floor plan, and command parsing for the voice-activated navigation UI.`
+        ]
     },
     {
         name: 'Amazon Rating ML Model',
         icon: '⭐',
         subtitle: 'Business-facing AI service',
         timeframe: 'September 2025–Present',
-        badges: [BADGES.python, BADGES.ml, BADGES.leadership],
+        badges: [BADGES.python, BADGES.ml],
         url: 'https://github.com/esthermao/CS4342_finalproject',
         urlIsGit: true,
-        description: []
+        description: [
+            'A Python-based machine learning model which estimates the average star rating of an Amazon product given various data, including its description, price, and the text content of reviews. The model uses word2vec encodings for natural language processing and scikit-learn for machine learning utilities.',
+            'This model is being developed in a team of 5 as part of a course at WPI.'
+        ]
     },
     {
         name: 'Lasker Morris AI',
@@ -264,7 +283,12 @@ const PROJECTS = [
         ],
         url: 'https://github.com/asantagata/lasker-morris-player-gabor',
         urlIsGit: true,
-        description: []
+        description: [
+            [`A Java-based AI model which uses the minimax game-playing algorithm with alpha-beta pruning and iterative descent to play the ancient strategy game of Lasker Morris using `,
+                {tag: 'a', className: 'blue', href: 'https://jake-molnia.github.io/CS4341-referee/', target: '_blank', children: `Jake Molnia's Lasker Morris Referee Program`},
+            `.`],
+            'A second model which decides its moves using the Google Gemini LLM API is also included, allowing for comparison between minimax and LLM-driven gameplay.'
+        ]
     },
     {
         name: 'Nantucket Tree Inventory',
@@ -278,7 +302,9 @@ const PROJECTS = [
             {path: './assets/projects/treedata.png', alt: 'Creative data visualization representing species of Nantucket trees.'},
         ],
         url: 'https://nantucketma.mapgeo.io/',
-        description: []
+        description: [
+            `A database and GIS layer representing the town-owned trees of Nantucket, Massachusetts, developed in collaboration with Nantucket's Department of Public Works. I led a four-student team in organizing and filling gaps in a large dataset and converting data into a GIS-compatible format. The resulting layer is now live on Nantucket's GIS system and sees regular use by its local government.`,
+        ]
     },
     {
         name: 'Memory Management Unit',
@@ -291,7 +317,10 @@ const PROJECTS = [
         ],
         url: 'https://github.com/asantagata/memory-manager-unit',
         urlIsGit: true,
-        description: []
+        description: [
+            'A C-based simulation of a memory management unit which can systematically allocate and deallocate virtual memory for several simulated processes. It also simulates reading to and writing from disk using a text file.',
+            'This project was developed for Operating Systems at WPI.'
+        ]
     }
 ]
 
