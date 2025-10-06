@@ -195,7 +195,7 @@ const PROJECTS = [
         icon: '📊',
         subtitle: 'HPC profiling tool',
         timeframe: 'August 2025–Present',
-        badges: [BADGES.cpp, BADGES.team],
+        badges: [BADGES.cpp, BADGES.python, BADGES.team],
         images: [
             {path: './assets/projects/pfaperfetto.png', alt: 'A Perfetto view of a PerfFlowAspect output file.'}
         ],
@@ -1023,6 +1023,19 @@ const componentTemplates = {
         }
     },
     CAROUSEL: (images) => {
+        if (images.length === 1) {
+            const image = images[0];
+            return {
+                className: 'carousel-entry',
+                children: [
+                    componentTemplates.OPENABLE_IMAGE(image.path, image.alt),
+                    {
+                        className: 'gentle',
+                        children: image.alt
+                    }
+                ]
+            };
+        }
         return {
             className: `carousel gap center-row ${images.length === 1 ? 'disabled' : ''}`,
             cindex: '0',
