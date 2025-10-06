@@ -841,7 +841,9 @@ const applicationTemplates = {
     [applicationTypes.BROWSER]: () => {
         return {
             className: 'window-light padded',
-            innerHTML: document.getElementById('wiki-template').innerHTML
+            children: {
+                cloneFrom: document.getElementById('wiki-template').children[0]
+            }
         }
     },
     [applicationTypes.RECYCLE]: () => {
@@ -1637,6 +1639,9 @@ const render = (template) => {
     console.log(template);
     if (typeof template == 'string') {
         return document.createTextNode(template);
+    }
+    if (template.cloneFrom) {
+        return template.cloneFrom.cloneNode(true);
     }
     const element = document.createElement(template.tag || 'div');
     if (template.tag === 'a') {
