@@ -3,6 +3,18 @@ const parseTerminalInstruction = (inst, PID) => {
     const params = fullCommand.indexOf(' ') >= 0 ? fullCommand.substring(fullCommand.indexOf(' ') + 1) : '';
     const command = fullCommand.split(' ')[0];
     switch (command) {
+        case 'flyaway':
+            const windowElement = getWindowElementByPID(PID);
+            windowElement.style.transition = 'top 2s ease-in';
+            windowElement.style.top = '-100dvh';
+            const footerElement = getFooterEntryByPID(PID);
+            footerElement.style.transition = 'opacity 1s ease-in';
+            footerElement.style.opacity = '0';
+            window.setTimeout(() => {
+                windowElement.remove();
+                footerElement.remove();
+            }, 2000)
+            return `Up I go.`;
         case 'theme':
             if (params === 'default' || params === 'hacker' || params === 'glass') {
                 if (desktop.theme.toLowerCase() === params) {
