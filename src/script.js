@@ -3,23 +3,50 @@ const parseTerminalInstruction = (inst, PID) => {
     const params = fullCommand.indexOf(' ') >= 0 ? fullCommand.substring(fullCommand.indexOf(' ') + 1) : '';
     const command = fullCommand.split(' ')[0];
     switch (command) {
+        case 'theme':
+            if (params === 'default' || params === 'hacker' || params === 'glass') {
+                if (desktop.theme.toLowerCase() === params) {
+                    return `Theme is already "${params}".`;
+                }
+                const theme = {
+                    'default': 'Default',
+                    'hacker': 'Hacker',
+                    'glass': 'Glass'
+                }[params];
+                desktop.theme = theme;
+                document.getElementById('viewport').classList.remove('default-theme', 'hacker-theme', 'glass-theme');
+                document.getElementById('viewport').classList.add(`${params}-theme`);
+                for (const button of document.getElementsByClassName(`theme-${theme}`)) {
+                    button.checked = true;
+                }
+                return `Set theme to "${params}".`
+            } else {
+                return {
+                    className: 'red',
+                    children: `"${params}" is not a theme.`
+                };
+            }
         case 'close':
         case 'quit': {
             if (params) {
                 const application = applicationTypesByName[params];
                 if (application) {
-                    Array.from(document.querySelectorAll(`.window.${application}, .footer-entry-${application}`)).forEach(el => {
+                    const targets = Array.from(document.querySelectorAll(`.window.${application}, .footer-entry-${application}`));
+                    if (!targets) {
+                        return `No "${params}" windows to close.`;
+                    }
+                    targets.forEach(el => {
                         el.remove();
                     });
                     if (application === applicationTypes.TERMINAL) {
                         return false;
                     } else {
-                        return `Closed all '${params}' windows.`;
+                        return `Closed all "${params}" windows.`;
                     }
                 } else {
                     return {
                         className: 'red',
-                        children: `"${params}" is not a kind of window.`
+                        children: `"${params}" is not a window.`
                     };
                 }
             } else {
