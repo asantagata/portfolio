@@ -291,6 +291,8 @@ input[readonly] {
 
 .recyclables {
     display: flex;
+    flex-wrap: wrap;
+    gap: 1ch;
 }
 
 .recyclable {

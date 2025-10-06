@@ -2,6 +2,26 @@ const parseTerminalInstruction = (inst, PID) => {
     const fullCommand = inst.trim().toLowerCase();
     const params = fullCommand.indexOf(' ') >= 0 ? fullCommand.substring(fullCommand.indexOf(' ') + 1) : '';
     const command = fullCommand.split(' ')[0];
+    if (fullCommand === 'take out recycling') {
+        if (desktop.recyclables === 0) {
+            return {
+                className: 'yellow',
+                children: `No more recyclables to take out.`
+            }
+        } else {
+            desktop.recyclables--;
+            Array.from(document.getElementsByClassName('recyclables')).forEach(bin => {
+                bin.replaceWith(render(appAuxTemplates.RECYCLABLES()));
+            });
+            return `Took out a ${['box', 'tin can', 'newspaper'][(desktop.recyclables) % 3]}.`
+        }
+    } else if (fullCommand === 'recycle') {
+        desktop.recyclables++;
+        Array.from(document.getElementsByClassName('recyclables')).forEach(bin => {
+            bin.replaceWith(render(appAuxTemplates.RECYCLABLES()));
+        });
+        return `Recycled a ${['box', 'tin can', 'newspaper'][(desktop.recyclables - 1) % 3]}.`
+    }
     switch (command) {
         case 'weather':
             if (params.length === 0) return {
@@ -722,6 +742,32 @@ const appAuxTemplates = {
                 }
             ]
         }
+    },
+    RECYCLABLES: () => {
+        return {
+            className: 'recyclables padded',
+            children: (new Array(desktop.recyclables).fill(0)).map((_, i) => {
+                return [
+                    {icon: '📦', name: 'Box'},
+                    {icon: '🥫', name: 'Tin can'},
+                    {icon: '📰', name: 'Newspaper'}
+                ][i % 3]
+            }).map(recyclable => {
+                return {
+                    className: 'recyclable center',
+                    children: [
+                        {
+                            className: 'recyclable-icon',
+                            children: recyclable.icon
+                        },
+                        {
+                            className: 'recyclable-label',
+                            children: recyclable.name
+                        }
+                    ]
+                }
+            })
+        };
     }
 }
 
@@ -1006,30 +1052,7 @@ const applicationTemplates = {
     [applicationTypes.RECYCLE]: () => {
         return {
             className: 'window-light padded',
-            children: [
-                {
-                    className: 'recyclables padded',
-                    children: [
-                        {icon: '📦', name: 'Cardboard box'},
-                        {icon: '🥫', name: 'Tin can'},
-                        {icon: '📰', name: 'Newspaper'}
-                    ].map(recyclable => {
-                        return {
-                            className: 'recyclable center',
-                            children: [
-                                {
-                                    className: 'recyclable-icon',
-                                    children: recyclable.icon
-                                },
-                                {
-                                    className: 'recyclable-label',
-                                    children: recyclable.name
-                                }
-                            ]
-                        }
-                    })
-                }
-            ]
+            children: appAuxTemplates.RECYCLABLES()
         }
     },
     [applicationTypes.TERMINAL]: (PID) => {
@@ -1990,7 +2013,8 @@ let desktop = {
     ],
     theme: 'Default',
     retro: true,
-    weather: weathers[0]
+    weather: weathers[0],
+    recyclables: 3
 }
 
 document.getElementById('wiki-work').replaceChildren(...PROJECTS.slice(0, 5).map(proj => render({
