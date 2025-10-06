@@ -1,8 +1,34 @@
-const parseTerminalInstruction = (inst) => {
-    const casedCommand = inst.split(' ')[0];
-    const command = casedCommand.toLowerCase();
+const parseTerminalInstruction = (inst, PID) => {
+    const fullCommand = inst.trim().toLowerCase();
+    const params = fullCommand.indexOf(' ') >= 0 ? fullCommand.substring(fullCommand.indexOf(' ') + 1) : '';
+    const command = fullCommand.split(' ')[0];
     switch (command) {
-        case 'help':
+        case 'close':
+        case 'quit': {
+            if (params) {
+                const application = applicationTypesByName[params];
+                if (application) {
+                    Array.from(document.querySelectorAll(`.window.${application}, .footer-entry-${application}`)).forEach(el => {
+                        el.remove();
+                    });
+                    if (application === applicationTypes.TERMINAL) {
+                        return false;
+                    } else {
+                        return `Closed all '${params}' windows.`;
+                    }
+                } else {
+                    return {
+                        className: 'red',
+                        children: `"${params}" is not a kind of window.`
+                    };
+                }
+            } else {
+                getWindowElementByPID(PID).remove();
+                getFooterEntryByPID(PID).remove();
+                return false;
+            }
+        }
+        case 'help': {
             return {
                 children: [
                     {
@@ -17,7 +43,6 @@ const parseTerminalInstruction = (inst) => {
                             {
                                 tag: 'tbody',
                                 children: [
-                                    {name: 'Name', desc: 'Description'},
                                     {name: 'help', desc: 'View this very menu'},
                                     {name: '...', desc: '...'}
                                 ].map(c => {
@@ -40,11 +65,19 @@ const parseTerminalInstruction = (inst) => {
                     }
                 ]
             };
-        default:
-            return {
-                className: 'red',
-                children: `"${casedCommand}" is not a valid command. Type "help" for help.`
-            };
+        }
+        default: {
+            const application = applicationTypesByName[fullCommand];
+            if (application) {
+                launch(application);
+                return `Launched ${inst}.`;
+            } else {
+                return {
+                    className: 'red',
+                    children: `"${inst.split(' ')[0]}" is not a valid command. Type "help" for help.`
+                };
+            }
+        }
     }
 }
 
@@ -443,8 +476,12 @@ const appAuxTemplates = {
                                             e.preventDefault();
                                             const transmission = document.querySelector(`#terminal-${PID} .transmission-wrapper:last-child`);
                                             transmission.children[0].children[1].setAttribute('contenteditable', 'false');
-                                            transmission.children[1].replaceChildren(render(parseTerminalInstruction(transmission.children[0].children[1].innerText)));
-        
+                                            const result = parseTerminalInstruction(transmission.children[0].children[1].innerText, PID);
+
+                                            if (result) {
+                                                transmission.children[1].replaceChildren(render(result));
+                                            }
+
                                             const terminal = document.getElementById(`terminal-${PID}`);
                                             terminal.appendChild(render(appAuxTemplates.TRANSMISSION(PID)));
                                         }
@@ -619,15 +656,27 @@ const appAuxTemplates = {
 
 const applicationTypes = {
     BROWSER: 'browser',
-    FILES: 'files',
     TERMINAL: 'terminal',
     SETTINGS: 'settings',
-    TEXT: 'text',
     CHAT: 'chat',
     RECYCLE: 'recycle',
     GAMES: 'games',
     WORK: 'work',
     MODAL: 'modal'
+}
+
+const applicationTypesByName = {
+    'about': applicationTypes.BROWSER,
+    'browser': applicationTypes.BROWSER,
+    'wiki': applicationTypes.BROWSER,
+    'console': applicationTypes.TERMINAL,
+    'terminal': applicationTypes.TERMINAL,
+    'settings': applicationTypes.SETTINGS,
+    'chat': applicationTypes.CHAT,
+    'recycle bin': applicationTypes.RECYCLE,
+    'trash': applicationTypes.RECYCLE,
+    'games': applicationTypes.GAMES,
+    'work': applicationTypes.WORK
 }
 
 const applications = {
@@ -1640,7 +1689,6 @@ const getFooterEntryByPID = (pid) => {
 }
 
 const render = (template) => {
-    console.log(template);
     if (typeof template == 'string') {
         return document.createTextNode(template);
     }
