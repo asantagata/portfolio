@@ -741,6 +741,10 @@ input[type=checkbox] {
     border: 1px solid var(--outline);
 }
 
+.mini-infobox {
+    width: max(15%, 20ch);
+}
+
 .infobox td {
     vertical-align: top;
 }
@@ -1302,4 +1306,33 @@ transmission * {
 
 .hacker-theme .trackname-wrapper::after {
     --background: #0b1512;
+}
+
+.wiki h2 {
+    border-bottom: 2px solid var(--outline);
+    display: flow-root;
+}
+
+.wiki h2 + p {
+    margin-top: 0;
+}
+
+.wiki a {
+    color: var(--blue);
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.wiki a:hover {
+    text-decoration: underline;
+}
+
+.wiki svg {
+    height: 1em;
+    width: 1em;
+    margin-left: 0.5ch;
+}
+
+.wiki sup, .wiki sup a {
+    font-size: small;
 }

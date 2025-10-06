@@ -401,6 +401,12 @@ const selectProj = (PID, index, resetSeekbar = false) => {
     }
 }
 
+const scrollToFootnotes = (event) => {
+    event.target.closest('.wiki').querySelector('.last-footnote').scrollIntoView({
+        behavior: 'smooth'
+    });
+}
+
 const appAuxTemplates = {
     TRANSMISSION: (PID) => {
         return {
@@ -625,11 +631,9 @@ const applicationTypes = {
 }
 
 const applications = {
-    [applicationTypes.BROWSER]: {name: 'Browser', icon: '🌐'},
-    [applicationTypes.FILES]: {name: 'Files', icon: '📂'},
+    [applicationTypes.BROWSER]: {name: 'About', icon: '🌐'},
     [applicationTypes.TERMINAL]: {name: 'Terminal', icon: '>_'},
     [applicationTypes.SETTINGS]: {name: 'Settings', icon: '⚙️'},
-    [applicationTypes.TEXT]: {name: 'Text Editor', icon: '📄'},
     [applicationTypes.CHAT]: {name: 'Chat', icon: '💬'},
     [applicationTypes.RECYCLE]: {name: 'Recycle Bin', icon: '🗑️'},
     [applicationTypes.GAMES]: {name: 'Games', icon: '🎮'},
@@ -1828,5 +1832,15 @@ let desktop = {
     theme: 'Default',
     retro: true
 }
+
+document.getElementById('wiki-work').replaceChildren(...PROJECTS.slice(0, 5).map(proj => render({
+    tag: 'li',
+    children: {
+        tag: 'a',
+        href: proj.url,
+        innerHTML: `${proj.name}<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-external-link-icon lucide-external-link"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>`
+    }
+})));
+document.getElementById('wiki-work').id = null;
 
 document.getElementById('viewport').replaceChildren(render(templates.DESKTOP_WRAPPER(desktop)));
