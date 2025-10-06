@@ -666,7 +666,7 @@ input[type=checkbox] {
 
 #infocard {
     display: none;
-    position: fixed;
+    position: absolute;
     right: 0;
     bottom: calc(100% / 16);
     padding: 1ch;
@@ -675,6 +675,7 @@ input[type=checkbox] {
     background: #00002244;
     backdrop-filter: blur(4px);
     transition: background 0.2s ease-in-out;
+    z-index: 98;
 }
 
 #infocard:hover {

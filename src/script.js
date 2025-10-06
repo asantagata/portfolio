@@ -3,6 +3,24 @@ const parseTerminalInstruction = (inst, PID) => {
     const params = fullCommand.indexOf(' ') >= 0 ? fullCommand.substring(fullCommand.indexOf(' ') + 1) : '';
     const command = fullCommand.split(' ')[0];
     switch (command) {
+        case 'weather':
+            const weather = weathers.find(w => w.names.includes(params));
+            if (weather) {
+                if (desktop.weather === weather) {
+                    return {
+                        className: 'yellow',
+                        children: `Weather is already ${params}.`
+                    };
+                }
+                desktop.weather = weather;
+                document.getElementById('weather').innerHTML = SVGs[weather.svg];
+                return `Set weather to "${weather.name}".`;
+            } else {
+                return {
+                    className: 'red',
+                    children: `"${params}" isn't a real weather.`
+                };
+            }
         case 'flyaway':
             const windowElement = getWindowElementByPID(PID);
             windowElement.style.transition = 'top 2s ease-in';
@@ -18,7 +36,10 @@ const parseTerminalInstruction = (inst, PID) => {
         case 'theme':
             if (params === 'default' || params === 'hacker' || params === 'glass') {
                 if (desktop.theme.toLowerCase() === params) {
-                    return `Theme is already "${params}".`;
+                    return {
+                        className: 'yellow',
+                        children: `Theme is already "${params}".`
+                    };
                 }
                 const theme = {
                     'default': 'Default',
@@ -45,7 +66,10 @@ const parseTerminalInstruction = (inst, PID) => {
                 if (application) {
                     const targets = Array.from(document.querySelectorAll(`.window.${application}, .footer-entry-${application}`));
                     if (!targets) {
-                        return `No "${params}" windows to close.`;
+                        return {
+                            className: 'yellow',
+                            children: `No "${params}" windows to close.`
+                        };
                     }
                     targets.forEach(el => {
                         el.remove();
@@ -729,6 +753,39 @@ const applications = {
     [applicationTypes.MODAL]: {name: 'Info', icon: 'ℹ️'}
 }
 
+const weathers = [
+    {
+        name: 'tactically ambiguous',
+        names: ['ambiguous', 'tactically ambiguous', 'normal'],
+        desc: 'The "true" weather might be any of cloudy, sunny, rainy, or other.',
+        svg: 'ambiguous'
+    },
+    {
+        name: 'tepid',
+        names: ['sunny', 'hot', 'warm', 'sun'],
+        desc: 'It\'s not violently hot. But it\'s hot.',
+        svg: 'sunny'
+    },
+    {
+        name: 'rainy',
+        names: ['rainy', 'wet', 'rain'],
+        desc: `Not even the good kind. It's the kind where it's still hot out.`,
+        svg: 'rainy'
+    },
+    {
+        name: 'cloudy',
+        names: ['cloudy', 'cloud'],
+        desc: 'A grey, pulsing mist veils the sky, which is OK.',
+        svg: 'cloudy'
+    },
+    {
+        name: 'snowy',
+        names: ['snowy', 'snow'],
+        desc: `They're changing it soon so snowy is actually a sub-weather of rainy.`,
+        svg: 'snowy'
+    }
+]
+
 const applicationTemplates = {
     [applicationTypes.WORK]: (PID) => {
         return {
@@ -1104,7 +1161,13 @@ const SVGs = {
     user: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-icon lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>',
     right: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right-icon lucide-arrow-right"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>',
     battery: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-battery-medium-icon lucide-battery-medium"><path d="M10 14v-4"/><path d="M22 14v-4"/><path d="M6 14v-4"/><rect x="2" y="6" width="16" height="12" rx="2"/></svg>',
-    weather: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-cloud-sun-rain-icon lucide-cloud-sun-rain"><path d="M12 2v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="M20 12h2"/><path d="m19.07 4.93-1.41 1.41"/><path d="M15.947 12.65a4 4 0 0 0-5.925-4.128"/><path d="M3 20a5 5 0 1 1 8.9-4H13a3 3 0 0 1 2 5.24"/><path d="M11 20v2"/><path d="M7 19v2"/></svg>',
+
+    ambiguous: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-cloud-sun-rain-icon lucide-cloud-sun-rain"><path d="M12 2v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="M20 12h2"/><path d="m19.07 4.93-1.41 1.41"/><path d="M15.947 12.65a4 4 0 0 0-5.925-4.128"/><path d="M3 20a5 5 0 1 1 8.9-4H13a3 3 0 0 1 2 5.24"/><path d="M11 20v2"/><path d="M7 19v2"/></svg>',
+    cloudy: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-cloudy-icon lucide-cloudy"><path d="M17.5 21H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/><path d="M22 10a3 3 0 0 0-3-3h-2.207a5.502 5.502 0 0 0-10.702.5"/></svg>',
+    sunny: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sun-icon lucide-sun"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>',
+    rainy: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-cloud-rain-wind-icon lucide-cloud-rain-wind"><path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"/><path d="m9.2 22 3-7"/><path d="m9 13-3 7"/><path d="m17 13-3 7"/></svg>',
+    snowy: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-cloud-snow-icon lucide-cloud-snow"><path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"/><path d="M8 15h.01"/><path d="M8 19h.01"/><path d="M12 17h.01"/><path d="M12 21h.01"/><path d="M16 15h.01"/><path d="M16 19h.01"/></svg>',
+
     wifi: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-wifi-icon lucide-wifi"><path d="M12 20h.01"/><path d="M2 8.82a15 15 0 0 1 20 0"/><path d="M5 12.859a10 10 0 0 1 14 0"/><path d="M8.5 16.429a5 5 0 0 1 7 0"/></svg>',
     linkedin: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-linkedin-icon lucide-linkedin"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>',
     github: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-github-icon lucide-github"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>',
@@ -1439,7 +1502,8 @@ const templates = {
                     id: 'footer-details',
                     children: [
                         {
-                            innerHTML: SVGs['weather'],
+                            id: 'weather',
+                            innerHTML: SVGs['ambiguous'],
                             listeners: [
                                 {
                                     type: 'click',
@@ -1847,11 +1911,11 @@ const summonInfoCard = (e, type) => {
                 {
                     children: [
                         {
-                            children: `Today's weather is: tactically ambiguous`,
+                            children: `Today's weather is: ${desktop.weather.name}`,
                         },
                         {
                             className: 'small detail',
-                            children: 'The weather might be any of cloudy, sunny, rainy, or other.'
+                            children: desktop.weather.desc
                         }
                     ]
                 }
@@ -1917,7 +1981,8 @@ let desktop = {
         {index: 15, type: applicationTypes.WORK}
     ],
     theme: 'Default',
-    retro: true
+    retro: true,
+    weather: weathers[0]
 }
 
 document.getElementById('wiki-work').replaceChildren(...PROJECTS.slice(0, 5).map(proj => render({
