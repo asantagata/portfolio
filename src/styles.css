@@ -1167,6 +1167,7 @@ transmission * {
 .carousel[cindex='9'] .carousel-entry:nth-child(10) {display: flex;}
 
 .carousel-entry {
+    display: flex;
     flex-direction: column;
     align-items: center;
 }
