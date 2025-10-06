@@ -391,6 +391,9 @@ const selectProj = (PID, index, resetSeekbar = false) => {
     document.getElementById(`proj-blurb-${PID}`).replaceChildren(
         render(appAuxTemplates.BLURB(PROJECTS[index], false))
     );
+    document.getElementById(`current-track-${PID}`).replaceChildren(
+        render(appAuxTemplates.CURRENT_TRACK(PROJECTS[index]))
+    );
     if (resetSeekbar) {
         document.getElementById(`seekbar-${PID}`).style.animationName = 'none';
         document.getElementById(`seekbar-${PID}`).offsetHeight;
@@ -586,6 +589,25 @@ const appAuxTemplates = {
                 }
             ]
         };
+    },
+    CURRENT_TRACK: (proj) => {
+        return {
+            className: 'flex gap',
+            style: 'align-items: center',
+            children: [
+                {
+                    className: 'trackicon',
+                    children: proj.icon
+                },
+                {
+                    className: 'trackname-wrapper',
+                    children: {
+                        className: 'trackname',
+                        children: proj.name
+                    }
+                }
+            ]
+        }
     }
 }
 
@@ -633,6 +655,10 @@ const applicationTemplates = {
                         {
                             className: 'proj-listener padded flex-col gap',
                             children: [
+                                {
+                                    id: `current-track-${PID}`,
+                                    children: appAuxTemplates.CURRENT_TRACK(PROJECTS[0])
+                                },
                                 {
                                     className: 'seekbar',
                                     id: `seekbar-${PID}`,
@@ -707,7 +733,8 @@ const applicationTemplates = {
                         children: appAuxTemplates.BLURB(PROJECTS[0], false)
                     }
                 }
-            ]
+            ],
+            onMount: () => selectProj(PID, 0, true)
         }
     },
     [applicationTypes.GAMES]: (PID) => {

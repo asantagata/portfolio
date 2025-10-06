@@ -1257,3 +1257,25 @@ transmission * {
 .music-button:active {
     transform: translateY(1px);
 }
+
+.trackicon {
+    flex-shrink: 0;
+    font-size: x-large;
+}
+
+.trackname-wrapper {
+    flex-grow: 1;
+    overflow-x: hidden;
+}
+
+.trackname {
+    padding-left: 100%;
+    animation: marquee 10s linear infinite;
+    white-space: nowrap;
+    width: fit-content;
+}
+
+@keyframes marquee {
+    0% {transform: translateX(0)}
+    100% {transform: translateX(-100%)}
+}
