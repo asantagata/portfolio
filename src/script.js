@@ -180,8 +180,8 @@ const PROJECTS = [
         timeframe: 'July–September 2025',
         badges: [BADGES.react, BADGES.typescript, BADGES.node, BADGES.socketio, BADGES.mosaiq, BADGES.leadership],
         images: [
-            {path: './assets/projects/crdconfig.png', alt: ''},
-            {path: './assets/projects/crdaction.png', alt: ''},
+            {path: './assets/projects/crdconfig.png', alt: 'The card configs menu of a Card Domain room.'},
+            {path: './assets/projects/crdaction.png', alt: 'A Card Domain room in action, with one card being moved between players\' hands.'},
         ],
         url: 'https://carddomain.mosaiq.dev/',
         description: []
@@ -201,13 +201,13 @@ const PROJECTS = [
     },
     {
         name: 'mosaiq.dev',
-        icon: '🟪',
+        icon: '💠',
         subtitle: 'Stylish online portfolio',
         timeframe: 'September–October 2025',
         badges: [BADGES.astro, BADGES.gsap, BADGES.mosaiq, BADGES.agile],
         images: [
-            {path: './assets/projects/msqhome.png', alt: ''},
-            {path: './assets/projects/msqprojs.png', alt: ''},
+            {path: './assets/projects/msqhome.png', alt: 'The snazzy Mosaiq portfolio homepage.'},
+            {path: './assets/projects/msqprojs.png', alt: 'The Mosaiq portfolio projects and contact menus.'},
         ],
         url: 'https://mosaiq.dev/',
         description: []
@@ -219,25 +219,25 @@ const PROJECTS = [
         timeframe: 'May–August 2025',
         badges: [BADGES.react, BADGES.typescript, BADGES.node, BADGES.socketio, BADGES.mosaiq],
         images: [
-            {path: './assets/projects/trzusage.png', alt: ''},
-            {path: './assets/projects/trzspace.png', alt: ''},
+            {path: './assets/projects/trzusage.png', alt: 'Terrazzo in use, with one task being moved to the \'Done\' column.'},
+            {path: './assets/projects/trzspace.png', alt: 'Terrazzo\'s main menu, with a list of organizations, boards and projects.'},
         ],
         url: 'https://terrazzo.mosaiq.dev/',
         description: []
     },
     {
-        name: 'Brigham & Women\'s Hospital Site',
+        name: 'Brigham & Women\'s Hospital Web App',
         icon: '🏥',
         subtitle: 'Healthcare & navigation tool',
         timeframe: 'March–May 2025',
         badges: [BADGES.react, BADGES.typescript, BADGES.node, BADGES.postgres, BADGES.team, BADGES.leadership],
         images: [
-            {path: './assets/projects/bwhhome.png', alt: ''},
-            {path: './assets/projects/bwhmap.png', alt: ''},
-            {path: './assets/projects/bwheditor.png', alt: ''},
-            {path: './assets/projects/bwhrequest.png', alt: ''},
-            {path: './assets/projects/bwhdataviz.png', alt: ''},
-            {path: './assets/projects/bwhforum.png', alt: ''}
+            {path: './assets/projects/bwhhome.png', alt: 'The home page of the Brigham & Women\'s Hospital web app.'},
+            {path: './assets/projects/bwhmap.png', alt: 'The map page, which utilizes the react-google-maps library for display and navigation.'},
+            {path: './assets/projects/bwheditor.png', alt: 'The editor for the floor plan navigation system.'},
+            {path: './assets/projects/bwhrequest.png', alt: 'The service requests form, filled out with a sanitation request.'},
+            {path: './assets/projects/bwhdataviz.png', alt: 'Data visualization components for logged service requests.'},
+            {path: './assets/projects/bwhforum.png', alt: 'The forum page, populated with posts from BWH frequenters.'}
         ],
         url: 'https://github.com/asantagata/cs3733-team-p',
         urlIsGit: true,
@@ -260,7 +260,7 @@ const PROJECTS = [
         timeframe: 'February–March 2025',
         badges: [BADGES.java, BADGES.ai, BADGES.ml],
         images: [
-            {path: './assets/projects/Gabor.png', alt: ''},
+            {path: './assets/projects/Gabor.png', alt: 'A game between two instances of Gabor, visualized with Jake Molnia\'s Lasker Morris Referee program.'},
         ],
         url: 'https://github.com/asantagata/lasker-morris-player-gabor',
         urlIsGit: true,
@@ -273,9 +273,9 @@ const PROJECTS = [
         timeframe: 'August–December 2024',
         badges: [BADGES.leadership, BADGES.dbmgmt],
         images: [
-            {path: './assets/projects/treemap.png', alt: ''},
-            {path: './assets/projects/treegis.png', alt: ''},
-            {path: './assets/projects/treedata.png', alt: ''},
+            {path: './assets/projects/treemap.png', alt: 'A \'Google My Maps\' visualization of the Nantucket tree data.'},
+            {path: './assets/projects/treegis.png', alt: 'The collected Nantucket tree data as visualized on the Nantucket MapGeo GIS layer.'},
+            {path: './assets/projects/treedata.png', alt: 'Creative data visualization representing species of Nantucket trees.'},
         ],
         url: 'https://nantucketma.mapgeo.io/',
         description: []
@@ -287,7 +287,7 @@ const PROJECTS = [
         timeframe: 'February 2024',
         badges: [BADGES.c, BADGES.solo],
         images: [
-            {path: './assets/projects/mmu.png', alt: ''},
+            {path: './assets/projects/mmu.png', alt: 'The output from the memory management unit given a sequence of instructions.'},
         ],
         url: 'https://github.com/asantagata/memory-manager-unit',
         urlIsGit: true,
@@ -472,7 +472,7 @@ const appAuxTemplates = {
                     children: [
                         {
                             children: [
-                                {tag: 'h2', children: game.name},
+                                {tag: 'h2', children: `${game.icon ? `${game.icon} ` : ''}${game.name}`},
                                 {className: 'gentle', children: game.timeframe},
                             ]
                         },

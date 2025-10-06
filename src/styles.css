@@ -901,7 +901,8 @@ transmission * {
 }
 
 #desktop .gamebox-wrapper {
-    z-index: calc(24 * (1 - var(--percent))); /* MODIFY WHEN ADDING NEW GAMES */
+    --n-games: 3; /*MODIFY WHEN ADDING NEW GAMES*/
+    z-index: calc(var(--n-games) * (1 - var(--percent)));
 }
 
 .gamebox-stack-wrapper, .proj-sidebar {
@@ -1154,11 +1155,21 @@ transmission * {
 }
 
 .carousel .carousel-entry {display: none;}
-.carousel[cindex='0'] .carousel-entry:nth-child(1) {display: block;}
-.carousel[cindex='1'] .carousel-entry:nth-child(2) {display: block;}
-.carousel[cindex='2'] .carousel-entry:nth-child(3) {display: block;}
-.carousel[cindex='3'] .carousel-entry:nth-child(4) {display: block;}
-.carousel[cindex='4'] .carousel-entry:nth-child(5) {display: block;}
+.carousel[cindex='0'] .carousel-entry:nth-child(1) {display: flex;}
+.carousel[cindex='1'] .carousel-entry:nth-child(2) {display: flex;}
+.carousel[cindex='2'] .carousel-entry:nth-child(3) {display: flex;}
+.carousel[cindex='3'] .carousel-entry:nth-child(4) {display: flex;}
+.carousel[cindex='4'] .carousel-entry:nth-child(5) {display: flex;}
+.carousel[cindex='5'] .carousel-entry:nth-child(6) {display: flex;}
+.carousel[cindex='6'] .carousel-entry:nth-child(7) {display: flex;}
+.carousel[cindex='7'] .carousel-entry:nth-child(8) {display: flex;}
+.carousel[cindex='8'] .carousel-entry:nth-child(9) {display: flex;}
+.carousel[cindex='9'] .carousel-entry:nth-child(10) {display: flex;}
+
+.carousel-entry {
+    flex-direction: column;
+    align-items: center;
+}
 
 .nowrap {
     white-space: nowrap;
