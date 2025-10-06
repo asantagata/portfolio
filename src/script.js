@@ -255,6 +255,30 @@ const GAMES = [
     },
 ]
 
+const selectProj = (PID, index, resetSeekbar = false) => {
+    const list = document.getElementById(`proj-stack-${PID}`);
+    const selected = document.querySelector(`#proj-stack-${PID} .proj-stack-entry.selected`);
+    const selectedIndex = Array.from(list.children).indexOf(selected);
+    if (index === 'next') index = (selectedIndex + 1) % PROJECTS.length;
+    if (index === 'prev') index = (selectedIndex - 1 + PROJECTS.length) % PROJECTS.length;
+    const entry = list.children[index];
+    if (entry.classList.contains('selected')) return;
+    selected.classList.remove('selected');
+    entry.classList.add('selected');
+    entry.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center'
+    })
+    document.getElementById(`proj-blurb-${PID}`).replaceChildren(
+        render(appAuxTemplates.PROJ_BLURB(PROJECTS[index]))
+    );
+    if (resetSeekbar) {
+        document.getElementById(`seekbar-${PID}`).style.animationName = 'none';
+        document.getElementById(`seekbar-${PID}`).offsetHeight;
+        document.getElementById(`seekbar-${PID}`).style.animationName = null;
+    }
+}
+
 const appAuxTemplates = {
     TRANSMISSION: (PID) => {
         return {
@@ -341,46 +365,49 @@ const appAuxTemplates = {
                 {
                     type: 'click',
                     listener: () => {
-                        getWindowElementByPID(PID).querySelector('.gamebox-wrapper.selected')?.classList.remove('selected');
+                        getWindowElementByPID(PID).querySelector(`#gamebox-stack-${PID} .gamebox-wrapper.selected`)?.classList.remove('selected');
                         document.getElementById(`gamebox-${PID}-${game.className}`).classList.add('selected');
-                        document.getElementById(`game-blurb-${PID}`).replaceChildren(render({
-                            className: 'margin-auto flex-col gap',
-                            children: [
-                                {
-                                    className: 'between',
-                                    children: [
-                                        {
-                                            children: [
-                                                {tag: 'h2', children: game.name},
-                                                {className: 'gentle', children: game.timeframe},
-                                            ]
-                                        },
-                                        {
-                                            children: [
-                                                {
-                                                    tag: 'a',
-                                                    href: game.url,
-                                                    className: 'visit-button',
-                                                    children: 'Play'
-                                                }
-                                            ]
-                                        }
-                                    ]
-                                },
-                                appAuxTemplates.BADGESET(game.badges),
-                                componentTemplates.CAROUSEL(game.images),
-                                ...game.description.map(p => {
-                                    return {
-                                        tag: 'p',
-                                        children: p
-                                    }
-                                })
-                            ]
-                        }));
+                        document.getElementById(`game-blurb-${PID}`).replaceChildren(render(appAuxTemplates.GAME_BLURB(game)));
                     }
                 }
             ]
         }
+    },
+    GAME_BLURB: (game) => {
+        return {
+            className: 'margin-auto flex-col gap',
+            children: [
+                {
+                    className: 'between',
+                    children: [
+                        {
+                            children: [
+                                {tag: 'h2', children: game.name},
+                                {className: 'gentle', children: game.timeframe},
+                            ]
+                        },
+                        {
+                            children: [
+                                {
+                                    tag: 'a',
+                                    href: game.url,
+                                    className: 'visit-button',
+                                    children: 'Play'
+                                }
+                            ]
+                        }
+                    ]
+                },
+                appAuxTemplates.BADGESET(game.badges),
+                componentTemplates.CAROUSEL(game.images),
+                ...game.description.map(p => {
+                    return {
+                        tag: 'p',
+                        children: p
+                    }
+                })
+            ]
+        };
     },
     BADGESET: (badges) => {
         return {
@@ -399,6 +426,46 @@ const appAuxTemplates = {
                     } : {})
                 }
             })
+        }
+    },
+    PROJ_ENTRY: (PID, proj, index, isSelected) => {
+        return {
+            className: `proj-stack-entry padded rounded-if-not-hacker ${isSelected ? 'selected' : ''}`,
+            children: [
+                {
+                    className: 'flex gap',
+                    style: 'font-weight: bold; align-items: center',
+                    children: [
+                        {
+                            className: 'x-large',
+                            children: proj.icon
+                        },
+                        {
+                            children: proj.name
+                        }
+                    ]
+                },
+                {
+                    className: 'gentle',
+                    children: proj.subtitle
+                }
+            ],
+            listeners: [
+                {
+                    type: 'click',
+                    listener: () => {
+                        selectProj(PID, index, true);
+                    }
+                }
+            ]
+        };
+    },
+    PROJ_BLURB: (proj) => {
+        return {
+            className: 'margin-auto flex-col gap fullwidth',
+            children: [
+                proj.name
+            ]
         }
     }
 }
@@ -435,33 +502,90 @@ const applicationTemplates = {
             className: 'window-light padded flex gap',
             children: [
                 {
-                    className: 'proj-stack-wrapper',
-                    children:
-                        PROJECTS.map(proj => {
-                            return {
-                                className: 'proj-stack-entry padded rounded',
-                                children: [
-                                    {
-                                        style: 'font-weight: bold',
-                                        children: `${proj.icon} ${proj.name}`
-                                    },
-                                    {
-                                        className: 'gentle',
-                                        children: proj.subtitle
-                                    }
-                                ]
-                            }
-                        })
+                    className: 'proj-sidebar',
+                    children: [
+                        {
+                            className: 'proj-stack',
+                            id: `proj-stack-${PID}`,
+                            children:
+                                PROJECTS.map((proj, index) =>
+                                    appAuxTemplates.PROJ_ENTRY(PID, proj, index, index === 0))
+                        },
+                        {
+                            className: 'proj-listener padded flex-col gap',
+                            children: [
+                                {
+                                    className: 'seekbar',
+                                    id: `seekbar-${PID}`,
+                                    listeners: [
+                                        {
+                                            type: 'animationiteration',
+                                            listener: () => {
+                                                selectProj(PID, 'next');
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    className: 'center-row gap',
+                                    children: [
+                                        {
+                                            className: 'music-button center padded rounded-if-not-hacker',
+                                            innerHTML: SVGs.skipb,
+                                            listeners: [
+                                                {
+                                                    type: 'click',
+                                                    listener: () => {
+                                                        selectProj(PID, 'prev', true);
+                                                    }
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            className: 'music-button center padded rounded-if-not-hacker',
+                                            id: `pause-${PID}`,
+                                            innerHTML: SVGs.pause,
+                                            listeners: [
+                                                {
+                                                    type: 'click',
+                                                    listener: () => {
+                                                        const playing = !document.getElementById(`pause-${PID}`).classList.contains('paused');
+                                                        document.getElementById(`pause-${PID}`).classList.toggle('paused');
+                                                        if (playing) {
+                                                            document.getElementById(`pause-${PID}`).innerHTML = SVGs.play;
+                                                            document.getElementById(`seekbar-${PID}`).style.animationPlayState = 'paused';
+                                                        } else {
+                                                            document.getElementById(`pause-${PID}`).innerHTML = SVGs.pause;
+                                                            document.getElementById(`seekbar-${PID}`).style.animationPlayState = null;
+                                                        }
+                                                    }
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            className: 'music-button center padded rounded-if-not-hacker',
+                                            innerHTML: SVGs.skipf,
+                                            listeners: [
+                                                {
+                                                    type: 'click',
+                                                    listener: () => {
+                                                        selectProj(PID, 'next', true);
+                                                    }
+                                                }
+                                            ]
+                                        },
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
                 },
                 {
                     className: 'proj-blurb-wrapper',
                     children: {
                         className: 'proj-blurb margin-auto',
                         id: `proj-blurb-${PID}`,
-                        children: {
-                            className: 'center text-center gentle',
-                            children: 'Select a project...'
-                        }
+                        children: appAuxTemplates.PROJ_BLURB(PROJECTS[0])
                     }
                 }
             ]
@@ -476,6 +600,7 @@ const applicationTemplates = {
                     children: [
                         {
                             className: 'gamebox-stack margin-auto',
+                            id: `gamebox-stack-${PID}`,
                             children: GAMES.map((game, index) => appAuxTemplates.GAMEBOX(PID, game, index / (GAMES.length - 1)))
                         }
                     ]
@@ -745,7 +870,11 @@ const SVGs = {
     github: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-github-icon lucide-github"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>',
     chevleft: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-left-icon lucide-chevron-left"><path d="m15 18-6-6 6-6"/></svg>',
     chevright: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right-icon lucide-chevron-right"><path d="m9 18 6-6-6-6"/></svg>',
-    portfolios: '<svg viewBox="0 0 82 32" xmlns="http://www.w3.org/2000/svg" fill="transparent" stroke="currentColor"><g transform="translate(1,1)" stroke-linecap="round" stroke-linejoin="round"><path d="M 0 30 V 10 l 8 4 V 21 L 0 17" /><path d="M 10 17 V 10 l 8 4 V 21 L 10 17" /><path d="M 20 21 V 10 l 8 4" /><path d="M 30 1 V 21 l 2 1" /><path d="M 38 25 l 2 1 V 1 l 2 1" /><path d="M 28 5 l 14 7" /><path d="M 44 17 V 10 l 8 4 V 21 l -8 -4" /><path d="M 52 1 l 2 1 V 21.5 l 2 1" /><path d="M 56 10 l 2 1" /><path d="M 56 12 l 2 1 V 21" /><path d="M 61 17 V 1 l 8 4 V 21 l -8 -4" /><path d="M 71 17 l 8 4 v -8 l -8 -4 v -8 l 8 4" /></g></svg>'
+    portfolios: '<svg viewBox="0 0 82 32" xmlns="http://www.w3.org/2000/svg" fill="transparent" stroke="currentColor"><g transform="translate(1,1)" stroke-linecap="round" stroke-linejoin="round"><path d="M 0 30 V 10 l 8 4 V 21 L 0 17" /><path d="M 10 17 V 10 l 8 4 V 21 L 10 17" /><path d="M 20 21 V 10 l 8 4" /><path d="M 30 1 V 21 l 2 1" /><path d="M 38 25 l 2 1 V 1 l 2 1" /><path d="M 28 5 l 14 7" /><path d="M 44 17 V 10 l 8 4 V 21 l -8 -4" /><path d="M 52 1 l 2 1 V 21.5 l 2 1" /><path d="M 56 10 l 2 1" /><path d="M 56 12 l 2 1 V 21" /><path d="M 61 17 V 1 l 8 4 V 21 l -8 -4" /><path d="M 71 17 l 8 4 v -8 l -8 -4 v -8 l 8 4" /></g></svg>',
+    skipf: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-skip-forward-icon lucide-skip-forward"><path d="M21 4v16"/><path d="M6.029 4.285A2 2 0 0 0 3 6v12a2 2 0 0 0 3.029 1.715l9.997-5.998a2 2 0 0 0 .003-3.432z"/></svg>',
+    skipb: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-skip-back-icon lucide-skip-back"><path d="M17.971 4.285A2 2 0 0 1 21 6v12a2 2 0 0 1-3.029 1.715l-9.997-5.998a2 2 0 0 1-.003-3.432z"/><path d="M3 20V4"/></svg>',
+    pause: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pause-icon lucide-pause"><rect x="14" y="3" width="5" height="18" rx="1"/><rect x="5" y="3" width="5" height="18" rx="1"/></svg>',
+    play: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-play-icon lucide-play"><path d="M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z"/></svg>'
 }
 
 const componentTemplates = {
