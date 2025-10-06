@@ -530,7 +530,7 @@ input[type=checkbox] {
     overflow: hidden;
 }
 
-.hacker-theme .window-mini {
+.hacker-theme .window.mini {
     box-shadow: none;
     filter: drop-shadow(-3px 3px 3px #0004);
 }
@@ -1060,7 +1060,7 @@ transmission * {
     display: flex;
 }
 
-.game-blurb {
+.game-blurb, .proj-blurb {
     width: 100%;
     max-height: 100%;
     overflow: auto;
@@ -1123,8 +1123,20 @@ transmission * {
     cursor: pointer;
 }
 
+.window.mini .openable-image {
+    max-height: min(50dvh, calc(50dvw / var(--aspect-ratio)));
+}
+
+.window.fullscreen .openable-image {
+    max-height: min(100dvh, calc(100dvw / var(--aspect-ratio)));
+}
+
 .modal-image, .openable-image {
     max-width: 100%;
+}
+
+.modal-image {
+    max-height: 100%;
 }
 
 .carousel .icon {
@@ -1185,7 +1197,7 @@ transmission * {
     padding: 1ch;
     border-radius: 1ch;
     text-decoration: none;
-    display: block;
+    display: flex;
 }
 
 .visit-button:hover {

@@ -145,7 +145,31 @@ const BADGES = {
             }
         ]
         }},
-    solo: {name: 'Solo development', color: 'green'}
+
+    react: {name: 'React', color: 'blue'},
+    typescript: {name: 'TypeScript', color: 'blue'},
+    node: {name: 'Node.JS', color: 'green'},
+    postgres: {name: 'Postgres', color: 'green'},
+    socketio: {name: 'Socket.IO', color: 'white'},
+    dbmgmt: {name: 'Database management', color: 'red'},
+
+    astro: {name: 'Astro', color: 'red'},
+    gsap: {name: 'GSAP', color: 'green'},
+
+    cpp: {name: 'C++', color: 'yellow'},
+    c: {name: 'C', color: 'yellow'},
+    python: {name: 'Python', color: 'yellow'},
+    java: {name: 'Java', color: 'blue'},
+
+    ml: {name: 'Machine learning', color: 'red'},
+    ai: {name: 'AI', color: 'white'},
+
+    solo: {name: 'Solo development', color: 'green'},
+    agile: {name: 'Agile management', color: 'yellow'},
+    mosaiq: {name: 'Mosaiq project', color: 'red'},
+    team: {name: 'Large team', color: 'red'},
+    leadership: {name: 'Leadership', color: 'white'}
+
 }
 
 const PROJECTS = [
@@ -153,55 +177,121 @@ const PROJECTS = [
         name: 'Card Domain',
         icon: '🃏',
         subtitle: 'Card gaming web app',
-        timeframe: 'July–September 2025'
+        timeframe: 'July–September 2025',
+        badges: [BADGES.react, BADGES.typescript, BADGES.node, BADGES.socketio, BADGES.mosaiq, BADGES.leadership],
+        images: [
+            {path: './assets/projects/crdconfig.png', alt: ''},
+            {path: './assets/projects/crdaction.png', alt: ''},
+        ],
+        url: 'https://carddomain.mosaiq.dev/',
+        description: []
     },
     {
         name: 'PerfFlowAspect',
         icon: '📊',
         subtitle: 'HPC profiling tool',
-        timeframe: 'August 2025–Present'
+        timeframe: 'August 2025–Present',
+        badges: [BADGES.cpp, BADGES.team],
+        images: [
+            {path: './assets/projects/pfaperfetto.png', alt: 'A Perfetto view of a PerfFlowAspect output file in Chrome Trace Format.'}
+        ],
+        url: 'https://github.com/flux-framework/PerfFlowAspect/',
+        urlIsGit: true,
+        description: []
     },
     {
         name: 'mosaiq.dev',
         icon: '🟪',
         subtitle: 'Stylish online portfolio',
-        timeframe: 'September–October 2025'
+        timeframe: 'September–October 2025',
+        badges: [BADGES.astro, BADGES.gsap, BADGES.mosaiq, BADGES.agile],
+        images: [
+            {path: './assets/projects/msqhome.png', alt: ''},
+            {path: './assets/projects/msqprojs.png', alt: ''},
+        ],
+        url: 'https://mosaiq.dev/',
+        description: []
     },
     {
         name: 'Terrazzo',
         icon: '🗃️',
         subtitle: 'Feature-packed kanban platform',
-        timeframe: 'May–August 2025'
+        timeframe: 'May–August 2025',
+        badges: [BADGES.react, BADGES.typescript, BADGES.node, BADGES.socketio, BADGES.mosaiq],
+        images: [
+            {path: './assets/projects/trzusage.png', alt: ''},
+            {path: './assets/projects/trzspace.png', alt: ''},
+        ],
+        url: 'https://terrazzo.mosaiq.dev/',
+        description: []
     },
     {
         name: 'Brigham & Women\'s Hospital Site',
         icon: '🏥',
         subtitle: 'Healthcare & navigation tool',
-        timeframe: 'March–May 2025'
+        timeframe: 'March–May 2025',
+        badges: [BADGES.react, BADGES.typescript, BADGES.node, BADGES.postgres, BADGES.team, BADGES.leadership],
+        images: [
+            {path: './assets/projects/bwhhome.png', alt: ''},
+            {path: './assets/projects/bwhmap.png', alt: ''},
+            {path: './assets/projects/bwheditor.png', alt: ''},
+            {path: './assets/projects/bwhrequest.png', alt: ''},
+            {path: './assets/projects/bwhdataviz.png', alt: ''},
+            {path: './assets/projects/bwhforum.png', alt: ''}
+        ],
+        url: 'https://github.com/asantagata/cs3733-team-p',
+        urlIsGit: true,
+        description: []
     },
     {
         name: 'Amazon Rating ML Model',
         icon: '⭐',
         subtitle: 'Business-facing AI service',
-        timeframe: 'September–October 2025'
+        timeframe: 'September 2025–Present',
+        badges: [BADGES.python, BADGES.ml, BADGES.leadership],
+        url: 'https://github.com/esthermao/CS4342_finalproject',
+        urlIsGit: true,
+        description: []
     },
     {
         name: 'Lasker Morris AI',
         icon: '♟️',
         subtitle: 'Game-playing AI models',
-        timeframe: 'February–March 2025'
+        timeframe: 'February–March 2025',
+        badges: [BADGES.java, BADGES.ai, BADGES.ml],
+        images: [
+            {path: './assets/projects/Gabor.png', alt: ''},
+        ],
+        url: 'https://github.com/asantagata/lasker-morris-player-gabor',
+        urlIsGit: true,
+        description: []
     },
     {
         name: 'Nantucket Tree Inventory',
         icon: '🗺️',
         subtitle: 'Database and GIS tool',
-        timeframe: 'August–December 2024'
+        timeframe: 'August–December 2024',
+        badges: [BADGES.leadership, BADGES.dbmgmt],
+        images: [
+            {path: './assets/projects/treemap.png', alt: ''},
+            {path: './assets/projects/treegis.png', alt: ''},
+            {path: './assets/projects/treedata.png', alt: ''},
+        ],
+        url: 'https://nantucketma.mapgeo.io/',
+        description: []
     },
     {
         name: 'Memory Management Unit',
         icon: '💿',
         subtitle: 'Computing simulation',
-        timeframe: 'February 2024'
+        timeframe: 'February 2024',
+        badges: [BADGES.c, BADGES.solo],
+        images: [
+            {path: './assets/projects/mmu.png', alt: ''},
+        ],
+        url: 'https://github.com/asantagata/memory-manager-unit',
+        urlIsGit: true,
+        description: []
     }
 ]
 
@@ -270,7 +360,7 @@ const selectProj = (PID, index, resetSeekbar = false) => {
         block: 'center'
     })
     document.getElementById(`proj-blurb-${PID}`).replaceChildren(
-        render(appAuxTemplates.PROJ_BLURB(PROJECTS[index]))
+        render(appAuxTemplates.BLURB(PROJECTS[index], false))
     );
     if (resetSeekbar) {
         document.getElementById(`seekbar-${PID}`).style.animationName = 'none';
@@ -367,13 +457,13 @@ const appAuxTemplates = {
                     listener: () => {
                         getWindowElementByPID(PID).querySelector(`#gamebox-stack-${PID} .gamebox-wrapper.selected`)?.classList.remove('selected');
                         document.getElementById(`gamebox-${PID}-${game.className}`).classList.add('selected');
-                        document.getElementById(`game-blurb-${PID}`).replaceChildren(render(appAuxTemplates.GAME_BLURB(game)));
+                        document.getElementById(`game-blurb-${PID}`).replaceChildren(render(appAuxTemplates.BLURB(game, true)));
                     }
                 }
             ]
         }
     },
-    GAME_BLURB: (game) => {
+    BLURB: (game, isGame) => {
         return {
             className: 'margin-auto flex-col gap',
             children: [
@@ -391,15 +481,23 @@ const appAuxTemplates = {
                                 {
                                     tag: 'a',
                                     href: game.url,
-                                    className: 'visit-button',
-                                    children: 'Play'
+                                    className: 'visit-button center-row gap',
+                                    children: [
+                                        ...(game.urlIsGit ? [{
+                                            tag: 'span',
+                                            innerHTML: SVGs.github
+                                        }] : []),
+                                        isGame ? 'Play' : 'Visit'
+                                    ]
                                 }
                             ]
                         }
                     ]
                 },
                 appAuxTemplates.BADGESET(game.badges),
-                componentTemplates.CAROUSEL(game.images),
+                ...(game.images ? [
+                    componentTemplates.CAROUSEL(game.images)
+                ] : []),
                 ...game.description.map(p => {
                     return {
                         tag: 'p',
@@ -459,14 +557,6 @@ const appAuxTemplates = {
                 }
             ]
         };
-    },
-    PROJ_BLURB: (proj) => {
-        return {
-            className: 'margin-auto flex-col gap fullwidth',
-            children: [
-                proj.name
-            ]
-        }
     }
 }
 
@@ -585,7 +675,7 @@ const applicationTemplates = {
                     children: {
                         className: 'proj-blurb margin-auto',
                         id: `proj-blurb-${PID}`,
-                        children: appAuxTemplates.PROJ_BLURB(PROJECTS[0])
+                        children: appAuxTemplates.BLURB(PROJECTS[0], false)
                     }
                 }
             ]
@@ -884,15 +974,6 @@ const componentTemplates = {
             innerHTML: SVGs[svgId]
         };
     },
-    TEXT_INPUT: () => {
-        return {
-            tag: 'input',
-            type: 'text',
-            autocomplete: 'off',
-            value: '',
-            size: '20'
-        }
-    },
     OPENABLE_IMAGE: (path, alt = 'Image') => {
         return {
             tag: 'img',
@@ -924,7 +1005,7 @@ const componentTemplates = {
                             type: 'click',
                             listener: (e) => {
                                 const carousel = e.target.closest('.carousel');
-                                carousel.setAttribute('cindex', `${(images.length + carousel.getAttribute('cIndex') - 1) % images.length}`)
+                                carousel.setAttribute('cindex', `${(images.length + parseInt(carousel.getAttribute('cIndex')) - 1) % images.length}`)
                             }
                         }
                     ]
@@ -950,7 +1031,7 @@ const componentTemplates = {
                             type: 'click',
                             listener: (e) => {
                                 const carousel = e.target.closest('.carousel');
-                                carousel.setAttribute('cindex', `${(carousel.getAttribute('cIndex') + 1) % images.length}`)
+                                carousel.setAttribute('cindex', `${(parseInt(carousel.getAttribute('cIndex')) + 1) % images.length}`)
                             }
                         }
                     ]
