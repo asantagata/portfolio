@@ -1127,6 +1127,11 @@ transmission * {
 
 .openable-image {
     cursor: pointer;
+    max-height: min(100dvh, calc(100dvw / var(--aspect-ratio)));
+}
+
+.window.mini .openable-image {
+    max-height: min(50dvh, calc(50dvw / var(--aspect-ratio)));
 }
 
 .modal-image, .openable-image {
