@@ -4,6 +4,10 @@ const parseTerminalInstruction = (inst, PID) => {
     const command = fullCommand.split(' ')[0];
     switch (command) {
         case 'weather':
+            if (params.length === 0) return {
+                className: 'red',
+                children: 'Weather what?'
+            };
             const weather = weathers.find(w => w.names.includes(params));
             if (weather) {
                 if (desktop.weather === weather) {
@@ -34,6 +38,10 @@ const parseTerminalInstruction = (inst, PID) => {
             }, 2000)
             return `Up I go.`;
         case 'theme':
+            if (params.length === 0) return {
+                className: 'red',
+                children: 'Theme what?'
+            };
             if (params === 'default' || params === 'hacker' || params === 'glass') {
                 if (desktop.theme.toLowerCase() === params) {
                     return {
@@ -762,7 +770,7 @@ const weathers = [
     },
     {
         name: 'tepid',
-        names: ['sunny', 'hot', 'warm', 'sun'],
+        names: ['sunny', 'hot', 'warm', 'sun', 'tepid'],
         desc: 'It\'s not violently hot. But it\'s hot.',
         svg: 'sunny'
     },
