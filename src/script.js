@@ -1223,12 +1223,24 @@ const applicationTemplates = {
     }
 }
 
+const windowPositions = [
+    {x: 0, y: 0},
+    ...[0, 2, 4, 1, 3].map(i => {
+        return {
+            x: Math.cos(2 * Math.PI * (i + 0.4) / 5),
+            y: Math.sin(2 * Math.PI * (i + 0.4) / 5)
+        };
+    })
+];
+
 const launch = (launchType, template = null) => {
     const PID = nProcesses++;
     const application = applications[launchType];
     document.getElementById('footer-entries').appendChild(render(templates.FOOTER_ENTRY(launchType, PID, true)));
-    if (template) {
-        document.getElementById('arena').appendChild(render({
+    const position = windowPositions[PID % 6];
+    const positionOffset = 15;
+    const windowTemplate = template
+        ? {
             ...templates.WINDOW(PID, application.name, {
                 className: 'window-light padded flex',
                 children: [
@@ -1238,12 +1250,14 @@ const launch = (launchType, template = null) => {
                     }
                 ]
             }, launchType),
-        }));
-    } else {
-        document.getElementById('arena').appendChild(render({
-            ...templates.WINDOW(PID, application.name, applicationTemplates[launchType](PID), launchType),
-        }));
-    }
+        }
+        : templates.WINDOW(PID, application.name,
+            applicationTemplates[launchType](PID), launchType
+        );
+
+    windowTemplate.style = windowTemplate.style + `; left: ${25 + positionOffset * position.x}%; top: ${25 + positionOffset * position.y}%`;
+
+    document.getElementById('arena').appendChild(render(windowTemplate));
 }
 
 const summonModal = (template) => launch(applicationTypes.MODAL, template)
