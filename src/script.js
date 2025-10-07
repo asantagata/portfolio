@@ -507,7 +507,7 @@ const GAMES = [
             {path: './assets/games/wandering.png', alt: 'The main Wandering Towers gameplay UI.'}
         ],
         timeframe: 'July 2025',
-        url: 'https://boardgames.alexsantagata.dev/wandering%20towers/server.html'
+        url: 'https://boardgames.alexsantagata.dev/wanderingtowers/server.html'
     },
 ]
 
