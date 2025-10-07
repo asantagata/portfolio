@@ -1250,7 +1250,7 @@ const summonModal = (template) => launch(applicationTypes.MODAL, template)
 const SVGs = {
     user: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-icon lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>',
     right: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right-icon lucide-arrow-right"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>',
-    battery: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-battery-medium-icon lucide-battery-medium"><path d="M10 14v-4"/><path d="M22 14v-4"/><path d="M6 14v-4"/><rect x="2" y="6" width="16" height="12" rx="2"/></svg>',
+    battery: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-battery-medium-icon lucide-battery-medium"><path d="M22 14v-4"/><path d="M6 14v-4"/><rect x="2" y="6" width="16" height="12" rx="2"/></svg>',
 
     ambiguous: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-cloud-sun-rain-icon lucide-cloud-sun-rain"><path d="M12 2v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="M20 12h2"/><path d="m19.07 4.93-1.41 1.41"/><path d="M15.947 12.65a4 4 0 0 0-5.925-4.128"/><path d="M3 20a5 5 0 1 1 8.9-4H13a3 3 0 0 1 2 5.24"/><path d="M11 20v2"/><path d="M7 19v2"/></svg>',
     cloudy: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-cloudy-icon lucide-cloudy"><path d="M17.5 21H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/><path d="M22 10a3 3 0 0 0-3-3h-2.207a5.502 5.502 0 0 0-10.702.5"/></svg>',
@@ -2015,13 +2015,35 @@ const summonInfoCard = (e, type) => {
         case 'battery': {
             document.getElementById('infocard').replaceChildren(render(
                 {
+                    className: 'center-row gap',
                     children: [
                         {
-                            children: `Battery status: 66.666...% remaining`,
+                            children: [
+                                'Battery somewhat low',
+                                {
+                                    className: 'small detail',
+                                    children: 'Charge your desktop at your leisure.'
+                                }
+                            ]
                         },
                         {
-                            className: 'small detail',
-                            children: 'You don\'t have to re-charge just yet.'
+                            className: 'infocard-button padded',
+                            id: 'lowpower-button',
+                            children: `${document.body.classList.contains('lowpower') ? 'Normal' : 'Low'}-power mode`,
+                            listeners: [
+                                {
+                                    type: 'click',
+                                    listener: () => {
+                                        if (document.body.classList.contains('lowpower')) {
+                                            document.body.classList.remove('lowpower');
+                                            document.getElementById('lowpower-button').innerHTML = 'Low-power mode';
+                                        } else {
+                                            document.body.classList.add('lowpower');
+                                            document.getElementById('lowpower-button').innerHTML = 'Normal-power mode';
+                                        }
+                                    }
+                                }
+                            ]
                         }
                     ]
                 }
