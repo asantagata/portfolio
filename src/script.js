@@ -21,6 +21,11 @@ const parseTerminalInstruction = (inst, PID) => {
             bin.replaceWith(render(appAuxTemplates.RECYCLABLES()));
         });
         return `Recycled a ${['box', 'tin can', 'newspaper'][(desktop.recyclables - 1) % 3]}.`
+    } else if (fullCommand === '[application]') {
+        return {
+            className: 'yellow',
+            children: `Wise guy.`
+        };
     }
     switch (command) {
         case 'weather':
@@ -135,7 +140,15 @@ const parseTerminalInstruction = (inst, PID) => {
                                 tag: 'tbody',
                                 children: [
                                     {name: 'help', desc: 'View this very menu'},
-                                    {name: '...', desc: '...'}
+                                    {name: '[application]', desc: 'Launch [application]'},
+                                    {name: 'close', desc: 'Close this terminal'},
+                                    {name: 'close [application]', desc: 'Close all open windows of that application'},
+                                    {name: 'quit', desc: 'Same as close'},
+                                    {name: 'weather [weather]', desc: 'Set the weather to [weather]'},
+                                    {name: 'theme [theme]', desc: 'Set the theme to [theme]'},
+                                    {name: 'flyaway', desc: 'Due north'},
+                                    {name: 'recycle', desc: 'Add a recyclable'},
+                                    {name: 'take out recycling', desc: 'Remove a recyclable'}
                                 ].map(c => {
                                     return {
                                         tag: 'tr',

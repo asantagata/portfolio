@@ -801,6 +801,10 @@ transmission * {
     margin-bottom: 1em;
 }
 
+.answer td {
+    padding-top: 1ch;
+}
+
 .transmission-wrapper td:first-child {
     padding-right: 4ch;
 }
