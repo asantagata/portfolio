@@ -602,7 +602,9 @@ const appAuxTemplates = {
                                                     const subjEditable = subjWrapper.querySelector('.transmission-editable');
                                                     editable.innerHTML = subjEditable.innerText;
                                                     window.requestAnimationFrame(() => {
-                                                        window.getSelection().setPosition(editable, subjEditable.innerText.length - 2);
+                                                        window.requestAnimationFrame(() => {
+                                                            window.getSelection().collapseToEnd();
+                                                        });
                                                     });
                                                 }
                                             }
@@ -619,7 +621,9 @@ const appAuxTemplates = {
                                                     const subjEditable = subjWrapper.querySelector('.transmission-editable');
                                                     editable.innerHTML = subjEditable.innerText;
                                                     window.requestAnimationFrame(() => {
-                                                        window.getSelection().setPosition(editable, 0);
+                                                        window.requestAnimationFrame(() => {
+                                                            window.getSelection().collapseToStart();
+                                                        });
                                                     });
                                                 } else {
                                                     const editable = e.target.closest('.transmission-editable');
@@ -627,7 +631,7 @@ const appAuxTemplates = {
                                                     editable.innerHTML = '';
                                                 }
                                             }
-                                        } else {
+                                        } else if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') {
                                             const editable = e.target.closest('.transmission-editable');
                                             editable.setAttribute('previndex', '0');
                                         }
