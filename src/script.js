@@ -568,6 +568,7 @@ const appAuxTemplates = {
                             className: 'transmission-editable',
                             contenteditable: 'plaintext-only',
                             spellcheck: 'false',
+                            previndex: '0',
                             listeners: [
                                 {
                                     type: 'click',
@@ -588,6 +589,47 @@ const appAuxTemplates = {
 
                                             const terminal = document.getElementById(`terminal-${PID}`);
                                             terminal.appendChild(render(appAuxTemplates.TRANSMISSION(PID)));
+                                        } else if (e.key === 'ArrowUp') {
+                                            const caretIndex = window.getSelection().anchorOffset;
+                                            const editable = e.target.closest('.transmission-editable');
+                                            const wrapper = editable.closest('.transmission-wrapper');
+                                            const terminal = wrapper.parentElement;
+                                            if (caretIndex === 0) {
+                                                const prevIndex = parseInt(editable.getAttribute('previndex'));
+                                                if (prevIndex < terminal.children.length - 1) {
+                                                    editable.setAttribute('previndex', `${prevIndex + 1}`);
+                                                    const subjWrapper = terminal.children[terminal.children.length - 1 - (prevIndex + 1)];
+                                                    const subjEditable = subjWrapper.querySelector('.transmission-editable');
+                                                    editable.innerHTML = subjEditable.innerText;
+                                                    window.requestAnimationFrame(() => {
+                                                        window.getSelection().setPosition(editable, subjEditable.innerText.length - 2);
+                                                    });
+                                                }
+                                            }
+                                        } else if (e.key === 'ArrowDown') {
+                                            const caretIndex = window.getSelection().anchorOffset;
+                                            const editable = e.target.closest('.transmission-editable');
+                                            const wrapper = editable.closest('.transmission-wrapper');
+                                            const terminal = wrapper.parentElement;
+                                            if (caretIndex >= editable.innerText.length) {
+                                                const prevIndex = parseInt(editable.getAttribute('previndex'));
+                                                if (prevIndex > 1) {
+                                                    editable.setAttribute('previndex', `${prevIndex - 1}`);
+                                                    const subjWrapper = terminal.children[terminal.children.length - 1 - (prevIndex - 1)];
+                                                    const subjEditable = subjWrapper.querySelector('.transmission-editable');
+                                                    editable.innerHTML = subjEditable.innerText;
+                                                    window.requestAnimationFrame(() => {
+                                                        window.getSelection().setPosition(editable, 0);
+                                                    });
+                                                } else {
+                                                    const editable = e.target.closest('.transmission-editable');
+                                                    editable.setAttribute('previndex', '0');
+                                                    editable.innerHTML = '';
+                                                }
+                                            }
+                                        } else {
+                                            const editable = e.target.closest('.transmission-editable');
+                                            editable.setAttribute('previndex', '0');
                                         }
                                     }
                                 }
