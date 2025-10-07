@@ -1587,7 +1587,7 @@ const templates = {
                 {
                     type: 'mousedown',
                     listener: (e) => {
-                        if (e.target.closest('.desktop-icon')) return;
+                        if (e.target.closest('.desktop-icon, .window')) return;
                         const arenaRect = document.getElementById('arena').getBoundingClientRect();
                         const iconsRect = document.getElementById('icons').getBoundingClientRect();
                         desktop.blueRect = {x: e.clientX, y: e.clientY, arenaRect, iconsRect};

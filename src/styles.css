@@ -459,6 +459,7 @@ input[readonly] {
     --yellow: #dfa90e;
     --red: #ea5155;
     --blue: #3f86b8;
+    --halfblue: #3f86b888;
     --lightgrey: #D3C9DF;
     --lightergrey: #cac3d3;
     --outline: #827C8A;
@@ -583,6 +584,7 @@ input[type=checkbox] {
     --yellow: #fac053;
     --red: #ff7991;
     --blue: #38b9f8;
+    --halfblue: #38b9f888;
     --lightgrey: #0d2520;
     --lightergrey: #13352e;
     --outline: #145c51;
@@ -628,6 +630,7 @@ input[type=checkbox] {
     --yellow: #ffeec5;
     --red: #ffc8a1;
     --blue: #bcd8f1;
+    --halfblue: #bcd8f188;
     --lightgrey: rgba(240, 163, 198, 0.5);
     --lightergrey: rgba(240, 163, 198, 0.6);
     --outline: rgba(240, 173, 203, 0.74);
@@ -1362,12 +1365,13 @@ body {
     filter: brightness(0.9) sepia(0.4) grayscale(0.1) contrast(1.2);
 }
 
-.desktop-icon.selected {
-    background: blue;
+.desktop-icon.selected, #blue-rect {
+    background: var(--halfblue);
 }
 
 #blue-rect {
-    border: 2px solid #00f8;
+    border: 2px solid var(--blue);
+    background: var(--halfblue);
     display: none;
     position: fixed;
 }
