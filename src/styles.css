@@ -542,7 +542,7 @@ input[type=checkbox] {
     border: 1px solid #18e4c9;
 }
 
-.hacker-theme .window-light, .hacker-theme .window-dark {
+.hacker-theme .window-light, .hacker-theme .window-dark, .hacker-theme {
     color: #93fff2;
     background: #0b1512;
 }
