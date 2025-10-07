@@ -1355,9 +1355,9 @@ transmission * {
 }
 
 body {
-    transition: filter 0.2s ease-in-out;
+    transition: filter 0.4s ease-in-out;
 }
 
 .lowpower {
-    filter: brightness(0.95) sepia(0.4) grayscale(0.1) contrast(1.2);
+    filter: brightness(0.9) sepia(0.4) grayscale(0.1) contrast(1.2);
 }
