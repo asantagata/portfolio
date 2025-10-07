@@ -1361,3 +1361,13 @@ body {
 .lowpower {
     filter: brightness(0.9) sepia(0.4) grayscale(0.1) contrast(1.2);
 }
+
+.desktop-icon.selected {
+    background: blue;
+}
+
+#blue-rect {
+    border: 2px solid #00f8;
+    display: none;
+    position: fixed;
+}

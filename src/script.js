@@ -1578,6 +1578,73 @@ const templates = {
                 {
                     id: 'back-logo',
                     innerHTML: SVGs.portfolios
+                },
+                {
+                    id: 'blue-rect'
+                }
+            ],
+            listeners: [
+                {
+                    type: 'mousedown',
+                    listener: (e) => {
+                        if (e.target.closest('.desktop-icon')) return;
+                        const arenaRect = document.getElementById('arena').getBoundingClientRect();
+                        const iconsRect = document.getElementById('icons').getBoundingClientRect();
+                        desktop.blueRect = {x: e.clientX, y: e.clientY, arenaRect, iconsRect};
+                    }
+                },
+                {
+                    type: 'mousemove',
+                    listener: (e) => {
+                        if (!desktop.blueRect) return;
+                        document.getElementById('blue-rect').style.display = 'block';
+                        const left = Math.min(desktop.blueRect.x, e.clientX);
+                        const top = Math.min(desktop.blueRect.y, e.clientY);
+                        const width = Math.abs(desktop.blueRect.x - e.clientX);
+                        const height = Math.abs(desktop.blueRect.y - e.clientY);
+
+                        const arenaRect = desktop.blueRect.arenaRect;
+                        const iconsRect = desktop.blueRect.iconsRect;
+                        document.getElementById('blue-rect').style.left = `${left - arenaRect.x}px`;
+                        document.getElementById('blue-rect').style.top = `${top - arenaRect.y}px`;
+                        document.getElementById('blue-rect').style.width = `${width}px`;
+                        document.getElementById('blue-rect').style.height = `${height}px`;
+
+                        const colOffset = iconsRect.x;
+                        const colInterval = iconsRect.width / 16;
+                        const leftColIx = Math.floor((left - colOffset) / colInterval);
+                        const rightColIx = Math.floor((left + width - colOffset) / colInterval);
+
+                        const rowOffset = iconsRect.y;
+                        const rowInterval = iconsRect.height / 8;
+                        const topRowIx = Math.floor((top - rowOffset) / rowInterval);
+                        const bottomRowIx = Math.floor((top + height - rowOffset) / rowInterval);
+
+                        Array.from(document.getElementsByClassName('desktop-icon')).forEach(icon => {
+                            const index = parseInt(icon.getAttribute('index'));
+                            const col = index % 16;
+                            const row = Math.floor(index / 16);
+                            if (col >= leftColIx && col <= rightColIx && row >= topRowIx && row <= bottomRowIx) {
+                                icon.classList.add('selected');
+                            } else {
+                                icon.classList.remove('selected');
+                            }
+                        });
+                    }
+                },
+                {
+                    type: 'mouseup',
+                    listener: () => {
+                        desktop.blueRect = null;
+                        document.getElementById('blue-rect').style.display = 'none';
+                    }
+                },
+                {
+                    type: 'mouseleave',
+                    listener: () => {
+                        desktop.blueRect = null;
+                        document.getElementById('blue-rect').style.display = 'none';
+                    }
                 }
             ]
         };
@@ -1724,12 +1791,14 @@ const templates = {
                 {
                     type: 'dblclick',
                     listener: () => {
+                        removeSelectionFromIcons();
                         launch(icon.type);
                     }
                 },
                 {
                     type: 'dragstart',
                     listener: (e) => {
+                        removeSelectionFromIcons();
                         e.dataTransfer.setData('text/plain', JSON.stringify({
                             fromPortfoliOS: true,
                             icon: icon
@@ -1737,6 +1806,16 @@ const templates = {
                         const element = e.target;
                         const rect = element.getBoundingClientRect();
                         e.dataTransfer.setDragImage(document.querySelector(`.desktop-icon[index='${icon.index}']`), rect.width / 2, rect.height / 2);
+                    }
+                },
+                {
+                    type: 'mousedown',
+                    listener: (e) => {
+                        e.stopPropagation();
+                        if (!e.shiftKey) {
+                            removeSelectionFromIcons();
+                        }
+                        e.target.closest('.desktop-icon').classList.add('selected');
                     }
                 }
             ]
@@ -1950,6 +2029,12 @@ const handleEndDrag = () => {
     }
 }
 
+const removeSelectionFromIcons = () => {
+    Array.from(document.querySelectorAll('.desktop-icon.selected')).forEach(
+        icon => icon.classList.remove('selected')
+    );
+}
+
 const updateTime = () => {
     const now = new Date();
 
@@ -2096,7 +2181,8 @@ let desktop = {
     theme: 'Default',
     retro: true,
     weather: weathers[0],
-    recyclables: 3
+    recyclables: 3,
+    blueRect: null
 }
 
 document.getElementById('wiki-work').replaceChildren(...PROJECTS.slice(0, 5).map(proj => render({
