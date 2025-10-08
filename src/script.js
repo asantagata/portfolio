@@ -1810,6 +1810,14 @@ const templates = {
                     }
                 },
                 {
+                    type: 'contextmenu',
+                    listener: (e) => {
+                        e.preventDefault();
+                        removeSelectionFromIcons();
+                        launch(icon.type);
+                    }
+                },
+                {
                     type: 'dragstart',
                     listener: (e) => {
                         removeSelectionFromIcons();
