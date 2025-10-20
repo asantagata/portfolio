@@ -2,26 +2,7 @@ const parseTerminalInstruction = (inst, PID) => {
     const fullCommand = inst.trim().toLowerCase();
     const params = fullCommand.indexOf(' ') >= 0 ? fullCommand.substring(fullCommand.indexOf(' ') + 1) : '';
     const command = fullCommand.split(' ')[0];
-    if (fullCommand === 'take out recycling') {
-        if (desktop.recyclables === 0) {
-            return {
-                className: 'yellow',
-                children: `No more recyclables to take out.`
-            }
-        } else {
-            desktop.recyclables--;
-            Array.from(document.getElementsByClassName('recyclables')).forEach(bin => {
-                bin.replaceWith(render(appAuxTemplates.RECYCLABLES()));
-            });
-            return `Took out a ${['box', 'tin can', 'newspaper'][(desktop.recyclables) % 3]}.`
-        }
-    } else if (fullCommand === 'recycle') {
-        desktop.recyclables++;
-        Array.from(document.getElementsByClassName('recyclables')).forEach(bin => {
-            bin.replaceWith(render(appAuxTemplates.RECYCLABLES()));
-        });
-        return `Recycled a ${['box', 'tin can', 'newspaper'][(desktop.recyclables - 1) % 3]}.`
-    } else if (fullCommand === '[application]') {
+    if (fullCommand === '[application]') {
         return {
             className: 'yellow',
             children: `Wise guy.`
@@ -47,7 +28,7 @@ const parseTerminalInstruction = (inst, PID) => {
             } else {
                 return {
                     className: 'red',
-                    children: `"${params}" isn't a real weather.`
+                    children: `"${params}" isn't a real weather. (Try: "weather ${desktop.weather.name === 'tepid' ? 'rainy' : 'sunny'}")`
                 };
             }
         case 'flyaway':
@@ -65,7 +46,7 @@ const parseTerminalInstruction = (inst, PID) => {
         case 'theme':
             if (params.length === 0) return {
                 className: 'red',
-                children: 'Theme what?'
+                children: `Theme what? (Try: "theme ${desktop.theme === 'Default' ? 'hacker' : desktop.theme === 'Glass' ? 'default' : 'glass'}")`
             };
             if (params === 'default' || params === 'hacker' || params === 'glass') {
                 if (desktop.theme.toLowerCase() === params) {
@@ -89,7 +70,7 @@ const parseTerminalInstruction = (inst, PID) => {
             } else {
                 return {
                     className: 'red',
-                    children: `"${params}" is not a theme.`
+                    children: `"${params}" is not a theme. (Try: "theme ${desktop.theme === 'Default' ? 'hacker' : desktop.theme === 'Glass' ? 'default' : 'glass'}")\``
                 };
             }
         case 'close':
@@ -146,9 +127,7 @@ const parseTerminalInstruction = (inst, PID) => {
                                     {name: 'quit', desc: 'Same as close'},
                                     {name: 'weather [weather]', desc: 'Set the weather to [weather]'},
                                     {name: 'theme [theme]', desc: 'Set the theme to [theme]'},
-                                    {name: 'flyaway', desc: 'Due north'},
-                                    {name: 'recycle', desc: 'Add a recyclable'},
-                                    {name: 'take out recycling', desc: 'Remove a recyclable'}
+                                    {name: 'flyaway', desc: 'Due north'}
                                 ].map(c => {
                                     return {
                                         tag: 'tr',
@@ -1802,13 +1781,6 @@ const templates = {
                 }
             ],
             listeners: [
-                {
-                    type: 'dblclick',
-                    listener: () => {
-                        removeSelectionFromIcons();
-                        launch(icon.type);
-                    }
-                },
                 {
                     type: 'contextmenu',
                     listener: (e) => {
