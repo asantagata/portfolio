@@ -849,7 +849,7 @@ const applications = {
 const weathers = [
     {
         name: 'tactically ambiguous',
-        names: ['ambiguous', 'tactically ambiguous', 'normal'],
+        names: ['ambiguous', 'tactically ambiguous', 'normal', 'default', 'average'],
         desc: 'The "true" weather might be any of cloudy, sunny, rainy, or other.',
         svg: 'ambiguous'
     },
@@ -861,21 +861,27 @@ const weathers = [
     },
     {
         name: 'rainy',
-        names: ['rainy', 'wet', 'rain'],
+        names: ['rainy', 'wet', 'rain', 'storm', 'thunderstorm', 'hurricane'],
         desc: `Not even the good kind. It's the kind where it's still hot out.`,
         svg: 'rainy'
     },
     {
         name: 'cloudy',
-        names: ['cloudy', 'cloud'],
+        names: ['cloudy', 'cloud', 'foggy', 'fog'],
         desc: 'A grey, pulsing mist veils the sky, which is OK.',
         svg: 'cloudy'
     },
     {
         name: 'snowy',
-        names: ['snowy', 'snow'],
+        names: ['snowy', 'snow', 'snowstorm', 'blizzard', 'hail', 'hailstorm'],
         desc: `They're changing it soon so snowy is actually a sub-weather of rainy.`,
         svg: 'snowy'
+    },
+    {
+        name: 'windy',
+        names: ['windy', 'wind', 'tornado'],
+        desc: `There isn't a quip for this. It's just windy.`,
+        svg: 'windy'
     }
 ]
 
@@ -1251,6 +1257,7 @@ const SVGs = {
     sunny: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sun-icon lucide-sun"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>',
     rainy: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-cloud-rain-wind-icon lucide-cloud-rain-wind"><path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"/><path d="m9.2 22 3-7"/><path d="m9 13-3 7"/><path d="m17 13-3 7"/></svg>',
     snowy: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-cloud-snow-icon lucide-cloud-snow"><path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"/><path d="M8 15h.01"/><path d="M8 19h.01"/><path d="M12 17h.01"/><path d="M12 21h.01"/><path d="M16 15h.01"/><path d="M16 19h.01"/></svg>',
+    windy: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-wind-icon lucide-wind"><path d="M12.8 19.6A2 2 0 1 0 14 16H2"/><path d="M17.5 8a2.5 2.5 0 1 1 2 4H2"/><path d="M9.8 4.4A2 2 0 1 1 11 8H2"/></svg>',
 
     wifi: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-wifi-icon lucide-wifi"><path d="M12 20h.01"/><path d="M2 8.82a15 15 0 0 1 20 0"/><path d="M5 12.859a10 10 0 0 1 14 0"/><path d="M8.5 16.429a5 5 0 0 1 7 0"/></svg>',
     linkedin: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-linkedin-icon lucide-linkedin"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>',
