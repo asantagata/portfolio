@@ -1818,6 +1818,13 @@ const templates = {
                     }
                 },
                 {
+                    type: 'click',
+                    listener: () => {
+                        removeSelectionFromIcons();
+                        launch(icon.type);
+                    }
+                },
+                {
                     type: 'dragstart',
                     listener: (e) => {
                         removeSelectionFromIcons();
