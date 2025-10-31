@@ -406,7 +406,7 @@ input[readonly] {
     left: 50%;
     transform: translate(-50%, -50%);
     color: white;
-    opacity: 0.25;
+    opacity: 0.4;
 }
 
 .padded {padding: 1ch}
@@ -1374,4 +1374,10 @@ body {
     background: var(--halfblue);
     display: none;
     position: fixed;
+}
+
+.logo-description {
+    text-align: center;
+    font-size: x-large;
+    font-style: italic;
 }

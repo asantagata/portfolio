@@ -1368,7 +1368,7 @@ const templates = {
             id: 'desktop-wrapper',
             children: [
                 templates.DESKTOP(),
-                templates.LOGIN(),
+                // templates.LOGIN(),
                 templates.CRITICAL_ERROR()
             ],
             listeners: [
@@ -1417,138 +1417,138 @@ const templates = {
             ]
         }
     },
-    LOGIN: () => {
-        return {
-            className: 'padded center',
-            id: 'login',
-            children: [
-                {
-                    id: 'portfolio-login',
-                    className: 'fullwidth',
-                    children: [
-                        {
-                            className: 'fullwidth',
-                            style: 'opacity: 0.8',
-                            children: [
-                                {
-                                    tag: 'span',
-                                    className: 'gentle',
-                                    children: '> '
-                                },
-                                'Booting PortfoliOS',
-                                {
-                                    tag: 'span',
-                                    id: 'booting-ellipsis',
-                                    className: 'gentle ellipsis-slow',
-                                    children: '.'
-                                },
-                            ]
-                        },
-                        {
-                            className: 'padded center-row',
-                            children: [
-                                '[',
-                                {
-                                    tag: 'span',
-                                    className: 'blue',
-                                    style: 'transition: color 1s ease-in-out',
-                                    id: 'login-loading-blue',
-                                    children: ''
-                                },
-                                {
-                                    tag: 'span',
-                                    className: 'gentle',
-                                    id: 'login-loading-gentle',
-                                    children: '................',
-                                },
-                                ']'
-                            ],
-                            onMount: () => {
-                                window.setTimeout(() => {
-                                    document.getElementById('login-loading-blue').className = 'green';
-                                    const load = window.setInterval(() => {
-                                        if (document.getElementById('login-loading-gentle').innerText.length === 0) {
-                                            window.setTimeout(() => {
-                                                document.getElementById('portfolio-entry').style.height =
-                                                    `${document.getElementById('portfolio-entry').scrollHeight}px`;
-                                                document.getElementById('portfolio-logo').className = 'flicker';
-                                                window.setTimeout(() => {
-                                                    document.getElementById('portfolio-entry').style.height = 'auto';
-                                                }, 1000)
-                                            }, 250);
-                                            window.clearInterval(load);
-                                        } else {
-                                            document.getElementById('login-loading-blue').innerHTML += '#';
-                                            document.getElementById('login-loading-gentle').innerHTML =
-                                                document.getElementById('login-loading-gentle').innerText.slice(0, -1);
-                                        }
-                                    }, 60);
-                                }, 200);
-                            }
-                        },
-                    ]
-                },
-                {
-                    className: 'halfwidth zeroheight',
-                    id: 'portfolio-entry',
-                    children: [
-                        {
-                            className: 'nowrap text-center',
-                            children: 'Welcome to'
-                        },
-                        {
-                            id: 'portfolio-logo',
-                            innerHTML: SVGs.portfolios
-                        },
-                        {
-                            className: 'padded',
-                            children: [
-                                {
-                                    className: 'text-center',
-                                    children: [
-                                        {
-                                            tag: 'i',
-                                            className: 'gentle',
-                                            children: 'The web portfolio of ',
-                                        },
-                                        {
-                                            tag: 'i',
-                                            className: 'green',
-                                            children: 'Alex Santagata'
-                                        }
-                                    ]
-                                }
-                            ]
-                        },
-                        {
-                            className: 'center',
-                            children: {
-                                className: 'infocard-button padded center-row gap',
-                                style: 'width: fit-content',
-                                children: [
-                                    'Enter ',
-                                    {
-                                        tag: 'span',
-                                        className: 'h-oscillator',
-                                        innerHTML: SVGs.chevright
-                                    }
-                                ],
-                                listeners: [
-                                    {
-                                        type: 'click',
-                                        listener: () => {
-                                            document.getElementById('login').style.opacity = '0';
-                                            document.getElementById('login').style.pointerEvents = 'none';
-                                        }
-                                    }
-                                ]
-                            }
-                        }
-                    ]
-                }
-            ]
-        };
-    },
+    // LOGIN: () => {
+    //     return {
+    //         className: 'padded center',
+    //         id: 'login',
+    //         children: [
+    //             {
+    //                 id: 'portfolio-login',
+    //                 className: 'fullwidth',
+    //                 children: [
+    //                     {
+    //                         className: 'fullwidth',
+    //                         style: 'opacity: 0.8',
+    //                         children: [
+    //                             {
+    //                                 tag: 'span',
+    //                                 className: 'gentle',
+    //                                 children: '> '
+    //                             },
+    //                             'Booting PortfoliOS',
+    //                             {
+    //                                 tag: 'span',
+    //                                 id: 'booting-ellipsis',
+    //                                 className: 'gentle ellipsis-slow',
+    //                                 children: '.'
+    //                             },
+    //                         ]
+    //                     },
+    //                     {
+    //                         className: 'padded center-row',
+    //                         children: [
+    //                             '[',
+    //                             {
+    //                                 tag: 'span',
+    //                                 className: 'blue',
+    //                                 style: 'transition: color 1s ease-in-out',
+    //                                 id: 'login-loading-blue',
+    //                                 children: ''
+    //                             },
+    //                             {
+    //                                 tag: 'span',
+    //                                 className: 'gentle',
+    //                                 id: 'login-loading-gentle',
+    //                                 children: '................',
+    //                             },
+    //                             ']'
+    //                         ],
+    //                         onMount: () => {
+    //                             window.setTimeout(() => {
+    //                                 document.getElementById('login-loading-blue').className = 'green';
+    //                                 const load = window.setInterval(() => {
+    //                                     if (document.getElementById('login-loading-gentle').innerText.length === 0) {
+    //                                         window.setTimeout(() => {
+    //                                             document.getElementById('portfolio-entry').style.height =
+    //                                                 `${document.getElementById('portfolio-entry').scrollHeight}px`;
+    //                                             document.getElementById('portfolio-logo').className = 'flicker';
+    //                                             window.setTimeout(() => {
+    //                                                 document.getElementById('portfolio-entry').style.height = 'auto';
+    //                                             }, 1000)
+    //                                         }, 250);
+    //                                         window.clearInterval(load);
+    //                                     } else {
+    //                                         document.getElementById('login-loading-blue').innerHTML += '#';
+    //                                         document.getElementById('login-loading-gentle').innerHTML =
+    //                                             document.getElementById('login-loading-gentle').innerText.slice(0, -1);
+    //                                     }
+    //                                 }, 60);
+    //                             }, 200);
+    //                         }
+    //                     },
+    //                 ]
+    //             },
+    //             {
+    //                 className: 'halfwidth zeroheight',
+    //                 id: 'portfolio-entry',
+    //                 children: [
+    //                     {
+    //                         className: 'nowrap text-center',
+    //                         children: 'Welcome to'
+    //                     },
+    //                     {
+    //                         id: 'portfolio-logo',
+    //                         innerHTML: SVGs.portfolios
+    //                     },
+    //                     {
+    //                         className: 'padded',
+    //                         children: [
+    //                             {
+    //                                 className: 'text-center',
+    //                                 children: [
+    //                                     {
+    //                                         tag: 'i',
+    //                                         className: 'gentle',
+    //                                         children: 'The web portfolio of ',
+    //                                     },
+    //                                     {
+    //                                         tag: 'i',
+    //                                         className: 'green',
+    //                                         children: 'Alex Santagata'
+    //                                     }
+    //                                 ]
+    //                             }
+    //                         ]
+    //                     },
+    //                     {
+    //                         className: 'center',
+    //                         children: {
+    //                             className: 'infocard-button padded center-row gap',
+    //                             style: 'width: fit-content',
+    //                             children: [
+    //                                 'Enter ',
+    //                                 {
+    //                                     tag: 'span',
+    //                                     className: 'h-oscillator',
+    //                                     innerHTML: SVGs.chevright
+    //                                 }
+    //                             ],
+    //                             listeners: [
+    //                                 {
+    //                                     type: 'click',
+    //                                     listener: () => {
+    //                                         document.getElementById('login').style.opacity = '0';
+    //                                         document.getElementById('login').style.pointerEvents = 'none';
+    //                                     }
+    //                                 }
+    //                             ]
+    //                         }
+    //                     }
+    //                 ]
+    //             }
+    //         ]
+    //     };
+    // },
     DESKTOP: () => {
         return {
             id: 'desktop',
@@ -1577,7 +1577,15 @@ const templates = {
                 templates.ICONS(),
                 {
                     id: 'back-logo',
-                    innerHTML: SVGs.portfolios
+                    children: [
+                        {
+                            innerHTML: SVGs.portfolios
+                        },
+                        {
+                            className: 'logo-description',
+                            children: 'The web portfolio of Alex Santagata'
+                        }
+                    ]
                 },
                 {
                     id: 'blue-rect'
@@ -1696,7 +1704,7 @@ const templates = {
                         {
                             id: 'datetime',
                             className: 'center',
-                            children: '3:00 PM • 9/6/2025',
+                            children: getInitialDatetimeStr().fullStr,
                             onMount: () => {
                                 const now = new Date();
                                 updateTime();
@@ -2043,13 +2051,25 @@ const removeSelectionFromIcons = () => {
     );
 }
 
-const updateTime = () => {
+const getInitialDatetimeStr = () => {
     const now = new Date();
 
     const timeStr = `${now.getHours() % 12 || 12}:${now.getMinutes() < 10 ? '0' : ''}${now.getMinutes()} ${now.getHours() < 12 ? 'AM' : 'PM'}`;
     const dateStr = `${now.getMonth() + 1}/${now.getDate()}/${now.getFullYear()}`;
 
-    document.getElementById('datetime').innerHTML = `${timeStr} • ${dateStr}`;
+    return {
+        timeStr,
+        dateStr,
+        fullStr: `${timeStr} • ${dateStr}`
+    }
+}
+
+const updateTime = () => {
+    const now = new Date();
+
+    const {timeStr, dateStr, fullStr} = getInitialDatetimeStr();
+
+    document.getElementById('datetime').innerHTML = fullStr;
 
     const weekdayify = (n) => {
         return `Sunday Monday Tuesday Wednesday Thursday Friday Saturday`.split(' ')[n];
