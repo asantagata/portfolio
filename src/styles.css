@@ -295,8 +295,11 @@ input[readonly] {
     height: calc(100% / 8);
     overflow: visible;
     display: flex;
-    animation: introshake 0.25s ease-in-out;
     transition: transform 0.2s ease-in-out;
+}
+
+.desktop-icon:not(.unshaky) {
+    animation: introshake 0.25s ease-in-out;
 }
 
 .desktop-icon:hover {

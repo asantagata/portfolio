@@ -1365,12 +1365,27 @@ const componentTemplates = {
 const attemptReconnection = () => {
     document.getElementById('reconnection').replaceWith(render({
         className: 'ellipsis detail',
+        id: 'reconnection',
         children: 'Attempting reconnection.'
     }));
+    Array.from(document.getElementsByClassName('desktop-icon')).forEach(i => {
+        i.classList.add('unshaky');
+    });
     window.setTimeout(() => {
         document.getElementById('desktop').style.display = 'block';
         document.getElementById('critical-error').style.display = 'none';
-    }, 1000)
+        document.getElementById('reconnection').replaceWith(render({
+            className: 'infocard-button padded',
+            id: 'reconnection',
+            listeners: [
+                {
+                    type: 'click',
+                    listener: attemptReconnection
+                }
+            ],
+            children: "Attempt reconnection"
+        }));
+    }, 1000);
 }
 
 const blueRectListeners = {
@@ -2170,7 +2185,6 @@ const summonInfoCard = (e, type) => {
                                     type: 'click',
                                     listener: () => {
                                         document.getElementById('desktop').style.display = 'none';
-                                        document.getElementById('critical-error').replaceWith(render(templates.CRITICAL_ERROR()));
                                         document.getElementById('critical-error').style.display = 'flex';
                                     }
                                 }
