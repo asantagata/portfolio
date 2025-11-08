@@ -278,6 +278,8 @@ const BADGES = {
     java: {name: 'Java', color: 'blue'},
 
     ml: {name: 'Machine learning', color: 'red'},
+    sklearn: {name: 'SciKit', color: 'blue'},
+    pandas: {name: 'Pandas', color: 'green'},
     ai: {name: 'AI', color: 'white'},
 
     solo: {name: 'Solo development', color: 'green'},
@@ -379,13 +381,17 @@ const PROJECTS = [
         name: 'Amazon Rating ML Model',
         icon: '⭐',
         subtitle: 'Business-facing AI service',
-        timeframe: 'September 2025–Present',
-        badges: [BADGES.python, BADGES.ml],
+        timeframe: 'September–October 2025',
+        badges: [BADGES.python, BADGES.ml, BADGES.pandas, BADGES.sklearn],
         url: 'https://github.com/esthermao/CS4342_finalproject',
         urlIsGit: true,
+        images: [
+            {path: './assets/projects/mllanguage.png', alt: `A SentenceTransformers-based embedding of a sample of ratings for a technical product, with words highlighted to show positive (blue) or negative (orange) connotations.`}
+        ],
         description: [
             'A Python-based machine learning model which estimates the average star rating of an Amazon product given various data, including its description, price, and the text content of reviews. The model uses word2vec encodings for natural language processing and scikit-learn for machine learning utilities.',
-            'This model is being developed in a team of 5 as part of a course at WPI.'
+            'We achieved an average accuracy rating of 95.28% across folds and identified natural language patterns which correspond to high ratings using SentenceTransformer.',
+            'This model was developed in a team of 5 as part of a course at WPI.'
         ]
     },
     {
