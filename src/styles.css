@@ -279,6 +279,14 @@ input[readonly] {
     bottom: 30%;
 }
 
+@keyframes introshake {
+    0% {transform: rotate(0deg) scale(110%);}
+    20% {transform: rotate(-10deg);}
+    55% {transform: rotate(7deg);}
+    80% {transform: rotate(-3deg);}
+    95% {transform: rotate(1deg);}
+}
+
 .desktop-icon {
     text-align: center;
     aspect-ratio: 1 / 1;
@@ -287,6 +295,7 @@ input[readonly] {
     height: calc(100% / 8);
     overflow: visible;
     display: flex;
+    animation: introshake 0.25s ease-in-out;
 }
 
 .recyclables {

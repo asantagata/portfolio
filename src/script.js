@@ -1033,7 +1033,7 @@ const applicationTemplates = {
                     [
                         `Hi, you've reached Alex Santagata.`,
                         `It looks like I'm not available to reply right now.`,
-                        `To reach out, please contact me via one of the following:`,
+                        `To contact me or check out my work, use of the following:`,
                         {
                             children: [
                                 `✉️: `,
@@ -1248,10 +1248,6 @@ const launch = (launchType, template = null) => {
 const summonModal = (template) => launch(applicationTypes.MODAL, template)
 
 const SVGs = {
-    user: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-icon lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>',
-    right: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right-icon lucide-arrow-right"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>',
-    battery: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-battery-medium-icon lucide-battery-medium"><path d="M22 14v-4"/><path d="M6 14v-4"/><rect x="2" y="6" width="16" height="12" rx="2"/></svg>',
-
     ambiguous: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-cloud-sun-rain-icon lucide-cloud-sun-rain"><path d="M12 2v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="M20 12h2"/><path d="m19.07 4.93-1.41 1.41"/><path d="M15.947 12.65a4 4 0 0 0-5.925-4.128"/><path d="M3 20a5 5 0 1 1 8.9-4H13a3 3 0 0 1 2 5.24"/><path d="M11 20v2"/><path d="M7 19v2"/></svg>',
     cloudy: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-cloudy-icon lucide-cloudy"><path d="M17.5 21H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/><path d="M22 10a3 3 0 0 0-3-3h-2.207a5.502 5.502 0 0 0-10.702.5"/></svg>',
     sunny: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sun-icon lucide-sun"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>',
@@ -1259,12 +1255,10 @@ const SVGs = {
     snowy: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-cloud-snow-icon lucide-cloud-snow"><path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"/><path d="M8 15h.01"/><path d="M8 19h.01"/><path d="M12 17h.01"/><path d="M12 21h.01"/><path d="M16 15h.01"/><path d="M16 19h.01"/></svg>',
     windy: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-wind-icon lucide-wind"><path d="M12.8 19.6A2 2 0 1 0 14 16H2"/><path d="M17.5 8a2.5 2.5 0 1 1 2 4H2"/><path d="M9.8 4.4A2 2 0 1 1 11 8H2"/></svg>',
 
-    wifi: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-wifi-icon lucide-wifi"><path d="M12 20h.01"/><path d="M2 8.82a15 15 0 0 1 20 0"/><path d="M5 12.859a10 10 0 0 1 14 0"/><path d="M8.5 16.429a5 5 0 0 1 7 0"/></svg>',
     linkedin: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-linkedin-icon lucide-linkedin"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>',
     github: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-github-icon lucide-github"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>',
     chevleft: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-left-icon lucide-chevron-left"><path d="m15 18-6-6 6-6"/></svg>',
     chevright: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right-icon lucide-chevron-right"><path d="m9 18 6-6-6-6"/></svg>',
-    portfolios: '<svg viewBox="0 0 82 32" xmlns="http://www.w3.org/2000/svg" fill="transparent" stroke="currentColor"><g transform="translate(1,1)" stroke-linecap="round" stroke-linejoin="round"><path d="M 0 30 V 10 l 8 4 V 21 L 0 17" /><path d="M 10 17 V 10 l 8 4 V 21 L 10 17" /><path d="M 20 21 V 10 l 8 4" /><path d="M 30 1 V 21 l 2 1" /><path d="M 38 25 l 2 1 V 1 l 2 1" /><path d="M 28 5 l 14 7" /><path d="M 44 17 V 10 l 8 4 V 21 l -8 -4" /><path d="M 52 1 l 2 1 V 21.5 l 2 1" /><path d="M 56 10 l 2 1" /><path d="M 56 12 l 2 1 V 21" /><path d="M 61 17 V 1 l 8 4 V 21 l -8 -4" /><path d="M 71 17 l 8 4 v -8 l -8 -4 v -8 l 8 4" /></g></svg>',
     skipf: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-skip-forward-icon lucide-skip-forward"><path d="M21 4v16"/><path d="M6.029 4.285A2 2 0 0 0 3 6v12a2 2 0 0 0 3.029 1.715l9.997-5.998a2 2 0 0 0 .003-3.432z"/></svg>',
     skipb: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-skip-back-icon lucide-skip-back"><path d="M17.971 4.285A2 2 0 0 1 21 6v12a2 2 0 0 1-3.029 1.715l-9.997-5.998a2 2 0 0 1-.003-3.432z"/><path d="M3 20V4"/></svg>',
     pause: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pause-icon lucide-pause"><rect x="14" y="3" width="5" height="18" rx="1"/><rect x="5" y="3" width="5" height="18" rx="1"/></svg>',
@@ -1362,61 +1356,125 @@ const componentTemplates = {
     }
 }
 
+const attemptReconnection = () => {
+    document.getElementById('reconnection').replaceWith(render({
+        className: 'ellipsis detail',
+        children: 'Attempting reconnection.'
+    }));
+    window.setTimeout(() => {
+        document.getElementById('desktop').style.display = 'block';
+        document.getElementById('critical-error').style.display = 'none';
+    }, 1000)
+}
+
+const blueRectListeners = {
+    'mousedown': (e) => {
+        if (e.target.closest('.desktop-icon, .window')) return;
+        const arenaRect = document.getElementById('arena').getBoundingClientRect();
+        const iconsRect = document.getElementById('icons').getBoundingClientRect();
+        desktop.blueRect = {x: e.clientX, y: e.clientY, arenaRect, iconsRect};
+    },
+    'mousemove': (e) => {
+        if (!desktop.blueRect) return;
+        document.getElementById('blue-rect').style.display = 'block';
+        const left = Math.min(desktop.blueRect.x, e.clientX);
+        const top = Math.min(desktop.blueRect.y, e.clientY);
+        const width = Math.abs(desktop.blueRect.x - e.clientX);
+        const height = Math.abs(desktop.blueRect.y - e.clientY);
+
+        const arenaRect = desktop.blueRect.arenaRect;
+        const iconsRect = desktop.blueRect.iconsRect;
+        document.getElementById('blue-rect').style.left = `${left - arenaRect.x}px`;
+        document.getElementById('blue-rect').style.top = `${top - arenaRect.y}px`;
+        document.getElementById('blue-rect').style.width = `${width}px`;
+        document.getElementById('blue-rect').style.height = `${height}px`;
+
+        const colOffset = iconsRect.x;
+        const colInterval = iconsRect.width / 16;
+        const leftColIx = Math.floor((left - colOffset) / colInterval);
+        const rightColIx = Math.floor((left + width - colOffset) / colInterval);
+
+        const rowOffset = iconsRect.y;
+        const rowInterval = iconsRect.height / 8;
+        const topRowIx = Math.floor((top - rowOffset) / rowInterval);
+        const bottomRowIx = Math.floor((top + height - rowOffset) / rowInterval);
+
+        Array.from(document.getElementsByClassName('desktop-icon')).forEach(icon => {
+            const index = parseInt(icon.getAttribute('index'));
+            const col = index % 16;
+            const row = Math.floor(index / 16);
+            if (col >= leftColIx && col <= rightColIx && row >= topRowIx && row <= bottomRowIx) {
+                icon.classList.add('selected');
+            } else {
+                icon.classList.remove('selected');
+            }
+        })
+    },
+    'mouseup': () => {
+        desktop.blueRect = null;
+        document.getElementById('blue-rect').style.display = 'none';
+    },
+    'mouseleave': () => {
+        desktop.blueRect = null;
+        document.getElementById('blue-rect').style.display = 'none';
+    }
+};
+
+const closeAll = () => {
+    for (const window of document.getElementsByClassName('window')) {
+        window.style.display = 'none';
+    }
+    for (const entry of document.getElementsByClassName('footer-entry')) {
+        entry.classList.remove('open');
+    }
+}
+
 const templates = {
-    DESKTOP_WRAPPER: () => {
-        return {
-            id: 'desktop-wrapper',
-            children: [
-                templates.DESKTOP(),
-                // templates.LOGIN(),
-                templates.CRITICAL_ERROR()
-            ],
-            listeners: [
-                {
-                    type: 'mousemove',
-                    listener: handleWindowDrag
-                }
-            ]
-        }
-    },
-    CRITICAL_ERROR: () => {
-        return {
-            id: 'critical-error',
-            className: 'padded center gap fullwidth fullheight',
-            children: [
-                {
-                    children: [
-                        {
-                            tag: 'span',
-                            className: 'red',
-                            children: 'CRITICAL FAILURE'
-                        },
-                        ': Internet connection lost.'
-                    ]
-                },
-                {
-                    className: 'infocard-button padded',
-                    id: 'reconnection',
-                    children: 'Attempt reconnection',
-                    listeners: [
-                        {
-                            type: 'click',
-                            listener: () => {
-                                document.getElementById('reconnection').replaceWith(render({
-                                    className: 'ellipsis detail',
-                                    children: 'Attempting reconnection.'
-                                }));
-                                window.setTimeout(() => {
-                                    document.getElementById('desktop').style.display = 'block';
-                                    document.getElementById('critical-error').style.display = 'none';
-                                }, 1000)
-                            }
-                        }
-                    ]
-                }
-            ]
-        }
-    },
+    // DESKTOP_WRAPPER: () => {
+    //     return {
+    //         id: 'desktop-wrapper',
+    //         children: [
+    //             templates.DESKTOP(),
+    //             // templates.LOGIN(),
+    //             templates.CRITICAL_ERROR()
+    //         ],
+    //         listeners: [
+    //             {
+    //                 type: 'mousemove',
+    //                 listener: handleWindowDrag
+    //             }
+    //         ]
+    //     }
+    // },
+    // CRITICAL_ERROR: () => {
+    //     return {
+    //         id: 'critical-error',
+    //         className: 'padded center gap fullwidth fullheight',
+    //         children: [
+    //             {
+    //                 children: [
+    //                     {
+    //                         tag: 'span',
+    //                         className: 'red',
+    //                         children: 'CRITICAL FAILURE'
+    //                     },
+    //                     ': Internet connection lost.'
+    //                 ]
+    //             },
+    //             {
+    //                 className: 'infocard-button padded',
+    //                 id: 'reconnection',
+    //                 children: 'Attempt reconnection',
+    //                 listeners: [
+    //                     {
+    //                         type: 'click',
+    //                         listener: 0
+    //                     }
+    //                 ]
+    //             }
+    //         ]
+    //     }
+    // },
     // LOGIN: () => {
     //     return {
     //         className: 'padded center',
@@ -1549,240 +1607,147 @@ const templates = {
     //         ]
     //     };
     // },
-    DESKTOP: () => {
-        return {
-            id: 'desktop',
-            children: [
-                templates.ARENA(),
-                templates.FOOTER(),
-                templates.INFOCARD()
-            ]
-        };
-    },
-    INFOCARD: () => {
-        return {
-            id: 'infocard',
-            listeners: [
-                {
-                    type: 'click',
-                    listener: (e) => e.stopPropagation()
-                }
-            ]
-        }
-    },
-    ARENA: () => {
-        return {
-            id: 'arena',
-            children: [
-                templates.ICONS(),
-                {
-                    id: 'back-logo',
-                    children: [
-                        {
-                            innerHTML: SVGs.portfolios
-                        },
-                        {
-                            className: 'logo-description',
-                            children: 'The web portfolio of Alex Santagata'
-                        }
-                    ]
-                },
-                {
-                    id: 'blue-rect'
-                }
-            ],
-            listeners: [
-                {
-                    type: 'mousedown',
-                    listener: (e) => {
-                        if (e.target.closest('.desktop-icon, .window')) return;
-                        const arenaRect = document.getElementById('arena').getBoundingClientRect();
-                        const iconsRect = document.getElementById('icons').getBoundingClientRect();
-                        desktop.blueRect = {x: e.clientX, y: e.clientY, arenaRect, iconsRect};
-                    }
-                },
-                {
-                    type: 'mousemove',
-                    listener: (e) => {
-                        if (!desktop.blueRect) return;
-                        document.getElementById('blue-rect').style.display = 'block';
-                        const left = Math.min(desktop.blueRect.x, e.clientX);
-                        const top = Math.min(desktop.blueRect.y, e.clientY);
-                        const width = Math.abs(desktop.blueRect.x - e.clientX);
-                        const height = Math.abs(desktop.blueRect.y - e.clientY);
-
-                        const arenaRect = desktop.blueRect.arenaRect;
-                        const iconsRect = desktop.blueRect.iconsRect;
-                        document.getElementById('blue-rect').style.left = `${left - arenaRect.x}px`;
-                        document.getElementById('blue-rect').style.top = `${top - arenaRect.y}px`;
-                        document.getElementById('blue-rect').style.width = `${width}px`;
-                        document.getElementById('blue-rect').style.height = `${height}px`;
-
-                        const colOffset = iconsRect.x;
-                        const colInterval = iconsRect.width / 16;
-                        const leftColIx = Math.floor((left - colOffset) / colInterval);
-                        const rightColIx = Math.floor((left + width - colOffset) / colInterval);
-
-                        const rowOffset = iconsRect.y;
-                        const rowInterval = iconsRect.height / 8;
-                        const topRowIx = Math.floor((top - rowOffset) / rowInterval);
-                        const bottomRowIx = Math.floor((top + height - rowOffset) / rowInterval);
-
-                        Array.from(document.getElementsByClassName('desktop-icon')).forEach(icon => {
-                            const index = parseInt(icon.getAttribute('index'));
-                            const col = index % 16;
-                            const row = Math.floor(index / 16);
-                            if (col >= leftColIx && col <= rightColIx && row >= topRowIx && row <= bottomRowIx) {
-                                icon.classList.add('selected');
-                            } else {
-                                icon.classList.remove('selected');
-                            }
-                        });
-                    }
-                },
-                {
-                    type: 'mouseup',
-                    listener: () => {
-                        desktop.blueRect = null;
-                        document.getElementById('blue-rect').style.display = 'none';
-                    }
-                },
-                {
-                    type: 'mouseleave',
-                    listener: () => {
-                        desktop.blueRect = null;
-                        document.getElementById('blue-rect').style.display = 'none';
-                    }
-                }
-            ]
-        };
-    },
-    FOOTER: () => {
-        return {
-            id: 'footer',
-            children: [
-                {
-                    id: 'footer-entries'
-                },
-                {
-                    id: 'footer-details',
-                    children: [
-                        {
-                            id: 'weather',
-                            innerHTML: SVGs['ambiguous'],
-                            listeners: [
-                                {
-                                    type: 'click',
-                                    listener: (e) => {
-                                        summonInfoCard(e, 'weather');
-                                    }
-                                }
-                            ]
-                        },
-                        {
-                            innerHTML: SVGs['wifi'],
-                            listeners: [
-                                {
-                                    type: 'click',
-                                    listener: (e) => {
-                                        summonInfoCard(e, 'wifi');
-                                    }
-                                }
-                            ]
-                        },
-                        {
-                            innerHTML: SVGs['battery'],
-                            listeners: [
-                                {
-                                    type: 'click',
-                                    listener: (e) => {
-                                        summonInfoCard(e, 'battery');
-                                    }
-                                }
-                            ]
-                        },
-                        {
-                            id: 'datetime',
-                            className: 'center',
-                            children: getInitialDatetimeStr().fullStr,
-                            onMount: () => {
-                                const now = new Date();
-                                updateTime();
-                                window.setTimeout(() => {
-                                    updateTime();
-                                    window.setInterval(() => {
-                                        updateTime();
-                                    }, 60 * 1000)
-                                }, 1000 * (60 - now.getSeconds()))
-                            },
-                            listeners: [
-                                {
-                                    type: 'click',
-                                    listener: (e) => {
-                                        summonInfoCard(e, 'datetime');
-                                    }
-                                }
-                            ]
-                        },
-                        {
-                            className: 'close-all center',
-                            listeners: [
-                                {
-                                    type: 'click',
-                                    listener: () => {
-                                        for (const window of document.getElementsByClassName('window')) {
-                                            window.style.display = 'none';
-                                        }
-                                        for (const entry of document.getElementsByClassName('footer-entry')) {
-                                            entry.classList.remove('open');
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                }
-            ]
-        };
-    },
-    ICONS: () => {
-        return {
-            id: 'icons',
-            children: desktop.icons.map(templates.DESKTOP_ICON),
-            listeners: [
-                {
-                    type: 'dragover',
-                    listener: (e) => {e.preventDefault();}
-                },
-                {
-                    type: 'drop',
-                    listener: (e) => {
-                        e.preventDefault();
-                        const item = JSON.parse(e.dataTransfer.getData('text/plain'));
-                        if (!item.fromPortfoliOS) return
-                        const icons = document.getElementById('icons');
-                        const rect = icons.getBoundingClientRect();
-                        const colWidth = rect.width / 16, rowHeight = rect.height / 8;
-                        const x = e.clientX - rect.x, y = e.clientY - rect.y;
-                        const col = Math.floor(x / colWidth), row = Math.floor(y / rowHeight);
-                        const index = row * 16 + col;
-                        const blockingIcon = desktop.icons.find(i => i.index === index);
-                        if (index === item.icon.index) {
-                            return
-                        } else if (!blockingIcon) {
-                            desktop.icons = desktop.icons.filter(x => x.index !== item.icon.index);
-                            desktop.icons.push({...item.icon, index});
-                        }
-                        document.getElementById('icons').replaceWith(render(templates.ICONS()));
-                    }
-                }
-            ]
-        };
-    },
+    // DESKTOP: () => {
+    //     return {
+    //         id: 'desktop',
+    //         children: [
+    //             templates.ARENA(),
+    //             templates.FOOTER(),
+    //             templates.INFOCARD()
+    //         ]
+    //     };
+    // },
+    // INFOCARD: () => {
+    //     return {
+    //         id: 'infocard',
+    //         listeners: [
+    //             {
+    //                 type: 'click',
+    //                 listener: (e) => e.stopPropagation()
+    //             }
+    //         ]
+    //     }
+    // },
+    // ARENA: () => {
+    //     return {
+    //         id: 'arena',
+    //         children: [
+    //             templates.ICONS(),
+    //             {
+    //                 id: 'back-logo',
+    //                 children: [
+    //                     {
+    //                         innerHTML: SVGs.portfolios
+    //                     },
+    //                     {
+    //                         className: 'logo-description',
+    //                         children: 'The web portfolio of Alex Santagata'
+    //                     }
+    //                 ]
+    //             },
+    //             {
+    //                 id: 'blue-rect'
+    //             }
+    //         ]
+    //     };
+    // },
+    // FOOTER: () => {
+    //     return {
+    //         id: 'footer',
+    //         children: [
+    //             {
+    //                 id: 'footer-entries'
+    //             },
+    //             {
+    //                 id: 'footer-details',
+    //                 children: [
+    //                     {
+    //                         id: 'weather',
+    //                         innerHTML: SVGs['ambiguous'],
+    //                         listeners: [
+    //                             {
+    //                                 type: 'click',
+    //                                 listener: (e) => {
+    //                                     summonInfoCard(e, 'weather');
+    //                                 }
+    //                             }
+    //                         ]
+    //                     },
+    //                     {
+    //                         innerHTML: SVGs['wifi'],
+    //                         listeners: [
+    //                             {
+    //                                 type: 'click',
+    //                                 listener: (e) => {
+    //                                     summonInfoCard(e, 'wifi');
+    //                                 }
+    //                             }
+    //                         ]
+    //                     },
+    //                     {
+    //                         innerHTML: SVGs['battery'],
+    //                         listeners: [
+    //                             {
+    //                                 type: 'click',
+    //                                 listener: (e) => {
+    //                                     summonInfoCard(e, 'battery');
+    //                                 }
+    //                             }
+    //                         ]
+    //                     },
+    //                     {
+    //                         id: 'datetime',
+    //                         className: 'center',
+    //                         children: getInitialDatetimeStr().fullStr,
+    //                         onMount: () => {
+    //
+    //                         },
+    //                         listeners: [
+    //                             {
+    //                                 type: 'click',
+    //                                 listener: (e) => {
+    //                                     summonInfoCard(e, 'datetime');
+    //                                 }
+    //                             }
+    //                         ]
+    //                     },
+    //                     {
+    //                         className: 'close-all center',
+    //                         listeners: [
+    //                             {
+    //                                 type: 'click',
+    //                                 listener: 0
+    //                             }
+    //                         ]
+    //                     }
+    //                 ]
+    //             }
+    //         ]
+    //     };
+    // },
+    // ICONS: () => {
+    //     return {
+    //         id: 'icons',
+    //         children: ,
+    //         listeners: [
+    //             {
+    //                 type: 'dragover',
+    //                 listener: (e) => {e.preventDefault();}
+    //             },
+    //             {
+    //                 type: 'drop',
+    //                 listener: (e) => {
+    //
+    //                 }
+    //             }
+    //         ]
+    //     };
+    // },
     DESKTOP_ICON: (icon) => {
         return {
             style: `top: calc(${Math.floor(icon.index / 16)} * (100% / 8)); left: calc(${icon.index % 16} * (100% / 16))`,
             className: 'desktop-icon center',
+            id: `desktop-icon-${icon.type}`,
             draggable: 'true',
             index: icon.index,
             children: [
@@ -2045,6 +2010,27 @@ const handleEndDrag = () => {
     }
 }
 
+const handleIconDrag = (e) => {
+    e.preventDefault();
+    const item = JSON.parse(e.dataTransfer.getData('text/plain'));
+    if (!item.fromPortfoliOS) return
+    const icons = document.getElementById('icons');
+    const rect = icons.getBoundingClientRect();
+    const colWidth = rect.width / 16, rowHeight = rect.height / 8;
+    const x = e.clientX - rect.x, y = e.clientY - rect.y;
+    const col = Math.floor(x / colWidth), row = Math.floor(y / rowHeight);
+    const index = row * 16 + col;
+    const blockingIcon = desktop.icons.find(i => i.index === index);
+    if (index === item.icon.index) {
+        return;
+    } else if (!blockingIcon) {
+        desktop.icons = desktop.icons.filter(x => x.index !== item.icon.index);
+        desktop.icons.push({...item.icon, index});
+        document.getElementById(`desktop-icon-${item.icon.type}`).replaceWith(render(templates.DESKTOP_ICON({...item.icon, index})));
+    }
+    // document.getElementById('icons').replaceWith(render(templates.ICONS()));
+}
+
 const removeSelectionFromIcons = () => {
     Array.from(document.querySelectorAll('.desktop-icon.selected')).forEach(
         icon => icon.classList.remove('selected')
@@ -2199,12 +2185,12 @@ let nProcesses = 0;
 let desktop = {
     icons: [
         {index: 0, type: applicationTypes.BROWSER},
+        {index: 1, type: applicationTypes.CHAT},
+        {index: 14, type: applicationTypes.GAMES},
+        {index: 15, type: applicationTypes.WORK},
         {index: 112, type: applicationTypes.SETTINGS},
         {index: 126, type: applicationTypes.TERMINAL},
         {index: 127, type: applicationTypes.RECYCLE},
-        {index: 1, type: applicationTypes.CHAT},
-        {index: 14, type: applicationTypes.GAMES},
-        {index: 15, type: applicationTypes.WORK}
     ],
     theme: 'Default',
     retro: true,
@@ -2223,4 +2209,33 @@ document.getElementById('wiki-work').replaceChildren(...PROJECTS.slice(0, 5).map
 })));
 document.getElementById('wiki-work').id = null;
 
-document.getElementById('viewport').replaceChildren(render(templates.DESKTOP_WRAPPER(desktop)));
+const initializeDatetime = () => {
+    const now = new Date();
+    updateTime();
+    window.setTimeout(() => {
+        updateTime();
+        window.setInterval(() => {
+            updateTime();
+        }, 60 * 1000)
+    }, 1000 * (60 - now.getSeconds()));
+}
+
+initializeDatetime();
+
+const initializeApplicationIcons = () => {
+    let iconIndex = 0;
+    const interval = window.setInterval(() => {
+        const icon = desktop.icons[iconIndex];
+        const template = templates.DESKTOP_ICON(icon);
+        const element = render(template);
+        document.getElementById('icons').appendChild(element);
+        iconIndex++;
+        if (iconIndex >= desktop.icons.length) {
+            window.clearInterval(interval);
+        }
+    }, 40);
+}
+
+initializeApplicationIcons();
+
+// document.getElementById('viewport').replaceChildren(render(templates.DESKTOP_WRAPPER(desktop)));
