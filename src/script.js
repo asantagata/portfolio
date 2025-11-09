@@ -284,7 +284,7 @@ const BADGES = {
 
     solo: {name: 'Solo development', color: 'green'},
     agile: {name: 'Agile management', color: 'yellow'},
-    mosaiq: {name: 'Mosaiq project', color: 'red'},
+    mosaiq: {name: 'Mosaiq project', color: 'red', href: 'https://mosaiq.dev/'},
     team: {name: 'Large team', color: 'red'},
     leadership: {name: 'Leadership', color: 'white'}
 
@@ -722,6 +722,8 @@ const appAuxTemplates = {
             className: 'flex badgeset',
             children: badges.map(badge => {
                 return {
+                    tag: badge.href ? 'a' : 'div',
+                    href: badge.href,
                     className: `badge ${badge.color} lightgrey ${badge.tooltip ? 'tooltip-badge' : ''}`,
                     children: badge.name,
                     ...(badge.tooltip ? {
