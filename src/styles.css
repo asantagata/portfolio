@@ -3,6 +3,8 @@
 
 :root {
     --percent: 0;
+    --aspect-ratio: calc(16 / 9);
+    --anaglyph-depth: 1px;
 }
 
 * {
@@ -96,7 +98,6 @@ body::after {
 }
 
 #viewport {
-    --aspect-ratio: calc(16 / 9);
     height: min(100dvh, calc(100dvw / var(--aspect-ratio)));
     width: min(100dvw, calc(100dvh * var(--aspect-ratio)));
     --anaglyph-depth: 1px;
@@ -414,7 +415,7 @@ input[readonly] {
     color: #88fff0;
 }
 
-#back-logo {
+#back-logo, #opener-logo {
     position: absolute;
     width: min(50dvw, calc(50dvh * var(--aspect-ratio)));
     pointer-events: none;
@@ -422,6 +423,9 @@ input[readonly] {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+}
+
+#back-logo {
     color: white;
     opacity: 0.4;
 }
@@ -1398,4 +1402,41 @@ body {
     text-align: center;
     font-size: x-large;
     font-style: italic;
+}
+
+#opener {
+    z-index: 99998;
+    background: #000;
+    position: fixed;
+    width: 100dvw;
+    height: 100dvh;
+    animation: hide-opener 0.6s ease-in-out forwards 1.8s;
+}
+
+@keyframes hide-opener {
+    0% {opacity: 1; pointer-events: auto;}
+    100% {opacity: 0; pointer-events: none;}
+}
+
+#opener-logo {
+    overflow: hidden;
+}
+
+#opener svg {
+    width: min(50dvw, calc(50dvh * var(--aspect-ratio)));
+    animation: flicker 1.5s linear 1 forwards;
+}
+
+#opener-logo-inner {
+    animation: logo-open 1.4s linear 1;
+    color: #88fff0;
+}
+
+@keyframes logo-open {
+    0% {transform: translateY(100%); opacity: 0.4}
+    100% {transform: translateY(0)}
+}
+
+#opener .logo-description {
+    opacity: 0.8;
 }
